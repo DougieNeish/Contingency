@@ -14,10 +14,10 @@ public class InputManager : MonoBehaviour
 	}
 
 	public delegate void MouseInputEventHandler(MouseEventType eventType, RaycastHit hitInfo);
-	public event MouseInputEventHandler OnMouseEvent;
+	public static event MouseInputEventHandler OnMouseEvent;
 
 	public delegate void MouseDragEventHandler(Vector3 mouseDownPosition, Vector3 currentMousePosition);
-	public event MouseDragEventHandler OnMouseDrag;
+	public static event MouseDragEventHandler OnMouseDrag;
 
 	[SerializeField] private float m_mouseDragThreshold;
 	private RaycastHit m_previousHitInfo;

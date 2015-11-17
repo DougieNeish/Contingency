@@ -5,10 +5,10 @@ using System.Collections.Generic;
 public class UnitController : MonoBehaviour
 {
 	public delegate void UnitEventHandler(Unit unit);
-	public event UnitEventHandler OnUnitCreated;
+	public static event UnitEventHandler OnUnitCreated;
 
 	public delegate void SelectedUnitsEventHandler(List<Unit> selectedUnits);
-	public event SelectedUnitsEventHandler OnSelectedUnitsUpdated;
+	public static event SelectedUnitsEventHandler OnSelectedUnitsUpdated;
 
 	public List<Unit> Units
 	{
@@ -35,9 +35,9 @@ public class UnitController : MonoBehaviour
 
 	void Start()
 	{
-		Game.Instance.SelectionManager.OnNoObjectSelected += DeselectUnits;
-        Game.Instance.SelectionManager.OnUnitSelected += UpdateSelectedUnitList; // Moving to OnEnable causes call to SelectionManager while it's null
-		Game.Instance.InputManager.OnMouseEvent += MouseInput;
+		SelectionManager.OnNoObjectSelected += DeselectUnits;
+        SelectionManager.OnUnitSelected += UpdateSelectedUnitList; // Moving to OnEnable causes call to SelectionManager while it's null
+		InputManager.OnMouseEvent += MouseInput;
 	}
 
 	void OnEnable()
@@ -47,9 +47,9 @@ public class UnitController : MonoBehaviour
 
 	void OnDisable()
 	{
-		Game.Instance.SelectionManager.OnNoObjectSelected -= DeselectUnits;
-		Game.Instance.SelectionManager.OnUnitSelected -= UpdateSelectedUnitList;
-		Game.Instance.InputManager.OnMouseEvent -= MouseInput;
+		SelectionManager.OnNoObjectSelected -= DeselectUnits;
+		SelectionManager.OnUnitSelected -= UpdateSelectedUnitList;
+		InputManager.OnMouseEvent -= MouseInput;
 	}
 
 	void Update()

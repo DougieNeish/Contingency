@@ -5,28 +5,30 @@ using System.Collections.Generic;
 public class SelectionManager : MonoBehaviour
 {
 	public delegate void ObectNotSelectedEventHandler();
-	public event ObectNotSelectedEventHandler OnNoObjectSelected;
+	public static event ObectNotSelectedEventHandler OnNoObjectSelected;
 
 	public delegate void ObjectSelectedEventHandler(List<GameObject> selectedObjects, bool shiftModifier); // TODO: rename shiftModifier - it's an addTo/RemoveFromCurrentSelection flag
-	public event ObjectSelectedEventHandler OnUnitSelected;
+	public static event ObjectSelectedEventHandler OnUnitSelected;
 
 	public delegate void MultiSelectionStartEventHandler(Vector3 mouseDownPosition, Vector3 currentMousePosition);
-	public event MultiSelectionStartEventHandler OnMultiSelectionStart;
+	public static event MultiSelectionStartEventHandler OnMultiSelectionStart;
 
 	public delegate void MultiSelectionEndEventHandler();
-	public event MultiSelectionEndEventHandler OnMultiSelectionEnd;
+	public static event MultiSelectionEndEventHandler OnMultiSelectionEnd;
 
 	private List<GameObject> m_selectedUnits;
+	private UnitController m_unitController;
 
 	void Awake()
 	{
 		m_selectedUnits = new List<GameObject>();
+		m_unitController = GetComponent<UnitController>();
 	}
 
 	void Start()
 	{
-		Game.Instance.InputManager.OnMouseEvent += SelectionFromMouseEvents; // Moving to OnEnable causes call to InputManager while it's null
-		Game.Instance.InputManager.OnMouseDrag += SelectionFromMouseDrag;
+		InputManager.OnMouseEvent += SelectionFromMouseEvents; // Moving to OnEnable causes call to InputManager while it's null
+		InputManager.OnMouseDrag += SelectionFromMouseDrag;
 	}
 
 	void OnEnable()
@@ -36,8 +38,8 @@ public class SelectionManager : MonoBehaviour
 
 	void OnDisable()
 	{
-		Game.Instance.InputManager.OnMouseEvent -= SelectionFromMouseEvents;
-		Game.Instance.InputManager.OnMouseDrag -= SelectionFromMouseDrag;
+		InputManager.OnMouseEvent -= SelectionFromMouseEvents;
+		InputManager.OnMouseDrag -= SelectionFromMouseDrag;
 	}	
 
 	void Update()
@@ -87,7 +89,7 @@ public class SelectionManager : MonoBehaviour
 	{
 		OnMultiSelectionStart(mouseDownPosition, currentMousePosition);
 
-		List<Unit> units = Game.Instance.UnitController.Units;
+		List<Unit> units = m_unitController.Units;
 		foreach (Unit unit in units)
 		{
 			GameObject unitGameObject = unit.transform.gameObject;

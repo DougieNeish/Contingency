@@ -7,8 +7,9 @@ public class SelectionUIController : MonoBehaviour
 	[SerializeField] private int m_lineSegments;
 	[SerializeField] private float m_circleRadius;
 	[SerializeField] private float m_circleWidth;
-
 	[SerializeField] private float m_selectionBoxBorderThickness;
+
+	private UnitController m_unitController;
 
 	private Texture2D m_selectionBoxTexture;
 	private Vector3 m_mouseDownPosition;
@@ -17,19 +18,20 @@ public class SelectionUIController : MonoBehaviour
 
 	void Awake()
 	{
+		m_unitController = GetComponent<UnitController>();
+
 		m_selectionBoxTexture = new Texture2D(1, 1);
 		m_selectionBoxTexture.SetPixel(0, 0, Color.white);
 		m_selectionBoxTexture.Apply();
-
 		m_mouseIsDragging = false;
-	}
+    }
 
 	void Start()
 	{
-		Game.Instance.UnitController.OnUnitCreated += SetLineRendererToCircle;
-		Game.Instance.UnitController.OnSelectedUnitsUpdated += UpdateSelectionMarkers;
-		Game.Instance.SelectionManager.OnMultiSelectionStart += EnableSelectionBox;
-		Game.Instance.SelectionManager.OnMultiSelectionEnd += DisableSelectionBox;
+		UnitController.OnUnitCreated += SetLineRendererToCircle;
+		UnitController.OnSelectedUnitsUpdated += UpdateSelectionMarkers;
+		SelectionManager.OnMultiSelectionStart += EnableSelectionBox;
+		SelectionManager.OnMultiSelectionEnd += DisableSelectionBox;
 	}
 	
 	void OnEnable()
@@ -39,10 +41,10 @@ public class SelectionUIController : MonoBehaviour
 
 	void OnDisable()
 	{
-		Game.Instance.UnitController.OnUnitCreated -= SetLineRendererToCircle;
-		Game.Instance.UnitController.OnSelectedUnitsUpdated -= UpdateSelectionMarkers;
-		Game.Instance.SelectionManager.OnMultiSelectionStart -= EnableSelectionBox;
-		Game.Instance.SelectionManager.OnMultiSelectionEnd -= DisableSelectionBox;
+		UnitController.OnUnitCreated -= SetLineRendererToCircle;
+		UnitController.OnSelectedUnitsUpdated -= UpdateSelectionMarkers;
+		SelectionManager.OnMultiSelectionStart -= EnableSelectionBox;
+		SelectionManager.OnMultiSelectionEnd -= DisableSelectionBox;
 	}
 
 	void Update()
@@ -59,6 +61,7 @@ public class SelectionUIController : MonoBehaviour
 			DrawScreenRectBorder(rect, m_selectionBoxBorderThickness, new Color(0.8f, 0.8f, 0.95f));
 		}
 	}
+
 	private void SetLineRendererToCircle(Unit unit)
 	{
 		LineRenderer line = unit.GetComponent<LineRenderer>();
@@ -90,7 +93,7 @@ public class SelectionUIController : MonoBehaviour
 
 	private void UpdateSelectionMarkers(List<Unit> selectedUnits)
 	{
-		List<Unit> units = Game.Instance.UnitController.Units;
+		List<Unit> units = m_unitController.Units;
 		foreach (Unit unit in units)
 		{
 			if (selectedUnits.Contains(unit))
