@@ -3,12 +3,12 @@ using System.Collections;
 
 public class Arrive
 {
+	private SteeringController m_steeringController;
+
 	public Arrive(SteeringController steeringController)
 	{
 		m_steeringController = steeringController;
 	}
-
-	private SteeringController m_steeringController;
 
 	// TODO: Change enum SteeringController.Deceleration and decelerationTweaker
 	public Vector3 GetSteeringVector(Vector3 targetPosition, SteeringController.Deceleration deceleration)

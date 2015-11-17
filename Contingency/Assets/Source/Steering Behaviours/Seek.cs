@@ -3,25 +3,13 @@ using System.Collections;
 
 //[RequireComponent (typeof (SteeringController))]
 public class Seek
-{	public Seek(SteeringController steeringController)
+{
+	private SteeringController m_steeringController;
+
+	public Seek(SteeringController steeringController)
 	{
 		m_steeringController = steeringController;
 	}
-
-	private SteeringController m_steeringController;
-
-	//void Awake()
-	//{
-	//	m_steeringController = GetComponent<SteeringController>();
-	//}
-
-	//void Start()
-	//{
-	//}
-	
-	//void Update()
-	//{
-	//}
 
 	public Vector3 GetSteeringVector(Vector3 targetPosition)
 	{

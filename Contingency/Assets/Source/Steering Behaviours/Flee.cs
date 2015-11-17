@@ -3,12 +3,12 @@ using System.Collections;
 
 public class Flee
 {
+	private SteeringController m_steeringController;
+
 	public Flee(SteeringController steeringController)
 	{
 		m_steeringController = steeringController;
 	}
-
-	private SteeringController m_steeringController;
 
 	public Vector3 GetSteeringVector(Vector3 targetPosition)
 	{
