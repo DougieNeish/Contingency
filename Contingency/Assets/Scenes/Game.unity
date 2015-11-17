@@ -278,7 +278,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 491310, guid: 7cc08d527134b2441b774bb786cf5dda, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 11457958, guid: 7cc08d527134b2441b774bb786cf5dda, type: 2}
       propertyPath: m_mouseDragThreshold

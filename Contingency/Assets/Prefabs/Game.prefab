@@ -8,7 +8,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 491310}
-  - 114: {fileID: 11463016}
   - 114: {fileID: 11457958}
   - 114: {fileID: 11420558}
   - 114: {fileID: 11459094}
@@ -82,17 +81,6 @@ MonoBehaviour:
   m_circleRadius: 1.29999995
   m_circleWidth: .100000001
   m_selectionBoxBorderThickness: 0
---- !u!114 &11463016
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 187790}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edf04204cb0d61549bea77820956175a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
