@@ -126,10 +126,8 @@ public class UnitController : MonoBehaviour
 		foreach (Unit unit in m_selectedUnits)
 		{
 			//unit.GetComponent<NavMeshAgent>().destination = position;
-			SteeringController steeringController = unit.GetComponent<SteeringController>();
-			steeringController.TurnOnBehaviour(SteeringController.BehaviourType.Arrive);
-			steeringController.TargetPosition = position;
-			steeringController.FleeActivationDistance = 20.0f;
+			//SteeringController steeringController = unit.GetComponent<SteeringController>();
+			//steeringController.TurnOnBehaviour(SteeringController.BehaviourType.Arrive);
 		}
 	}
 
