@@ -19,6 +19,7 @@ public class SteeringController : MonoBehaviour
 		Alignment			= 1 << 7,
 		Cohesion			= 1 << 8,
 		ObstacleAvoidance	= 1 << 9,
+		PathFollowing		= 1 << 10,
 		Flocking			= Separation | Alignment | Cohesion,
 	}
 
@@ -33,6 +34,7 @@ public class SteeringController : MonoBehaviour
 	private Alignment m_alignment;
 	private Cohesion m_cohesion;
 	private ObstacleAvoidance m_obstacleAvoidance;
+	private PathFollowing m_pathFollowing;
 
 	[SerializeField] private float m_maxVelocity = 10f;
 	[SerializeField] private float m_maxAcceleration = 10f;
@@ -159,6 +161,18 @@ public class SteeringController : MonoBehaviour
 				m_obstacleAvoidance = new ObstacleAvoidance(this);
 			}
 			return m_obstacleAvoidance;
+		}
+	}
+
+	public PathFollowing PathFollowing
+	{
+		get
+		{
+			if (m_pathFollowing == null)
+			{
+				m_pathFollowing = new PathFollowing(this);
+			}
+			return m_pathFollowing;
 		}
 	}
 
@@ -334,6 +348,15 @@ public class SteeringController : MonoBehaviour
 			}
 		}
 
+		if (IsBehaviourOn(BehaviourType.PathFollowing))
+		{
+			newForce = m_pathFollowing.GetSteeringVector();
+			if (!AccumulateForce(ref accumulatedForce, newForce))
+			{
+				return accumulatedForce;
+			}
+		}
+
 		return accumulatedForce;
 	}
 
@@ -433,6 +456,14 @@ public class SteeringController : MonoBehaviour
 					if (m_obstacleAvoidance == null)
 					{
 						m_obstacleAvoidance = new ObstacleAvoidance(this);
+					}
+					break;
+				}
+			case BehaviourType.PathFollowing:
+				{
+					if (m_pathFollowing == null)
+					{
+						m_pathFollowing = new PathFollowing(this);
 					}
 					break;
 				}

@@ -27,6 +27,7 @@ public class Path
 
 	public Path()
 	{
+		m_waypoints = new List<Vector3>();
 		m_loop = false;
 	}
 
