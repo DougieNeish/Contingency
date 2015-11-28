@@ -19,14 +19,19 @@ public class InputManager : MonoBehaviour
 	public delegate void MouseDragEventHandler(Vector3 mouseDownPosition, Vector3 currentMousePosition);
 	public static event MouseDragEventHandler OnMouseDrag;
 
+	public const int kRaycastLength = 1000;
+
 	[SerializeField] private float m_mouseDragThreshold;
 	private RaycastHit m_previousHitInfo;
 	private Vector3 m_mouseDownPosition;
 
-	private Ray m_ray;
+	private static Ray m_ray;
 	private RaycastHit m_hitInfo;
 
-	private const int kRaycastLength = 1000;
+	public static Ray Ray
+	{
+		get { return m_ray; }
+	}
 
 	void Start()
 	{

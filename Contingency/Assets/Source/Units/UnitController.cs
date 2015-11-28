@@ -23,14 +23,13 @@ public class UnitController : MonoBehaviour
 	private List<Unit> m_selectedUnits;
 
 	private Ray m_ray;
-	private int m_raycastLength;
+	//private const int kRaycastLength = 1000;
 
 	void Awake()
 	{
 		m_units = new List<Unit>();
 		m_selectedUnits = new List<Unit>();
-
-		m_raycastLength = 1000;
+		m_ray = InputManager.Ray;
 	}
 
 	void Start()
@@ -55,7 +54,7 @@ public class UnitController : MonoBehaviour
 	void Update()
 	{
 		m_ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		Debug.DrawRay(m_ray.origin, m_ray.direction * m_raycastLength, Color.cyan);
+		Debug.DrawRay(m_ray.origin, m_ray.direction * InputManager.kRaycastLength, Color.cyan);
 
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
@@ -144,7 +143,7 @@ public class UnitController : MonoBehaviour
 	private void CreateUnitOnMouse()
 	{
 		RaycastHit hitObject;
-		if (Physics.Raycast(m_ray, out hitObject, m_raycastLength))
+		if (Physics.Raycast(m_ray, out hitObject, InputManager.kRaycastLength))
 		{
 			Vector3 position = new Vector3(hitObject.point.x, hitObject.point.y + 0.7f, hitObject.point.z);
 			GameObject newGameObject = Instantiate(m_unitPrefab, position, Quaternion.identity) as GameObject;
