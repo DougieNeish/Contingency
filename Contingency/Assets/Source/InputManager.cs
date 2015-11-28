@@ -23,6 +23,11 @@ public class InputManager : MonoBehaviour
 	private RaycastHit m_previousHitInfo;
 	private Vector3 m_mouseDownPosition;
 
+	private Ray m_ray;
+	private RaycastHit m_hitInfo;
+
+	private const int kRaycastLength = 1000;
+
 	void Start()
 	{
 	}
@@ -34,43 +39,41 @@ public class InputManager : MonoBehaviour
 
 	void SendMouseEvents()
 	{
-		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		int raycastLength = 1000;
-		RaycastHit hitInfo;
+		m_ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-		if (Physics.Raycast(ray, out hitInfo, raycastLength) && OnMouseEvent != null)
+		if (Physics.Raycast(m_ray, out m_hitInfo, kRaycastLength) && OnMouseEvent != null)
 		{
 			if (Input.GetMouseButtonDown(0))
 			{
 				m_mouseDownPosition = Input.mousePosition;
-				OnMouseEvent(MouseEventType.OnLeftMouseDown, hitInfo);
+				OnMouseEvent(MouseEventType.OnLeftMouseDown, m_hitInfo);
 			}
 			else if (Input.GetMouseButtonUp(0))
 			{
-				OnMouseEvent(MouseEventType.OnLeftMouseUp, hitInfo);
+				OnMouseEvent(MouseEventType.OnLeftMouseUp, m_hitInfo);
 			}
 			else if (Input.GetMouseButtonDown(1))
 			{
-				OnMouseEvent(MouseEventType.OnRightMouseDown, hitInfo);
+				OnMouseEvent(MouseEventType.OnRightMouseDown, m_hitInfo);
 			}
 			else if (Input.GetMouseButtonUp(1))
 			{
-				OnMouseEvent(MouseEventType.OnRightMouseUp, hitInfo);
+				OnMouseEvent(MouseEventType.OnRightMouseUp, m_hitInfo);
 			}
 			else if (m_previousHitInfo.transform == null)
 			{
-				OnMouseEvent(MouseEventType.OnMouseOverEnter, hitInfo);
-				m_previousHitInfo = hitInfo;
+				OnMouseEvent(MouseEventType.OnMouseOverEnter, m_hitInfo);
+				m_previousHitInfo = m_hitInfo;
 			}
 			// Check mouse is over different object to trigger MouseOverExit
-			else if (hitInfo.transform.gameObject != m_previousHitInfo.transform.gameObject)
+			else if (m_hitInfo.transform.gameObject != m_previousHitInfo.transform.gameObject)
 			{
 				OnMouseEvent(MouseEventType.OnMouseOverExit, m_previousHitInfo);
-				m_previousHitInfo = hitInfo;
+				m_previousHitInfo = m_hitInfo;
 
-				if (hitInfo.transform.name != "Terrain")
+				if (m_hitInfo.transform.name != "Terrain")
 				{
-					OnMouseEvent(MouseEventType.OnMouseOverEnter, hitInfo);
+					OnMouseEvent(MouseEventType.OnMouseOverEnter, m_hitInfo);
 				}
 			}
 
