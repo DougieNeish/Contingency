@@ -50,17 +50,22 @@ public class Path
 	public void ClearWaypoints()
 	{
 		m_waypoints.Clear();
+		m_currentWaypoint = 0;
 	}
 
 	public void SetNextWaypoint()
 	{
 		if (m_waypoints.Count > 0)
 		{
-			if (m_waypoints[++m_currentWaypoint] == m_waypoints[m_waypoints.Count - 1])
+			if (++m_currentWaypoint >= m_waypoints.Count - 1)
 			{
 				if (m_loop)
 				{
 					m_currentWaypoint = 0;
+				}
+				else
+				{
+					m_currentWaypoint = m_waypoints.Count - 1;
 				}
 			}
 		}

@@ -6,7 +6,8 @@ public class PathFollowing
 {
 	private SteeringController m_steeringController;
 	private Path m_path;
-	private float m_arriveRadius = 0.005f;
+	private float m_arriveRadius = 1f; // Ensure this is > Arrive.ArriveRadius
+	private float m_sqrArriveRadius;
 
 	public Path Path
 	{
@@ -19,6 +20,11 @@ public class PathFollowing
 		set { m_arriveRadius = value; }
 	}
 
+	public float SqrArriveRadius
+	{
+		get { return m_arriveRadius * m_arriveRadius; }
+	}
+
 	public PathFollowing(SteeringController steeringController)
 	{
 		m_steeringController = steeringController;
@@ -27,20 +33,23 @@ public class PathFollowing
 
 	public Vector3 GetSteeringVector()
 	{
-		float sqrArriveRadius = m_arriveRadius * m_arriveRadius;
+		Vector3 vectorToWaypoint = m_steeringController.transform.position - m_path.CurrentWaypoint;
+		float sqrDistance = vectorToWaypoint.sqrMagnitude;
 
-		if ((m_steeringController.transform.position - m_path.CurrentWaypoint).magnitude < sqrArriveRadius)
+		if (sqrDistance < SqrArriveRadius)
 		{
 			m_path.SetNextWaypoint();
 		}
 
-		if (!m_path.Finished())
-		{
-			return m_steeringController.Seek.GetSteeringVector(m_path.CurrentWaypoint);
-		}
-		else
-		{
-			return m_steeringController.Arrive.GetSteeringVector(m_path.CurrentWaypoint);
-		}
+		return m_steeringController.Arrive.GetSteeringVector(m_path.CurrentWaypoint);
+
+		//if (!m_path.Finished())
+		//{
+		//	return m_steeringController.Seek.GetSteeringVector(m_path.CurrentWaypoint);
+		//}
+		//else
+		//{
+		//	return m_steeringController.Arrive.GetSteeringVector(m_path.CurrentWaypoint);
+		//}
 	}
 }

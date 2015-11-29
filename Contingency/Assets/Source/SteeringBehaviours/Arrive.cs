@@ -7,7 +7,7 @@ public class Arrive
 	private Vector3 m_targetPosition;
 
 	// The radius from the target that means we are close enough and have arrived
-	private float m_arriveRadius = 0.005f;
+	private float m_arriveRadius = 0.5f;
 
 	// The radius from the target where we start to slow down 
 	private float m_slowRadius = 1.0f;
@@ -77,11 +77,9 @@ public class Arrive
 		// Calculate the linear acceleration
 		Vector3 acceleration = velocityToTarget - new Vector3(m_steeringController.Rigidbody.velocity.x, 0f, m_steeringController.Rigidbody.velocity.z);
 
-		/*
-		 Rather than accelerate the character to the correct speed in 1 second, 
-		 accelerate so we reach the desired speed in timeToTarget seconds 
-		 (if we were to actually accelerate for the full timeToTarget seconds).
-		*/
+		// Rather than accelerate the character to the correct speed in 1 second, 
+		// accelerate so we reach the desired speed in timeToTarget seconds 
+		// (if we were to actually accelerate for the full timeToTarget seconds).
 		acceleration *= 1 / m_timeToTarget;
 
 		// Make sure we are accelerating at max acceleration
