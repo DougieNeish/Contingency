@@ -37,6 +37,11 @@ public class ObstacleAvoidance
 
 		foreach (GameObject obstacle in m_obstacles)
 		{
+			if (obstacle == m_steeringController.gameObject)
+			{
+				continue;
+			}
+
 			// Calculate the time to collision
 			Vector3 relativePosition = m_steeringController.transform.position - obstacle.transform.position;
 
@@ -57,7 +62,7 @@ public class ObstacleAvoidance
 			// Check if agent and obstacle are going to collide
 			Vector3 separation = relativePosition + relativeVelocity * timeToCollision;
 
-			float obstacleRadius = SteeringController.getBoundingRadius(obstacle.transform);
+			float obstacleRadius = SteeringController.GetBoundingRadius(obstacle.transform);
 			float combinedRadius = agentRadius + obstacleRadius;
 			float sqrCombinedRadius = combinedRadius * combinedRadius;
 
@@ -102,21 +107,5 @@ public class ObstacleAvoidance
 		steeringVector *= m_steeringController.MaxAcceleration;
 
 		return steeringVector;
-	}
-
-	public List<GameObject> GetNearbyObstacles(GameObject[] obstacles)
-	{
-		List<GameObject> nearbyObstacles = new List<GameObject>();
-		const float m_kNeighbourRange = 10.0f;
-
-		for (int i = 0; i < obstacles.Length; i++)
-		{
-			if (Vector3.Distance(obstacles[i].transform.position, m_steeringController.transform.position) < m_kNeighbourRange)
-			{
-				nearbyObstacles.Add(obstacles[i]);
-			}
-		}
-
-		return nearbyObstacles;
 	}
 }

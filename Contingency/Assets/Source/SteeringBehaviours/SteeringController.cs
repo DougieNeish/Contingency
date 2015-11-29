@@ -522,7 +522,7 @@ public class SteeringController : MonoBehaviour
 		return nearbyObstacles;
 	}
 
-	public static float getBoundingRadius(Transform t)
+	public static float GetBoundingRadius(Transform t)
 	{
 		SphereCollider col = t.GetComponent<SphereCollider>();
 		col = col == null ? t.GetComponentInChildren<SphereCollider>() : col;
