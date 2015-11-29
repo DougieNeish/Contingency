@@ -44,6 +44,7 @@ public class SteeringController : MonoBehaviour
 	private List<GameObject> m_units;
 	private GameObject[] m_obstacles;
 
+#region Properties
 	public Seek Seek
 	{
 		get
@@ -217,13 +218,7 @@ public class SteeringController : MonoBehaviour
 	{
 		get { return GetComponentInChildren<SphereCollider>().radius; }
 	}
-
-	public void SetNeighbouringUnits(List<GameObject> neighbours)
-	{
-		Alignment.Neighbours = neighbours;
-		Cohesion.Neighbours = neighbours;
-		Separation.Neighbours = neighbours;
-	}
+#endregion
 
 	void Awake()
 	{
@@ -242,6 +237,21 @@ public class SteeringController : MonoBehaviour
 	void FixedUpdate()
 	{
 		Steer(CalculateSteeringForce());
+	}
+
+	void OnDrawGizmos()
+	{
+		//foreach (Vector3 point in PathFollowing.Path.Waypoints)
+		//for (int i = 0; i < PathFollowing.Path.Waypoints.Count; i++)
+		//{
+		//	Gizmos.DrawIcon(PathFollowing.Path.Waypoints[i], "Waypoint " + i);
+		//	Gizmos.DrawLine(PathFollowing.Path.Waypoints[i], PathFollowing.Path.Waypoints[i++]);
+		//}
+
+		if (PathFollowing.Path.Waypoints.Count > 0)
+		{
+			Gizmos.DrawWireSphere(PathFollowing.Path.Waypoints[0], 2f);
+        }
 	}
 
 	public void Steer(Vector3 linearAcceleration)
@@ -367,27 +377,6 @@ public class SteeringController : MonoBehaviour
 		return accumulatedForce;
 	}
 
-	private bool AccumulateForce(ref Vector3 currentForce, Vector3 forceToAdd)
-	{
-		float remainingMagnitude = m_maxVelocity - currentForce.magnitude;
-		if (remainingMagnitude <= 0.0f)
-		{
-			return false;
-		}
-
-		// If there's enough remaining magnitude add full force, otherwise add as much as possible
-		if (forceToAdd.magnitude < remainingMagnitude)
-		{
-			currentForce += forceToAdd;
-		}
-		else
-		{
-			currentForce += (Vector3.Normalize(forceToAdd) * remainingMagnitude);
-		}
-
-		return true;
-	}
-
 	public void TurnOnBehaviour(BehaviourType behaviour)
 	{
 		m_activeBehaviours |= behaviour;
@@ -485,9 +474,16 @@ public class SteeringController : MonoBehaviour
 		}
 	}
 
-	private bool IsBehaviourOn(BehaviourType behaviour)
+	public bool IsBehaviourOn(BehaviourType behaviour)
 	{
 		return (m_activeBehaviours & behaviour) == behaviour;
+	}
+
+	public void SetNeighbouringUnits(List<GameObject> neighbours)
+	{
+		Alignment.Neighbours = neighbours;
+		Cohesion.Neighbours = neighbours;
+		Separation.Neighbours = neighbours;
 	}
 
 	public List<GameObject> GetNearbyUnits(List<GameObject> units)
@@ -529,12 +525,25 @@ public class SteeringController : MonoBehaviour
 
 		return Mathf.Max(t.localScale.x, t.localScale.y, t.localScale.z) * col.radius;
 	}
-}
 
-public static class Vector3Extensions
-{
-	public static float DistanceSquared(this Vector3 c, Vector3 a, Vector3 b)
+	private bool AccumulateForce(ref Vector3 currentForce, Vector3 forceToAdd)
 	{
-		return 4f;
+		float remainingMagnitude = m_maxVelocity - currentForce.magnitude;
+		if (remainingMagnitude <= 0.0f)
+		{
+			return false;
+		}
+
+		// If there's enough remaining magnitude add full force, otherwise add as much as possible
+		if (forceToAdd.magnitude < remainingMagnitude)
+		{
+			currentForce += forceToAdd;
+		}
+		else
+		{
+			currentForce += (Vector3.Normalize(forceToAdd) * remainingMagnitude);
+		}
+
+		return true;
 	}
 }
