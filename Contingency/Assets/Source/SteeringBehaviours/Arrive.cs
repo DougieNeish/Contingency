@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Arrive
 {
-	private readonly SteeringController m_steeringController;
+	protected readonly SteeringController m_steeringController;
 	private Vector3 m_targetPosition;
 
 	// The radius from the target that means we are close enough and have arrived
