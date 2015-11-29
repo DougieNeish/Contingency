@@ -62,7 +62,7 @@ public class SelectionUIController : MonoBehaviour
 		}
 	}
 
-	private void SetLineRendererToCircle(Unit unit)
+	private void SetLineRendererToCircle(GameObject unit)
 	{
 		LineRenderer line = unit.GetComponent<LineRenderer>();
 
@@ -91,10 +91,10 @@ public class SelectionUIController : MonoBehaviour
 		}
 	}
 
-	private void UpdateSelectionMarkers(List<Unit> selectedUnits)
+	private void UpdateSelectionMarkers(List<GameObject> selectedUnits)
 	{
-		List<Unit> units = m_unitController.Units;
-		foreach (Unit unit in units)
+		List<GameObject> units = m_unitController.Units;
+		foreach (GameObject unit in units)
 		{
 			if (selectedUnits.Contains(unit))
 			{

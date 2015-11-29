@@ -89,20 +89,19 @@ public class SelectionManager : MonoBehaviour
 	{
 		OnMultiSelectionStart(mouseDownPosition, currentMousePosition);
 
-		List<Unit> units = m_unitController.Units;
-		foreach (Unit unit in units)
+		List<GameObject> units = m_unitController.Units;
+		foreach (GameObject unit in units)
 		{
-			GameObject unitGameObject = unit.transform.gameObject;
-			bool alreadySelected = m_selectedUnits.Contains(unitGameObject);
+			bool alreadySelected = m_selectedUnits.Contains(unit);
 
-			if (!alreadySelected && IsObjectWithinSelectionBounds(unitGameObject, mouseDownPosition, currentMousePosition))
+			if (!alreadySelected && IsObjectWithinSelectionBounds(unit, mouseDownPosition, currentMousePosition))
 			{
-				m_selectedUnits.Add(unitGameObject);
+				m_selectedUnits.Add(unit);
             }
 			// Remove units that are no longer within the bounds
-			else if (alreadySelected && !IsObjectWithinSelectionBounds(unitGameObject, mouseDownPosition, currentMousePosition))
+			else if (alreadySelected && !IsObjectWithinSelectionBounds(unit, mouseDownPosition, currentMousePosition))
 			{
-				m_selectedUnits.Remove(unitGameObject);
+				m_selectedUnits.Remove(unit);
 			}
 		}
 		OnUnitSelected(m_selectedUnits, false);

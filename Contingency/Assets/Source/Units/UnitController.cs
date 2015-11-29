@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 public class UnitController : MonoBehaviour
 {
-	public delegate void UnitEventHandler(Unit unit);
+	public delegate void UnitEventHandler(GameObject unit);
 	public static event UnitEventHandler OnUnitCreated;
 
-	public delegate void SelectedUnitsEventHandler(List<Unit> selectedUnits);
+	public delegate void SelectedUnitsEventHandler(List<GameObject> selectedUnits);
 	public static event SelectedUnitsEventHandler OnSelectedUnitsUpdated;
 
-	public List<Unit> Units
+	public List<GameObject> Units
 	{
 		get
 		{
@@ -19,16 +19,16 @@ public class UnitController : MonoBehaviour
 	}
 
 	[SerializeField] private GameObject m_unitPrefab;
-	private List<Unit> m_units;
-	private List<Unit> m_selectedUnits;
+	private List<GameObject> m_units;
+	private List<GameObject> m_selectedUnits;
 
 	private Ray m_ray;
 	//private const int kRaycastLength = 1000;
 
 	void Awake()
 	{
-		m_units = new List<Unit>();
-		m_selectedUnits = new List<Unit>();
+		m_units = new List<GameObject>();
+		m_selectedUnits = new List<GameObject>();
 		m_ray = InputManager.Ray;
 	}
 
@@ -68,25 +68,23 @@ public class UnitController : MonoBehaviour
 		{
 			case InputManager.MouseEventType.OnRightMouseDown:
 				{
-					SetSelectedUnitsTargetPosition(hitInfo.point);
-                    break;
+					//SetSelectedUnitsTargetPosition(hitInfo.point);
+					break;
 				}
 		}
 	}
 
-	void UpdateSelectedUnitList(List<GameObject> selectedGameObjects, bool shiftModifier)
+	void UpdateSelectedUnitList(List<GameObject> selectedObjects, bool shiftModifier)
 	{
-		if (selectedGameObjects == null)
+		if (selectedObjects == null)
 		{
 			m_selectedUnits.Clear();
 		}
 		else
 		{
-			List<Unit> selectedUnits = ConvertGameObjectsToUnits(selectedGameObjects);
-
 			if (shiftModifier)
 			{
-				foreach (Unit unit in selectedUnits)
+				foreach (GameObject unit in selectedObjects)
 				{
 					if (m_selectedUnits.Contains(unit))
 					{
@@ -102,7 +100,7 @@ public class UnitController : MonoBehaviour
 			{
 				m_selectedUnits.Clear();
 
-				foreach (Unit unit in selectedUnits)
+				foreach (GameObject unit in selectedObjects)
 				{
 					if (!m_selectedUnits.Contains(unit))
 					{
@@ -122,7 +120,7 @@ public class UnitController : MonoBehaviour
 
 	private void SetSelectedUnitsTargetPosition(Vector3 position)
 	{
-		foreach (Unit unit in m_selectedUnits)
+		foreach (GameObject unit in m_selectedUnits)
 		{
 			//unit.GetComponent<NavMeshAgent>().destination = position;
 			//SteeringController steeringController = unit.GetComponent<SteeringController>();
@@ -146,8 +144,8 @@ public class UnitController : MonoBehaviour
 		if (Physics.Raycast(m_ray, out hitObject, InputManager.kRaycastLength))
 		{
 			Vector3 position = new Vector3(hitObject.point.x, hitObject.point.y + 0.7f, hitObject.point.z);
-			GameObject newGameObject = Instantiate(m_unitPrefab, position, Quaternion.identity) as GameObject;
-			Unit newUnit = newGameObject.GetComponent<Unit>();
+			GameObject newUnit = Instantiate(m_unitPrefab, position, Quaternion.identity) as GameObject;
+			//Unit newUnit = newGameObject.GetComponent<Unit>();
 			m_units.Add(newUnit);
 			OnUnitCreated(newUnit);
 		}

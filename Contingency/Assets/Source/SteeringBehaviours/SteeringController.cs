@@ -218,6 +218,13 @@ public class SteeringController : MonoBehaviour
 		get { return GetComponentInChildren<SphereCollider>().radius; }
 	}
 
+	public void SetNeighbouringUnits(List<GameObject> neighbours)
+	{
+		Alignment.Neighbours = neighbours;
+		Cohesion.Neighbours = neighbours;
+		Separation.Neighbours = neighbours;
+	}
+
 	void Awake()
 	{
 		m_rigidbody = GetComponent<Rigidbody>();
@@ -485,12 +492,12 @@ public class SteeringController : MonoBehaviour
 
 	public List<GameObject> GetNearbyUnits(List<GameObject> units)
 	{
-		const float m_kNeighbourRange = 6.0f;
+		const float kNeighbourRange = 6.0f;
 		List<GameObject> neighbours = new List<GameObject>();
 
 		foreach (GameObject unit in units)
 		{
-			if (unit != gameObject && Vector3.Distance(unit.transform.position, transform.position) < m_kNeighbourRange)
+			if (unit != gameObject && Vector3.Distance(unit.transform.position, transform.position) < kNeighbourRange)
 			{
 				neighbours.Add(unit);
 			}
@@ -501,12 +508,12 @@ public class SteeringController : MonoBehaviour
 
 	public List<GameObject> GetNearbyObstacles(GameObject[] obstacles)
 	{
-		const float m_kNeighbourRange = 10.0f;
+		const float kNeighbourRange = 10.0f;
 		List<GameObject> nearbyObstacles = new List<GameObject>();
 
 		for (int i = 0; i < obstacles.Length; i++)
 		{
-			if (Vector3.Distance(obstacles[i].transform.position, transform.position) < m_kNeighbourRange)
+			if (Vector3.Distance(obstacles[i].transform.position, transform.position) < kNeighbourRange)
 			{
 				nearbyObstacles.Add(obstacles[i]);
 			}
