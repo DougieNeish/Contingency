@@ -10,6 +10,8 @@ public class UnitController : MonoBehaviour
 	public delegate void SelectedUnitsEventHandler(List<GameObject> selectedUnits);
 	public static event SelectedUnitsEventHandler OnSelectedUnitsUpdated;
 
+	private const float kEnableWaypointLoopDistance = 2f;
+
 	public List<GameObject> Units
 	{
 		get
@@ -23,7 +25,6 @@ public class UnitController : MonoBehaviour
 	private List<GameObject> m_selectedUnits;
 
 	private Ray m_ray;
-	//private const int kRaycastLength = 1000;
 
 	void Awake()
 	{
@@ -78,11 +79,12 @@ public class UnitController : MonoBehaviour
 
 					if (Input.GetKey(KeyCode.LeftShift))
 					{
-						AddWaypoint(steeringController, hitInfo.point);
+						SteeringUtils.AddWaypoint(steeringController, hitInfo.point);
 					}
 					else
 					{
-						AddWaypoint(steeringController, hitInfo.point, true);
+						steeringController.PathFollowing.Path.Loop = false;
+						SteeringUtils.AddWaypoint(steeringController, hitInfo.point, true);
 					}
 
 					if (m_selectedUnits.Count > 1)
@@ -92,7 +94,7 @@ public class UnitController : MonoBehaviour
 						{
 							steeringController = m_selectedUnits[i].GetComponent<SteeringController>();
 							// Offset pursuit would probably be better than flocking
-							SetFlocking(steeringController, m_selectedUnits);
+							SteeringUtils.SetFlocking(steeringController, m_selectedUnits);
 						}
 					}
 
@@ -143,41 +145,6 @@ public class UnitController : MonoBehaviour
 	{
 		m_selectedUnits.Clear();
 		OnSelectedUnitsUpdated(m_selectedUnits);
-	}
-
-	private void SetArriveTarget(SteeringController steeringController, Vector3 target)
-	{
-		steeringController.Arrive.TargetPosition = target;
-		steeringController.TurnOnBehaviour(SteeringController.BehaviourType.Arrive);
-	}
-
-	private void AddWaypoint(SteeringController steeringController, Vector3 waypoint, bool newPath = false)
-	{
-		if (newPath)
-		{
-			steeringController.PathFollowing.Path.ClearWaypoints();
-		}
-
-		steeringController.PathFollowing.Path.AddWayPoint(waypoint);
-		steeringController.TurnOnBehaviour(SteeringController.BehaviourType.PathFollowing);
-	}
-
-	private void SetFlocking(SteeringController steeringController, List<GameObject> neighbours)
-	{
-		steeringController.SetNeighbouringUnits(neighbours);
-		steeringController.TurnOnBehaviour(SteeringController.BehaviourType.Flocking);
-	}
-
-	// TODO: Need to update ObstacleAvoidance.Obstacles with list of NEARBY obstacles, not just all of them
-	private void TurnOnObstacleAvoidance(SteeringController steeringController, List<GameObject> obstacles)
-	{
-		UpdateObstacleList(steeringController, obstacles);
-        steeringController.TurnOnBehaviour(SteeringController.BehaviourType.ObstacleAvoidance);
-	}
-
-	private void UpdateObstacleList(SteeringController steeringController, List<GameObject> obstacles)
-	{
-		steeringController.ObstacleAvoidance.Obstacles = obstacles;
 	}
 
 	private void CreateUnitOnMouse()

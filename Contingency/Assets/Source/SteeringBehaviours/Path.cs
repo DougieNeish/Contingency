@@ -31,7 +31,7 @@ public class Path
 		m_loop = false;
 	}
 
-	public void AddWayPoint(Vector3 newPoint)
+	public void AddWaypoint(Vector3 newPoint)
 	{
 		m_waypoints.Add(newPoint);
 	}
