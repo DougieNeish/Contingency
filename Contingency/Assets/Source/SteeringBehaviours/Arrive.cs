@@ -44,7 +44,7 @@ public class Arrive
 		m_steeringController = steeringController;
 	}
 
-	public Vector3 GetSteeringVector(Vector3 targetPosition)
+	public virtual Vector3 GetSteeringVector(Vector3 targetPosition)
 	{
 		Vector3 velocityToTarget = targetPosition - m_steeringController.transform.position;
 
@@ -92,7 +92,7 @@ public class Arrive
 		return acceleration;
 	}
 
-	public Vector3 GetSteeringVector()
+	public virtual Vector3 GetSteeringVector()
 	{
 		return GetSteeringVector(m_targetPosition);
 	}
