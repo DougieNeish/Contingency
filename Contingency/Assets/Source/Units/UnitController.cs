@@ -68,7 +68,34 @@ public class UnitController : MonoBehaviour
 		{
 			case InputManager.MouseEventType.OnRightMouseDown:
 				{
-					//SetSelectedUnitsTargetPosition(hitInfo.point);
+					if (m_selectedUnits.Count < 1)
+					{
+						break;
+					}
+
+					SteeringController steeringController = m_selectedUnits[0].GetComponent<SteeringController>();
+					steeringController.TurnOffBehaviour(SteeringController.BehaviourType.Flocking);
+
+					if (Input.GetKey(KeyCode.LeftShift))
+					{
+						AddWaypoint(steeringController, hitInfo.point);
+					}
+					else
+					{
+						AddWaypoint(steeringController, hitInfo.point, true);
+					}
+
+					if (m_selectedUnits.Count > 1)
+					{
+						// Start from 1 as unit 0 is the leader
+						for (int i = 1; i < m_selectedUnits.Count; i++)
+						{
+							steeringController = m_selectedUnits[i].GetComponent<SteeringController>();
+							// Offset pursuit would probably be better than flocking
+							SetFlocking(steeringController, m_selectedUnits);
+						}
+					}
+
 					break;
 				}
 		}
@@ -118,14 +145,39 @@ public class UnitController : MonoBehaviour
 		OnSelectedUnitsUpdated(m_selectedUnits);
 	}
 
-	private void SetSelectedUnitsTargetPosition(Vector3 position)
+	private void SetArriveTarget(SteeringController steeringController, Vector3 target)
 	{
-		foreach (GameObject unit in m_selectedUnits)
+		steeringController.Arrive.TargetPosition = target;
+		steeringController.TurnOnBehaviour(SteeringController.BehaviourType.Arrive);
+	}
+
+	private void AddWaypoint(SteeringController steeringController, Vector3 waypoint, bool newPath = false)
+	{
+		if (newPath)
 		{
-			//unit.GetComponent<NavMeshAgent>().destination = position;
-			//SteeringController steeringController = unit.GetComponent<SteeringController>();
-			//steeringController.TurnOnBehaviour(SteeringController.BehaviourType.Arrive);
+			steeringController.PathFollowing.Path.ClearWaypoints();
 		}
+
+		steeringController.PathFollowing.Path.AddWayPoint(waypoint);
+		steeringController.TurnOnBehaviour(SteeringController.BehaviourType.PathFollowing);
+	}
+
+	private void SetFlocking(SteeringController steeringController, List<GameObject> neighbours)
+	{
+		steeringController.SetNeighbouringUnits(neighbours);
+		steeringController.TurnOnBehaviour(SteeringController.BehaviourType.Flocking);
+	}
+
+	// TODO: Need to update ObstacleAvoidance.Obstacles with list of NEARBY obstacles, not just all of them
+	private void TurnOnObstacleAvoidance(SteeringController steeringController, List<GameObject> obstacles)
+	{
+		UpdateObstacleList(steeringController, obstacles);
+        steeringController.TurnOnBehaviour(SteeringController.BehaviourType.ObstacleAvoidance);
+	}
+
+	private void UpdateObstacleList(SteeringController steeringController, List<GameObject> obstacles)
+	{
+		steeringController.ObstacleAvoidance.Obstacles = obstacles;
 	}
 
 	private void CreateUnitOnMouse()
@@ -135,9 +187,9 @@ public class UnitController : MonoBehaviour
 		{
 			Vector3 position = new Vector3(hitObject.point.x, hitObject.point.y + 0.7f, hitObject.point.z);
 			GameObject newUnit = Instantiate(m_unitPrefab, position, Quaternion.identity) as GameObject;
-			//Unit newUnit = newGameObject.GetComponent<Unit>();
 			m_units.Add(newUnit);
 			OnUnitCreated(newUnit);
-		}
+			//TurnOnObstacleAvoidance(newUnit.GetComponent<SteeringController>(), m_units);
+        }
 	}
 }
