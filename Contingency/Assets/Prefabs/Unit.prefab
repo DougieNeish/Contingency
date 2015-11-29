@@ -13,7 +13,7 @@ GameObject:
   - 23: {fileID: 2385796}
   - 54: {fileID: 5453488}
   - 114: {fileID: 11440932}
-  - 114: {fileID: 11401938}
+  - 114: {fileID: 11459176}
   - 120: {fileID: 12021444}
   m_Layer: 0
   m_Name: Unit
@@ -83,7 +83,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -107,7 +109,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -166,26 +170,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &11401938
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 147130}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2ed48a1732753c42be47adad2108dc0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_maxSpeed: 100
-  m_maxForce: 30.2000008
-  m_targetPosition: {x: 0, y: 0, z: 0}
-  m_targetAgent: {fileID: 0}
-  m_fleeActivationDistance: 0
-  m_wanderRadius: 0
-  m_wanderDistance: 0
-  m_wanderJitter: 0
-  m_activeBehaviours: 0
 --- !u!114 &11440932
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -197,6 +181,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a43b8a04f67cca34ebcd600afae44e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11459176
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af6018e3b486e3148831835f2079bf87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_maxVelocity: 10
+  m_maxAcceleration: 10
 --- !u!120 &12021444
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -215,7 +212,9 @@ LineRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
