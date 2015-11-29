@@ -128,16 +128,6 @@ public class UnitController : MonoBehaviour
 		}
 	}
 
-	private List<Unit> ConvertGameObjectsToUnits(List<GameObject> gameObjects)
-	{
-		List<Unit> unitList = new List<Unit>();
-		foreach (GameObject item in gameObjects)
-		{
-			unitList.Add(item.GetComponent<Unit>());
-		}
-		return unitList;
-	}
-
 	private void CreateUnitOnMouse()
 	{
 		RaycastHit hitObject;
