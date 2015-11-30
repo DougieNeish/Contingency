@@ -20,6 +20,7 @@ public class SteeringController : MonoBehaviour
 		Cohesion			= 1 << 8,
 		ObstacleAvoidance	= 1 << 9,
 		PathFollowing		= 1 << 10,
+		OffsetPursuit		= 1 << 11,
 		Flocking			= Separation | Alignment | Cohesion,
 	}
 
@@ -35,6 +36,7 @@ public class SteeringController : MonoBehaviour
 	private Cohesion m_cohesion;
 	private ObstacleAvoidance m_obstacleAvoidance;
 	private PathFollowing m_pathFollowing;
+	private OffsetPursuit m_offsetPursuit;
 
 	[SerializeField] private float m_maxVelocity = 10f;
 	[SerializeField] private float m_maxAcceleration = 10f;
@@ -177,6 +179,18 @@ public class SteeringController : MonoBehaviour
 		}
 	}
 
+	public OffsetPursuit OffsetPursuit
+	{
+		get
+		{
+			if (m_offsetPursuit == null)
+			{
+				m_offsetPursuit = new OffsetPursuit(this);
+			}
+			return m_offsetPursuit;
+		}
+	}
+
 	public float MaxVelocity
 	{
 		get { return m_maxVelocity; }
@@ -250,15 +264,15 @@ public class SteeringController : MonoBehaviour
 
 		if (PathFollowing.Path.Waypoints.Count > 0)
 		{
-			Gizmos.DrawWireSphere(PathFollowing.Path.Waypoints[0], 2f);
+			Gizmos.DrawWireSphere(PathFollowing.Path.Waypoints[0], SteeringUtils.kEnableWaypointLoopDistance);
         }
 	}
 
-	public void Steer(Vector3 linearAcceleration)
+	public void Steer(Vector3 steeringForce)
 	{
-		m_rigidbody.velocity += linearAcceleration * Time.deltaTime;
+		m_rigidbody.velocity += steeringForce * Time.deltaTime;
 
-		if (m_rigidbody.velocity.magnitude > m_maxVelocity)
+		if (m_rigidbody.velocity.sqrMagnitude > m_maxVelocity * m_maxVelocity)
 		{
 			m_rigidbody.velocity = m_rigidbody.velocity.normalized * m_maxVelocity;
 		}
@@ -374,6 +388,15 @@ public class SteeringController : MonoBehaviour
 			}
 		}
 
+		if (IsBehaviourOn(BehaviourType.OffsetPursuit))
+		{
+			newForce = m_offsetPursuit.GetSteeringVector();
+			if (!AccumulateForce(ref accumulatedForce, newForce))
+			{
+				return accumulatedForce;
+			}
+		}
+
 		return accumulatedForce;
 	}
 
@@ -460,6 +483,14 @@ public class SteeringController : MonoBehaviour
 					if (m_pathFollowing == null)
 					{
 						m_pathFollowing = new PathFollowing(this);
+					}
+					break;
+				}
+			case BehaviourType.OffsetPursuit:
+				{
+					if (m_offsetPursuit == null)
+					{
+						m_offsetPursuit = new OffsetPursuit(this);
 					}
 					break;
 				}
