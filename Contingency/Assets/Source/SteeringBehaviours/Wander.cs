@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Wander : Seek
 {
-	private float m_wanderRadius = 2.0f;
+	private float m_wanderRadius = 2f;
 	private float m_wanderDistance = 0.5f;
-	private float m_wanderJitter = 40.0f;
+	private float m_wanderJitter = 40f;
 	private Vector3 m_wanderTarget;
 
 	public float WanderRadius

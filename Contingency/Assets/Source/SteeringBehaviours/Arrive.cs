@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Arrive
 {
@@ -10,7 +9,7 @@ public class Arrive
 	private float m_arriveRadius = 0.5f;
 
 	// The radius from the target where we start to slow down 
-	private float m_slowRadius = 1.0f;
+	private float m_slowRadius = 1f;
 
 	/* The time in which we want to achieve the targetSpeed */
 	private float m_timeToTarget = 0.1f;

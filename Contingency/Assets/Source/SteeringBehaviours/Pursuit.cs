@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Pursuit : Seek
 {
 	private Rigidbody m_target;
-	private float m_maxPrediction = 1.0f;
+	private float m_maxPrediction = 1f;
 
 	public Rigidbody Target
 	{
