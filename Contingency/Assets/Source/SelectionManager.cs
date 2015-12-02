@@ -57,18 +57,24 @@ public class SelectionManager : MonoBehaviour
 					}
 					else
 					{
-						OnNoObjectSelected();
+						if (OnNoObjectSelected != null)
+						{
+							OnNoObjectSelected();
+						}
 					}
 
 					if (m_selectedUnits.Count > 0)
 					{
-						if (Input.GetKey(KeyCode.LeftShift))
+						if (OnUnitSelected != null)
 						{
-							OnUnitSelected(m_selectedUnits, true);
-						}
-						else
-						{
-							OnUnitSelected(m_selectedUnits, false);
+							if (Input.GetKey(KeyCode.LeftShift))
+							{
+								OnUnitSelected(m_selectedUnits, true);
+							}
+							else
+							{
+								OnUnitSelected(m_selectedUnits, false);
+							}
 						}
 						m_selectedUnits.Clear();
 					}
@@ -78,7 +84,10 @@ public class SelectionManager : MonoBehaviour
 			case InputManager.MouseEventType.OnLeftMouseUp:
 				{
 					m_selectedUnits.Clear();
-					OnMultiSelectionEnd();
+					if (OnMultiSelectionEnd != null)
+					{
+						OnMultiSelectionEnd();
+					}
                     break;
 				}
 		}
@@ -86,7 +95,10 @@ public class SelectionManager : MonoBehaviour
 
 	private void SelectionFromMouseDrag(Vector3 mouseDownPosition, Vector3 currentMousePosition)
 	{
-		OnMultiSelectionStart(mouseDownPosition, currentMousePosition);
+		if (OnMultiSelectionStart != null)
+		{
+			OnMultiSelectionStart(mouseDownPosition, currentMousePosition);
+		}
 
 		List<GameObject> units = m_unitController.Units;
 		foreach (GameObject unit in units)
@@ -103,7 +115,11 @@ public class SelectionManager : MonoBehaviour
 				m_selectedUnits.Remove(unit);
 			}
 		}
-		OnUnitSelected(m_selectedUnits, false);
+
+		if (OnUnitSelected != null)
+		{
+			OnUnitSelected(m_selectedUnits, false);
+		}
 	}
 
 	private bool IsObjectWithinSelectionBounds(GameObject gameObject, Vector3 mouseDownPosition, Vector3 currentMousePosition)

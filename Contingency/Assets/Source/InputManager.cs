@@ -81,7 +81,7 @@ public class InputManager : MonoBehaviour
 				}
 			}
 
-			if (Input.GetMouseButton(0))
+			if (Input.GetMouseButton(0) && OnMouseDrag != null)
 			{
 				float dragDistance = Vector3.Distance(m_mouseDownPosition, Input.mousePosition);
 				if (dragDistance > m_mouseDragThreshold)

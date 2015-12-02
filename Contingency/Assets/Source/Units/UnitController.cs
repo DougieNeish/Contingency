@@ -137,13 +137,19 @@ public class UnitController : MonoBehaviour
 				}
 			}
 		}
-		OnSelectedUnitsUpdated(m_selectedUnits);
+		if (OnSelectedUnitsUpdated != null)
+		{
+			OnSelectedUnitsUpdated(m_selectedUnits);
+		}
 	}
 
 	private void DeselectUnits()
 	{
 		m_selectedUnits.Clear();
-		OnSelectedUnitsUpdated(m_selectedUnits);
+		if (OnSelectedUnitsUpdated != null)
+		{
+			OnSelectedUnitsUpdated(m_selectedUnits);
+		}
 	}
 
 	private void CreateUnitOnMouse()
@@ -154,7 +160,11 @@ public class UnitController : MonoBehaviour
 			Vector3 position = new Vector3(hitObject.point.x, hitObject.point.y + 0.7f, hitObject.point.z);
 			GameObject newUnit = Instantiate(m_unitPrefab, position, Quaternion.identity) as GameObject;
 			m_units.Add(newUnit);
-			OnUnitCreated(newUnit);
+
+			if (OnUnitCreated != null)
+			{
+				OnUnitCreated(newUnit);
+			}
 			//TurnOnObstacleAvoidance(newUnit.GetComponent<SteeringController>(), m_units);
         }
 	}
