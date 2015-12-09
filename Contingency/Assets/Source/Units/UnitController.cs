@@ -53,8 +53,8 @@ public class UnitController : MonoBehaviour
 
 	void Update()
 	{
-		m_ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		Debug.DrawRay(m_ray.origin, m_ray.direction * InputManager.kRaycastLength, Color.cyan);
+		//m_ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		//Debug.DrawRay(m_ray.origin, m_ray.direction * InputManager.kRaycastLength, Color.cyan);
 
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
