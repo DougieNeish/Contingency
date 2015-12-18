@@ -53,7 +53,7 @@ public class UnitController : MonoBehaviour
 
 	void Update()
 	{
-		//m_ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		m_ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		//Debug.DrawRay(m_ray.origin, m_ray.direction * InputManager.kRaycastLength, Color.cyan);
 
 		if (Input.GetKeyDown(KeyCode.Space))
@@ -165,7 +165,10 @@ public class UnitController : MonoBehaviour
 			{
 				OnUnitCreated(newUnit);
 			}
-			//TurnOnObstacleAvoidance(newUnit.GetComponent<SteeringController>(), m_units);
-        }
+
+			SteeringController.Obstacles = m_units.ToArray();
+			newUnit.GetComponent<SteeringController>().TurnOnBehaviour(SteeringController.BehaviourType.ObstacleAvoidance);
+			Physics.IgnoreCollision(newUnit.GetComponent<SphereCollider>(), GameObject.FindGameObjectWithTag("Terrain").GetComponent<Collider>());
+		}
 	}
 }

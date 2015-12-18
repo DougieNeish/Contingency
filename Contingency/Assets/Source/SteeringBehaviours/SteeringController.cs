@@ -43,7 +43,7 @@ public class SteeringController : MonoBehaviour
 	private Rigidbody m_rigidbody;
 
 	private List<GameObject> m_units;
-	private GameObject[] m_obstacles;
+	private static GameObject[] m_obstacles;
 
 #region Properties
 	public Seek Seek
@@ -220,7 +220,7 @@ public class SteeringController : MonoBehaviour
 		set { m_units = value; }
 	}
 
-	public GameObject[] Obstacles
+	public static GameObject[] Obstacles
 	{
 		get { return m_obstacles; }
 		set { m_obstacles = value; }
