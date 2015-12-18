@@ -7,6 +7,8 @@ public class GraphNode
 	private bool m_enabled;
 	private GraphEdge[] m_edges;
 
+	private GraphNode m_parent;
+
 	public const int kInvalidIndex = -1;
 	public const int kMaxEdges = 8;
 
@@ -40,6 +42,12 @@ public class GraphNode
 	{
 		get { return m_edges; }
 		set { m_edges = value; }
+	}
+
+	public GraphNode Parent
+	{
+		get { return m_parent; }
+		set { m_parent = value; }
 	}
 
 	public void Enable()

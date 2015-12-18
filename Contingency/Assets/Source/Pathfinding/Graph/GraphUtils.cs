@@ -122,4 +122,19 @@ public static class GraphUtils
 			}
 		}
 	}
+
+	public static GraphNode[] GetNeighbours(this Graph graph, GraphNode node)
+	{
+		GraphNode[] neighbours = new GraphNode[node.Edges.Length];
+		for (int i = 0; i < node.Edges.Length; i++)
+		{
+			neighbours[i] = graph.Nodes[node.Edges[i].To];
+		}
+		return neighbours;
+	}
+
+	public static GraphNode GetNodeFromIndex(this Graph graph, int index)
+	{
+		return graph.Nodes[index];
+	}
 }
