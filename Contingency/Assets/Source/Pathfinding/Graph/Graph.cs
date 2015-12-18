@@ -1,7 +1,4 @@
 ﻿using UnityEngine.Assertions;
-using System.Collections.Generic;
-
-using EdgeList = System.Collections.Generic.List<GraphEdge>;
 
 public class Graph
 {
