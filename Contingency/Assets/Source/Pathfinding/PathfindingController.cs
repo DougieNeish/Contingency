@@ -10,11 +10,13 @@ public class PathfindingController : MonoBehaviour
 	[SerializeField] private bool m_drawNodes;
 	[SerializeField] private bool m_drawEdges;
 
+	private int m_numCells;
 	private Graph m_navGraph;
 
 	void Awake()
 	{
-		m_navGraph = new Graph(m_numCellsX * m_numCellsY);
+		m_numCells = m_numCellsX * m_numCellsY;
+		m_navGraph = new Graph(m_numCells);
 
 		m_drawNodes = false;
 		m_drawEdges = false;
@@ -24,10 +26,6 @@ public class PathfindingController : MonoBehaviour
 	{
 		Vector3 terrainSize = m_terrain.terrainData.size;
 		m_navGraph.CreateGrid(terrainSize.x, terrainSize.z, m_numCellsX, m_numCellsY);
-	}
-	
-	void Update()
-	{
 	}
 	
 	void OnDrawGizmos()
