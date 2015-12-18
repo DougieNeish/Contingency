@@ -1,10 +1,9 @@
 ﻿public class GraphEdge
 {
 	// Indexes of GraphNodes the edge connects
-	protected int m_from;
-	protected int m_to;
-
-	protected float m_cost;
+	private int m_from;
+	private int m_to;
+	private float m_cost;
 
 	public GraphEdge(int from, int to, float cost)
 	{
