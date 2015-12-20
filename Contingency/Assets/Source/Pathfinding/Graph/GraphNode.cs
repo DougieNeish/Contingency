@@ -33,7 +33,7 @@ public class GraphNode
 		set { m_position = value; }
 	}
 
-	private bool Enabled
+	public bool Enabled
 	{
 		get { return m_enabled; }
 	}
