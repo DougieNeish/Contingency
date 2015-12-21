@@ -62,8 +62,11 @@ public class GraphNode
 
 		for (int i = 0; i < m_edges.Length; i++)
 		{
-			m_edges[i].To = kInvalidIndex;
-			m_edges[i].From = kInvalidIndex;
+			if (m_edges[i] != null)
+			{
+				m_edges[i].To = kInvalidIndex;
+				m_edges[i].From = kInvalidIndex;
+			}
 		}
 	}
 }
