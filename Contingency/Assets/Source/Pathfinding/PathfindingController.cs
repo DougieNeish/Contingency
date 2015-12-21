@@ -13,21 +13,23 @@ public class PathfindingController : MonoBehaviour
 	private int m_numCells;
 	private Graph m_navGraph;
 
+	// Should change based on number of grid cells
+	private const float kNavGraphMaxIncline = 0.6f;
+
 	void Awake()
 	{
 		m_numCells = m_numCellsX * m_numCellsY;
 		m_navGraph = new Graph(m_numCells);
-
-		m_drawNodes = false;
-		m_drawEdges = false;
 	}
 
 	void Start()
 	{
 		Vector3 terrainSize = m_terrain.terrainData.size;
-		m_navGraph.CreateGrid(terrainSize.x, terrainSize.z, m_numCellsX, m_numCellsY);
+		m_navGraph.CreateGrid(m_terrain, m_numCellsX, m_numCellsY);
+		m_navGraph.RemoveNodesBasedOnTerrainIncline(m_terrain, kNavGraphMaxIncline, m_numCellsX, m_numCellsY);
+		// TODO: Remove groups of nodes isolated from the rest of the nav graph
 	}
-	
+
 	void OnDrawGizmos()
 	{
 		if (!Application.isPlaying)
@@ -43,18 +45,22 @@ public class PathfindingController : MonoBehaviour
 		GraphNode node;
 		for (int i = 0; i < m_navGraph.Nodes.Length; i++)
 		{
-			Vector3 markerPosition = m_navGraph.Nodes[i].Position;
-			markerPosition.y = 21f;
+			if (!m_navGraph.Nodes[i].Enabled)
+			{
+				continue;
+			}
 
 			float markerSize = 2.5f;
-
 			if (m_drawNodes)
 			{
 				Gizmos.color = Color.white;
-				Gizmos.DrawWireCube(markerPosition, new Vector3(markerSize, 0f, markerSize));
+				Gizmos.DrawWireCube(m_navGraph.Nodes[i].Position, new Vector3(markerSize, 0f, markerSize));
 			}
 
-			if (!m_drawEdges) continue;
+			if (!m_drawEdges)
+			{
+				continue;
+			}
 
 			node = m_navGraph.Nodes[i];
 			for (int j = 0; j < node.Edges.Length; j++)
@@ -65,9 +71,7 @@ public class PathfindingController : MonoBehaviour
 				}
 
 				Vector3 fromPos = node.Position;
-				fromPos.y = 21f;
 				Vector3 toPos = m_navGraph.Nodes[node.Edges[j].To].Position;
-				toPos.y = 21f;
 
 				Gizmos.color = Color.white;
 				Gizmos.DrawLine(fromPos, toPos);

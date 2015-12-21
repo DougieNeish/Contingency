@@ -3,20 +3,25 @@ using System.Collections.Generic;
 
 public static class GraphUtils
 {
-	public static void CreateGrid(this Graph graph, float terrainWidth, float terrainHeight, int numCellsX, int numCellsY)
+	public static void CreateGrid(this Graph graph, Terrain terrain, int numCellsX, int numCellsY)
 	{
-		float cellWidth = terrainHeight / numCellsX;
-		float cellHeight = terrainWidth / numCellsY;
+		TerrainData terrainData = terrain.terrainData;
+		float cellWidth = terrainData.size.x / numCellsX;
+		float cellHeight = terrainData.size.z / numCellsY;
 		float cellXPosition = cellWidth / 2;
 		float cellYPosition = cellHeight / 2;
 
 		Vector3 nodePosition = Vector3.zero;
-
+		float terrainHeightAtNode = 0f;
+		
 		for (int row = 0; row < numCellsY; row++)
 		{
 			for (int col = 0; col < numCellsX; col++)
 			{
 				nodePosition = new Vector3(cellXPosition + (col * cellWidth), 0f, cellYPosition + (row * cellHeight));
+				terrainHeightAtNode = terrain.SampleHeight(nodePosition);
+				nodePosition.y = terrainHeightAtNode;
+
 				graph.AddNode(new GraphNode(graph.GetNextFreeNodeIndex(), nodePosition));
 			}
 		}
@@ -136,5 +141,55 @@ public static class GraphUtils
 	public static GraphNode GetNodeFromIndex(this Graph graph, int index)
 	{
 		return graph.Nodes[index];
+	}
+
+	public static void RemoveNodesBasedOnTerrainHeight(this Graph graph, Terrain terrain, float maxHeight)
+	{
+		for (int i = 0; i < graph.Nodes.Length; i++)
+		{
+			if (terrain.SampleHeight(graph.Nodes[i].Position) > maxHeight)
+			{
+				graph.Nodes[i].Disable();
+			}
+		}
+	}
+
+	public static void RemoveNodesBasedOnTerrainIncline(this Graph graph, Terrain terrain, float maxIncline, int numCellsX, int numCellsY)
+	{
+		TerrainData terrainData = terrain.terrainData;
+		float cellWidth = terrainData.size.x / numCellsX;
+		float cellHeight = terrainData.size.z / numCellsY;
+		float cellXPosition = cellWidth / 2;
+		float cellYPosition = cellHeight / 2;
+
+		for (int i = 0; i < graph.Nodes.Length; i++)
+		{
+			float minX = graph.Nodes[i].Position.x - cellWidth / 2;
+			float maxX = graph.Nodes[i].Position.x + cellWidth / 2;
+			float minZ = graph.Nodes[i].Position.z - cellHeight / 2;
+			float maxZ = graph.Nodes[i].Position.z + cellHeight / 2;
+
+			Vector3 centre = graph.Nodes[i].Position;
+			Vector3 left = new Vector3(minX, 0f, centre.z);
+			Vector3 right = new Vector3(maxX, 0f, centre.z);
+			Vector3 top = new Vector3(centre.x, 0f, minZ);
+			Vector3 bottom = new Vector3(centre.x, 0f, maxZ);
+
+			float centreHeight = terrain.SampleHeight(graph.Nodes[i].Position);
+			float[] edgeHeights = new float[4];
+			edgeHeights[0] = terrain.SampleHeight(left);
+			edgeHeights[1] = terrain.SampleHeight(right);
+			edgeHeights[2] = terrain.SampleHeight(top);
+			edgeHeights[3] = terrain.SampleHeight(bottom);
+
+			for (int j = 0; j < edgeHeights.Length; j++)
+			{
+				if (centreHeight - edgeHeights[j] > maxIncline)
+				{
+					graph.Nodes[i].Disable();
+					break;
+				}
+			}
+		}
 	}
 }
