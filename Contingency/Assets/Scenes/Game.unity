@@ -166,7 +166,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 171551571}
   m_LocalRotation: {x: 0.41865978, y: 0, z: 0, w: 0.90814316}
-  m_LocalPosition: {x: 134.1, y: 42.2, z: 11.5}
+  m_LocalPosition: {x: 134.1, y: 135.1, z: 35.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_terrain: {fileID: 388120741}
   m_numCellsX: 100
   m_numCellsY: 100
-  m_drawNodes: 0
+  m_drawNodes: 1
   m_drawEdges: 0
 --- !u!1 &388120739
 GameObject:
@@ -360,7 +360,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 736191946}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 101.89408, y: 60.376038, z: 53.83226}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
