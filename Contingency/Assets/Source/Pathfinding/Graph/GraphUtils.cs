@@ -149,7 +149,7 @@ public static class GraphUtils
 		{
 			if (terrain.SampleHeight(graph.Nodes[i].Position) > maxHeight)
 			{
-				graph.Nodes[i].Disable();
+				graph.Nodes[i].Disable(graph);
 			}
 		}
 	}
@@ -186,7 +186,7 @@ public static class GraphUtils
 			{
 				if (centreHeight - edgeHeights[j] > maxIncline)
 				{
-					graph.Nodes[i].Disable();
+					graph.Nodes[i].Disable(graph);
 					break;
 				}
 			}
