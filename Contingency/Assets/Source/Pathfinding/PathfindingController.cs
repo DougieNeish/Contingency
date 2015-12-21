@@ -65,7 +65,7 @@ public class PathfindingController : MonoBehaviour
 			node = m_navGraph.Nodes[i];
 			for (int j = 0; j < node.Edges.Length; j++)
 			{
-				if (node.Edges[j] == null)
+				if (node.Edges[j] == null || node.Edges[j].To == GraphNode.kInvalidIndex)
 				{
 					break;
 				}
