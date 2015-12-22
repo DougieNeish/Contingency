@@ -4,7 +4,7 @@ public class PathFollowing
 {
 	private SteeringController m_steeringController;
 	private Path m_path;
-	private float m_arriveRadius = 1f; // Ensure this is > Arrive.ArriveRadius
+	private float m_arriveRadius = 1.3f; // Ensure this is > Arrive.ArriveRadius
 	private float m_sqrArriveRadius;
 
 	public Path Path

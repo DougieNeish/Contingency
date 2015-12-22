@@ -11,7 +11,7 @@ public static class SteeringUtils
 		steeringController.TurnOnBehaviour(SteeringController.BehaviourType.Arrive);
 	}
 
-	public static void AddWaypoint(SteeringController steeringController, Vector3 waypoint, bool newPath = false)
+	public static void AddWaypoint(SteeringController steeringController, Vector3 waypoint, bool end, bool newPath = false)
 	{
 		if (newPath)
 		{
@@ -30,6 +30,11 @@ public static class SteeringUtils
 		waypointMarker.transform.position = waypoint;
 		waypointMarker.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 		Object.Destroy(waypointMarker.GetComponent<Collider>());
+
+		if (end)
+		{
+			waypointMarker.transform.localScale = new Vector3(1f, 1f, 1f);
+		}
 
 		steeringController.PathFollowing.Path.AddWaypoint(waypoint);
 		steeringController.TurnOnBehaviour(SteeringController.BehaviourType.PathFollowing);

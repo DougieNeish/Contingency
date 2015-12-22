@@ -4,87 +4,145 @@ using System.Collections.Generic;
 
 public class AStarSearch
 {
-	//private GraphNode[] m_openList;
-	//private GraphNode[] m_closedList;
 	//private Dictionary<GraphNode, float> m_runningCost;
 
 	private int m_nodeCount;
-	//private int[] m_openList;
-	//private int[] m_closedList;
-	private GraphEdge[] m_openList;
-	private GraphEdge[] m_closedList;
+	//private GraphNode[] m_openList;
+	//private GraphNode[] m_closedList;
+
+	private List<GraphNode> m_openList;
+	private List<GraphNode> m_closedList;
+
 	private float[] m_runningCost;
 
 	public AStarSearch(int nodeCount)
 	{
 		m_nodeCount = nodeCount;
-		m_openList = new GraphEdge[nodeCount];
-		m_closedList = new GraphEdge[nodeCount];
+		//m_openList = new GraphNode[nodeCount];
+		//m_closedList = new GraphNode[nodeCount];
+		m_openList = new List<GraphNode>();
+		m_closedList = new List<GraphNode>();
 		m_runningCost = new float[nodeCount];
 	}
 
-	public GraphNode[] Search(Graph graph, int startNode, int targetNode) //GraphNode startNode, GraphNode targetNode)
+	public GraphNode[] Search(Graph graph, GraphNode startNode, GraphNode targetNode)
 	{
 		for (int i = 0; i < m_nodeCount; i++)
 		{
-			m_openList[i] = null;//GraphNode.kInvalidIndex;
-			m_closedList[i] = null;//GraphNode.kInvalidIndex;
+			//m_openList[i] = GraphNode.kInvalidIndex;
+			//m_closedList[i] = GraphNode.kInvalidIndex;
 			m_runningCost[i] = 0f;
 		}
 
-		//Array.Clear(m_openList, 0, m_openList.Length);
-		//Array.Clear(m_closedList, 0, m_closedList.Length);
+		// Move into above for loop if m_nodeCount == graph.Nodes.Length (which it should)?
+		for (int i = 0; i < graph.Nodes.Length; i++)
+		{
+			graph.Nodes[i].Parent = null;
+		}
+
+//		Array.Clear(m_openList, 0, m_openList.Length);
+//		Array.Clear(m_closedList, 0, m_closedList.Length);
+		m_openList.Clear();
+		m_closedList.Clear();
+
 		//m_runningCost.Clear();
 
 		// Add start node to running cost
 		//m_runningCost.Add(startNode, 0f);
+		m_runningCost[startNode.Index] = 0f; // not required due to above for loop init?
 
 		// Add target node to the open list
-		//m_openList[0] = targetNode;
+		//m_openList[0] = startNode;
+		m_openList.Add(startNode);
 
-		GraphEdge currentEdge;
-		while (m_openList.Length > 0)
+		GraphNode currentNode;
+		int lastOpenListIndex = 0;
+		int lastClosedListIndex = 0;
+		//while (m_openList.Length > 0)
+		//while (lastOpenListIndex > GraphNode.kInvalidIndex)
+		while (m_openList.Count > 0)
 		{
-			currentEdge = GetFirstValidItem(m_openList);
-
-			if (currentEdge.To == targetNode)
+			currentNode = m_openList[0];//GetFirstValidItem(m_openList);
+			m_openList.RemoveAt(0);
+			
+			// If current node equals target node end search
+			if (currentNode.Index == targetNode.Index)
 			{
 				break;
 			}
 
 			// Add current node to the first empty slot in the closed list
-			for (int i = 0; i < m_closedList.Length; i++)
-			{
-				if (m_closedList[i] == null)
-				{
-					m_closedList[i] = currentEdge;
-				}
-			}
+			//for (int i = 0; i < m_closedList.Length; i++)
+			//{
+			//	if (m_closedList[i] == null)
+			//	{
+			//		m_closedList[i] = currentNode;
+			//	}
+			//}
+			m_closedList.Add(currentNode);
 
-			int nextNode;
+			GraphNode nextNode;
 			float cost;
 			// Loop through all neighbours of current node
-			foreach (GraphEdge edge in graph.GetNodeFromIndex(currentEdge.To).Edges)
+			foreach (GraphEdge edge in currentNode.Edges)
 			{
-				//nextNode = graph.GetNodeFromIndex(edge.To);
-				//cost = m_runningCost[currentEdge] + edge.Cost;
-				
-				//if (m_openList[currentEdge] != GraphNode.kInvalidIndex && cost < m_runningCost[nextNode])
+				if (edge == null || edge.To.Index == GraphNode.kInvalidIndex)
+				{
+					continue;
+				}
+
+				nextNode = edge.To;
+				cost = m_runningCost[currentNode.Index] + edge.Cost;
+
+				// If in open list and cost is less than running cost to neighbour, remove from open list because new path is better
+				//if (m_openList[currentNode.Index] != null && cost < m_runningCost[nextNode.Index])
+				if (m_openList.Contains(currentNode) && cost < m_runningCost[nextNode.Index])
+				{
+					m_openList.Remove(currentNode);
+				}
+
+				// If in closed list and cost is less than running cost to neighbour, remove from closed list because new path is better
+				//if (m_closedList[currentNode.Index] != null && cost < m_runningCost[nextNode.Index])
+				//if (m_closedList.Contains(currentNode) && cost < m_runningCost[nextNode.Index])
 				//{
-				//	m_openList[currentEdge] == GraphNode.kInvalidIndex
+				//	m_closedList.Remove(currentNode);
 				//}
 
-
-				//if (!m_runningCost.ContainsKey(nextNode) || cost < m_runningCost[nextNode])
-				//if (!NodeArrayContains(m_closedList, nextNode) || cost < m_closedList[nextNode])
-				//{
-				//	m_runningCost[nextNode]
-				//}
+				// If not in open or closed list
+				//if (m_openList[currentNode.Index] == null && m_closedList[currentNode.Index] == null)
+				//if (!m_openList.Contains(currentNode) && !m_closedList.Contains(currentNode))
+				Debug.Log("Next node index: " + nextNode.Index);
+				if (m_runningCost[nextNode.Index] == 0f || cost < m_runningCost[nextNode.Index])
+				{
+					m_runningCost[nextNode.Index] = cost; // + HEURISTIC
+					//m_openList[++lastOpenListIndex] = nextNode;
+					m_openList.Add(nextNode);
+					nextNode.Parent = currentNode;
+				}
 			}
-
 		}
 
-		return new GraphNode[0];
+		// Retrace parents to create list from target to start node
+		GraphNode node = targetNode;
+		List<GraphNode> pathFromTarget = new List<GraphNode>();
+		
+		while (node != startNode)
+		{
+			pathFromTarget.Add(node);
+			node = node.Parent;
+		}
+
+		// Reverse path so it goes from start node to target
+		pathFromTarget.Reverse();
+		return pathFromTarget.ToArray();
+		//return new GraphNode[0];
+	}
+
+	public GraphNode[] Search(Graph graph, Vector3 startPosition, Vector3 targetPosition)
+	{
+		GraphNode startNode = graph.GetNodeNearestToPosition(startPosition);
+		GraphNode targetNode = graph.GetNodeNearestToPosition(targetPosition);
+		return Search(graph, startNode, targetNode);
 	}
 
 	private bool NodeArrayContains(GraphNode[] nodeArray, GraphNode node)
@@ -111,7 +169,7 @@ public class AStarSearch
 	//	return lowestCost;
 	//}
 
-	private GraphEdge GetFirstValidItem(GraphEdge[] array)
+	private GraphNode GetFirstValidItem(GraphNode[] array)
 	{
 		for (int i = 0; i < array.Length; i++)
 		{
