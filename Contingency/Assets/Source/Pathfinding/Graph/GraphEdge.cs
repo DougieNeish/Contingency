@@ -1,24 +1,24 @@
 ﻿public class GraphEdge
 {
 	// Indexes of GraphNodes the edge connects
-	private int m_from;
-	private int m_to;
+	private GraphNode m_from;
+	private GraphNode m_to;
 	private float m_cost;
 
-	public GraphEdge(int from, int to, float cost)
+	public GraphEdge(GraphNode from, GraphNode to, float cost)
 	{
 		m_from = from;
 		m_to = to;
 		m_cost = cost;
 	}
 
-	public int From
+	public GraphNode From
 	{
 		get { return m_from; }
 		set { m_from = value; }
 	}
 
-	public int To
+	public GraphNode To
 	{
 		get { return m_to; }
 		set { m_to = value; }

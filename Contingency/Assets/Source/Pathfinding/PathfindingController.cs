@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class PathfindingController : MonoBehaviour
+public class PathfindingController : Singleton<PathfindingController>
 {
 	[SerializeField] private Terrain m_terrain;
 	[SerializeField] private int m_numCellsX;
@@ -10,16 +10,26 @@ public class PathfindingController : MonoBehaviour
 	[SerializeField] private bool m_drawNodes;
 	[SerializeField] private bool m_drawEdges;
 
-	private int m_numCells;
+	private int m_cellCount;
 	private Graph m_navGraph;
+
+	public Graph NavGraph
+	{
+		get { return m_navGraph; }
+	}
+
+	public int CellCount
+	{
+		get { return m_cellCount; }
+	}
 
 	// Should change based on number of grid cells
 	private const float kNavGraphMaxIncline = 0.6f;
 
 	void Awake()
 	{
-		m_numCells = m_numCellsX * m_numCellsY;
-		m_navGraph = new Graph(m_numCells);
+		m_cellCount = m_numCellsX * m_numCellsY;
+		m_navGraph = new Graph(m_cellCount);
 	}
 
 	void Start()
@@ -65,13 +75,13 @@ public class PathfindingController : MonoBehaviour
 			node = m_navGraph.Nodes[i];
 			for (int j = 0; j < node.Edges.Length; j++)
 			{
-				if (node.Edges[j] == null || node.Edges[j].To == GraphNode.kInvalidIndex)
+				if (node.Edges[j] == null || node.Edges[j].To.Index == GraphNode.kInvalidIndex)
 				{
 					break;
 				}
 
 				Vector3 fromPos = node.Position;
-				Vector3 toPos = m_navGraph.Nodes[node.Edges[j].To].Position;
+				Vector3 toPos = node.Edges[j].To.Position;
 
 				Gizmos.color = Color.white;
 				Gizmos.DrawLine(fromPos, toPos);

@@ -33,16 +33,16 @@ public class Graph
 
 	public void AddEdge(GraphEdge edge)
 	{
-		Assert.IsTrue(edge.From >= 0 && edge.From < m_nodes.Length, "Graph::AddEdge : 'from' node index out of range");
-		Assert.IsTrue(edge.To >= 0 && edge.To < m_nodes.Length, "Graph::AddEdge : 'to' node index out of range");
+		Assert.IsTrue(edge.From.Index >= 0 && edge.From.Index < m_nodes.Length, "Graph::AddEdge : 'from' node index out of range");
+		Assert.IsTrue(edge.To.Index >= 0 && edge.To.Index < m_nodes.Length, "Graph::AddEdge : 'to' node index out of range");
 
-		if (edge.To != GraphNode.kInvalidIndex && edge.From != GraphNode.kInvalidIndex)
+		if (edge.To.Index != GraphNode.kInvalidIndex && edge.From.Index != GraphNode.kInvalidIndex)
 		{
 			GraphNode node;
 
 			if (!EdgeExists(edge.From, edge.To))
 			{
-				node = m_nodes[edge.From];
+				node = edge.From;
 				for (int i = 0; i < node.Edges.Length; i++)
 				{
 					if (node.Edges[i] == null)
@@ -55,7 +55,7 @@ public class Graph
 
 			if (!EdgeExists(edge.To, edge.From))
 			{
-				node = m_nodes[edge.To];
+				node = edge.To;
 				for (int i = 0; i < node.Edges.Length; i++)
 				{
 					if (node.Edges[i] == null)
@@ -68,14 +68,15 @@ public class Graph
 		}
 	}
 
-	public void SetEdgeCost(int from, int to, float cost)
+	public void SetEdgeCost(GraphNode from, GraphNode to, float cost)
 	{
-		Assert.IsTrue(from >= 0 && from < m_nodes.Length, "Graph::SetEdgeCost : 'from' node index out of range");
-		Assert.IsTrue(to >= 0 && to < m_nodes.Length, "Graph::SetEdgeCost : 'to' node index out of range");
+		Assert.IsTrue(from.Index >= 0 && from.Index < m_nodes.Length, "Graph::SetEdgeCost : 'from' node index out of range");
+		Assert.IsTrue(to.Index >= 0 && to.Index < m_nodes.Length, "Graph::SetEdgeCost : 'to' node index out of range");
 
 		if (EdgeExists(from, to))
 		{
-			m_nodes[from].Edges[to].Cost = cost;
+			// I think to.Index might be wrong. Will be in the range 0-10,000 (num of nodes), not 0-8 (num of possible edges)
+			from.Edges[to.Index].Cost = cost;
 		}
 	}
 
@@ -84,12 +85,12 @@ public class Graph
 		return m_nextNodeIndex;
 	}
 
-	private bool EdgeExists(int from, int to)
+	private bool EdgeExists(GraphNode from, GraphNode to)
 	{
-		for (int i = 0; i < m_nodes[from].Edges.Length; i++)
+		for (int i = 0; i < from.Edges.Length; i++)
 		{
-			if (m_nodes[from].Edges[i] != null && 
-				m_nodes[from].Edges[i].To == to)
+			if (from.Edges[i] != null && 
+				from.Edges[i].To.Index == to.Index)
 			{
 				return true;
 			}

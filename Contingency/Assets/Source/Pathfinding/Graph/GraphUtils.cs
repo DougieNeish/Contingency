@@ -64,8 +64,8 @@ public static class GraphUtils
 					float cost = Vector3.Distance(nodePosition, neighbourPosition);
 
 					// Add edges from and to both nodes
-					graph.AddEdge(new GraphEdge(nodeIndex, neighbourIndex, cost));
-					graph.AddEdge(new GraphEdge(neighbourIndex, nodeIndex, cost));
+					graph.AddEdge(new GraphEdge(graph.Nodes[nodeIndex], graph.Nodes[neighbourIndex], cost));
+					graph.AddEdge(new GraphEdge(graph.Nodes[neighbourIndex], graph.Nodes[nodeIndex], cost));
 				}
 			}
 		}
@@ -98,7 +98,7 @@ public static class GraphUtils
 
 				Vector3 fromPos = node.Position;
 				fromPos.y = 25f;
-				Vector3 toPos = graph.Nodes[node.Edges[j].To].Position;
+				Vector3 toPos = node.Edges[j].To.Position;
 				toPos.y = 25f;
 
 				Debug.DrawLine(fromPos, toPos, Color.blue, 10000f);
@@ -128,12 +128,12 @@ public static class GraphUtils
 		}
 	}
 
-	public static GraphNode[] GetNeighbours(this Graph graph, GraphNode node)
+	public static GraphNode[] GetNeighbours(this GraphNode node)
 	{
 		GraphNode[] neighbours = new GraphNode[node.Edges.Length];
 		for (int i = 0; i < node.Edges.Length; i++)
 		{
-			neighbours[i] = graph.Nodes[node.Edges[i].To];
+			neighbours[i] = node.Edges[i].To;
 		}
 		return neighbours;
 	}
@@ -143,13 +143,30 @@ public static class GraphUtils
 		return graph.Nodes[index];
 	}
 
+	public static GraphNode GetNodeNearestToPosition(this Graph graph, Vector3 position)
+	{
+		// TODO: Is there something more efficient than looping through every node checking distance?
+		GraphNode closestNode = null;
+		float smallestDistance = float.MaxValue;
+		foreach (GraphNode node in graph.Nodes)
+		{
+			if (Vector3.Distance(node.Position, position) < smallestDistance)
+			{
+				closestNode = node;
+				smallestDistance = Vector3.Distance(node.Position, position);
+			}
+		}
+
+		return closestNode;
+	}
+
 	public static void RemoveNodesBasedOnTerrainHeight(this Graph graph, Terrain terrain, float maxHeight)
 	{
 		for (int i = 0; i < graph.Nodes.Length; i++)
 		{
 			if (terrain.SampleHeight(graph.Nodes[i].Position) > maxHeight)
 			{
-				graph.Nodes[i].Disable(graph);
+				graph.Nodes[i].Disable();
 			}
 		}
 	}
@@ -186,7 +203,7 @@ public static class GraphUtils
 			{
 				if (centreHeight - edgeHeights[j] > maxIncline)
 				{
-					graph.Nodes[i].Disable(graph);
+					graph.Nodes[i].Disable();
 					break;
 				}
 			}

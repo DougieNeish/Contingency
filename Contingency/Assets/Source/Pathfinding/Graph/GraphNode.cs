@@ -50,33 +50,33 @@ public class GraphNode
 		set { m_parent = value; }
 	}
 
-	public void Enable(Graph graph)
+	public void Enable()
 	{
 		m_enabled = true;
 		m_edges = new GraphEdge[kMaxEdges];
 	}
 
-	public void Disable(Graph graph)
+	public void Disable()
 	{
 		m_enabled = false;
 
 		for (int i = 0; i < m_edges.Length; i++)
 		{
-			if (m_edges[i] != null && m_edges[i].To != kInvalidIndex)
+			if (m_edges[i] != null && m_edges[i].To.Index != kInvalidIndex)
 			{
-				int otherNode = m_edges[i].To;
+				GraphNode otherNode = m_edges[i].To;
 
-				for (int j = 0; j < graph.Nodes[otherNode].Edges.Length; j++)
+				for (int j = 0; j < otherNode.Edges.Length; j++)
 				{
-					if (graph.Nodes[otherNode].Edges[j] != null &&
-						graph.Nodes[otherNode].Edges[j].To == m_edges[i].From)
+					if (otherNode.Edges[j] != null &&
+						otherNode.Edges[j].To.Index == m_edges[i].From.Index)
 					{
-						graph.Nodes[otherNode].Edges[j].To = kInvalidIndex;
+						otherNode.Edges[j].To.Index = kInvalidIndex;
 					}
 				}
 
-				m_edges[i].To = kInvalidIndex;
-				m_edges[i].From = kInvalidIndex;
+				m_edges[i].To.Index = kInvalidIndex;
+				m_edges[i].From.Index = kInvalidIndex;
 			}
 		}
 	}
