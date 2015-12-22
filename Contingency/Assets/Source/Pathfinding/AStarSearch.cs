@@ -62,8 +62,19 @@ public class AStarSearch
 		//while (lastOpenListIndex > GraphNode.kInvalidIndex)
 		while (m_openList.Count > 0)
 		{
-			currentNode = m_openList[0];//GetFirstValidItem(m_openList);
-			m_openList.RemoveAt(0);
+			GraphNode bestNode = null;
+			float lowestCost = float.MaxValue;
+			foreach (GraphNode tempNode in m_openList)
+			{
+				if (m_runningCost[tempNode.Index] < lowestCost)
+				{
+					lowestCost = m_runningCost[tempNode.Index];
+					bestNode = tempNode;
+				}
+			}
+
+			currentNode = bestNode;//m_openList[0];//GetFirstValidItem(m_openList);
+			m_openList.Remove(bestNode);//m_openList.RemoveAt(0);
 			
 			// If current node equals target node end search
 			if (currentNode.Index == targetNode.Index)
@@ -103,16 +114,15 @@ public class AStarSearch
 
 				// If in closed list and cost is less than running cost to neighbour, remove from closed list because new path is better
 				//if (m_closedList[currentNode.Index] != null && cost < m_runningCost[nextNode.Index])
-				//if (m_closedList.Contains(currentNode) && cost < m_runningCost[nextNode.Index])
-				//{
-				//	m_closedList.Remove(currentNode);
-				//}
+				if (m_closedList.Contains(currentNode) && cost < m_runningCost[nextNode.Index])
+				{
+					m_closedList.Remove(currentNode);
+				}
 
 				// If not in open or closed list
 				//if (m_openList[currentNode.Index] == null && m_closedList[currentNode.Index] == null)
 				//if (!m_openList.Contains(currentNode) && !m_closedList.Contains(currentNode))
-				Debug.Log("Next node index: " + nextNode.Index);
-				if (m_runningCost[nextNode.Index] == 0f || cost < m_runningCost[nextNode.Index])
+				if (!m_closedList.Contains(nextNode) && !m_openList.Contains(nextNode) && (m_runningCost[nextNode.Index] == 0f || cost < m_runningCost[nextNode.Index]))
 				{
 					m_runningCost[nextNode.Index] = cost; // + HEURISTIC
 					//m_openList[++lastOpenListIndex] = nextNode;
@@ -126,7 +136,7 @@ public class AStarSearch
 		GraphNode node = targetNode;
 		List<GraphNode> pathFromTarget = new List<GraphNode>();
 		
-		while (node != startNode)
+		while (node != startNode) // Add null check?
 		{
 			pathFromTarget.Add(node);
 			node = node.Parent;
