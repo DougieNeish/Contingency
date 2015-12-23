@@ -120,7 +120,8 @@ public class AStarSearch
 				Profiler.BeginSample("Not in open or closed list");
 				if (!m_closedList.Contains(nextNode) && !m_openList.Contains(nextNode) && (m_runningCost[nextNode.Index] == 0f || cost < m_runningCost[nextNode.Index]))
 				{
-					m_runningCost[nextNode.Index] = cost; // + HEURISTIC
+					// f = g + h
+					m_runningCost[nextNode.Index] = cost + DiagonalDistance(nextNode.Position, targetNode.Position);
 					Profiler.BeginSample("Add node to open list");
 					m_openList.Add(nextNode);
 					Profiler.EndSample();
@@ -181,6 +182,13 @@ public class AStarSearch
 		GraphNode startNode = graph.GetNodeNearestToPosition(startPosition);
 		GraphNode targetNode = graph.GetNodeNearestToPosition(targetPosition);
 		return Search(graph, startNode, targetNode);
+	}
+
+	private float DiagonalDistance(Vector3 nodePosition, Vector3 targetPosition)
+	{
+		float dx = Mathf.Abs(nodePosition.x - targetPosition.x);
+		float dz = Mathf.Abs(nodePosition.z - targetPosition.z);
+		return GraphUtils.baseMovementCost * (dx + dz) + (GraphUtils.sqrt2 - 2 * GraphUtils.baseMovementCost) * Mathf.Min(dx, dz);
 	}
 
 	private bool NodeArrayContains(GraphNode[] nodeArray, GraphNode node)
