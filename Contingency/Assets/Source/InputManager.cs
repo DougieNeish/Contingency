@@ -32,16 +32,12 @@ public class InputManager : MonoBehaviour
 		get { return m_ray; }
 	}
 
-	void Start()
-	{
-	}
-	
 	void Update()
 	{
 		SendMouseEvents();
 	}
 
-	void SendMouseEvents()
+	private void SendMouseEvents()
 	{
 		m_ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
