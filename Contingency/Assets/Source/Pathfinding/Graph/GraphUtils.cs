@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 public static class GraphUtils
 {
+	public static float baseMovementCost = 1f;
+	public static float sqrt2 = Mathf.Sqrt(2);
+
 	public static void CreateGrid(this Graph graph, Terrain terrain, int numCellsX, int numCellsY)
 	{
 		TerrainData terrainData = terrain.terrainData;
@@ -60,8 +63,8 @@ public static class GraphUtils
 
 					Vector3 nodePosition = graph.Nodes[nodeIndex].Position;
 					Vector3 neighbourPosition = graph.Nodes[neighbourIndex].Position;
-					// Do something other than distance?
-					float cost = Vector3.Distance(nodePosition, neighbourPosition);
+					// TODO: Do something other than distance?
+					float cost = (rowOffset == 0f || colOffset == 0f) ? baseMovementCost : sqrt2; //Vector3.Distance(nodePosition, neighbourPosition);
 
 					// Add edges from and to both nodes
 					graph.AddEdge(new GraphEdge(graph.Nodes[nodeIndex], graph.Nodes[neighbourIndex], cost));
