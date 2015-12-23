@@ -4,29 +4,23 @@ using System.Collections.Generic;
 
 public class AStarSearch
 {
-	//private Dictionary<GraphNode, float> m_runningCost;
-
 	private int m_nodeCount;
-	//private GraphNode[] m_openList;
-	//private GraphNode[] m_closedList;
-
-	private List<GraphNode> m_openList;
-	private List<GraphNode> m_closedList;
-
+	private HashSet<GraphNode> m_openList;
+	private HashSet<GraphNode> m_closedList;
 	private float[] m_runningCost;
 
 	public AStarSearch(int nodeCount)
 	{
 		m_nodeCount = nodeCount;
-		//m_openList = new GraphNode[nodeCount];
-		//m_closedList = new GraphNode[nodeCount];
-		m_openList = new List<GraphNode>();
-		m_closedList = new List<GraphNode>();
+		m_openList = new HashSet<GraphNode>();
+		m_closedList = new HashSet<GraphNode>();
 		m_runningCost = new float[nodeCount];
 	}
 
 	public GraphNode[] Search(Graph graph, GraphNode startNode, GraphNode targetNode)
 	{
+		Profiler.BeginSample("A* Search");
+
 		for (int i = 0; i < m_nodeCount; i++)
 		{
 			//m_openList[i] = GraphNode.kInvalidIndex;
@@ -35,17 +29,14 @@ public class AStarSearch
 		}
 
 		// Move into above for loop if m_nodeCount == graph.Nodes.Length (which it should)?
+		// Replace with data structure in A star class instead of nodes to allow concurrent searches
 		for (int i = 0; i < graph.Nodes.Length; i++)
 		{
 			graph.Nodes[i].Parent = null;
 		}
 
-//		Array.Clear(m_openList, 0, m_openList.Length);
-//		Array.Clear(m_closedList, 0, m_closedList.Length);
 		m_openList.Clear();
 		m_closedList.Clear();
-
-		//m_runningCost.Clear();
 
 		// Add start node to running cost
 		//m_runningCost.Add(startNode, 0f);
@@ -58,10 +49,10 @@ public class AStarSearch
 		GraphNode currentNode;
 		int lastOpenListIndex = 0;
 		int lastClosedListIndex = 0;
-		//while (m_openList.Length > 0)
-		//while (lastOpenListIndex > GraphNode.kInvalidIndex)
+
 		while (m_openList.Count > 0)
 		{
+			Profiler.BeginSample("Find lowest cost in open list");
 			GraphNode bestNode = null;
 			float lowestCost = float.MaxValue;
 			foreach (GraphNode tempNode in m_openList)
@@ -72,9 +63,10 @@ public class AStarSearch
 					bestNode = tempNode;
 				}
 			}
+			Profiler.EndSample();
 
-			currentNode = bestNode;//m_openList[0];//GetFirstValidItem(m_openList);
-			m_openList.Remove(bestNode);//m_openList.RemoveAt(0);
+			currentNode = bestNode;
+			m_openList.Remove(bestNode);
 			
 			// If current node equals target node end search
 			if (currentNode.Index == targetNode.Index)
@@ -95,6 +87,7 @@ public class AStarSearch
 			GraphNode nextNode;
 			float cost;
 			// Loop through all neighbours of current node
+			Profiler.BeginSample("Loop through neighbours");
 			foreach (GraphEdge edge in currentNode.Edges)
 			{
 				if (edge == null || edge.To.Index == GraphNode.kInvalidIndex)
@@ -107,10 +100,14 @@ public class AStarSearch
 
 				// If in open list and cost is less than running cost to neighbour, remove from open list because new path is better
 				//if (m_openList[currentNode.Index] != null && cost < m_runningCost[nextNode.Index])
+				Profiler.BeginSample("Check open list contains node");
 				if (m_openList.Contains(currentNode) && cost < m_runningCost[nextNode.Index])
 				{
+					Profiler.BeginSample("Remove node from open list");
 					m_openList.Remove(currentNode);
+					Profiler.EndSample();
 				}
+				Profiler.EndSample();
 
 				// If in closed list and cost is less than running cost to neighbour, remove from closed list because new path is better
 				//if (m_closedList[currentNode.Index] != null && cost < m_runningCost[nextNode.Index])
@@ -120,16 +117,44 @@ public class AStarSearch
 				}
 
 				// If not in open or closed list
-				//if (m_openList[currentNode.Index] == null && m_closedList[currentNode.Index] == null)
-				//if (!m_openList.Contains(currentNode) && !m_closedList.Contains(currentNode))
+				Profiler.BeginSample("Not in open or closed list");
 				if (!m_closedList.Contains(nextNode) && !m_openList.Contains(nextNode) && (m_runningCost[nextNode.Index] == 0f || cost < m_runningCost[nextNode.Index]))
 				{
 					m_runningCost[nextNode.Index] = cost; // + HEURISTIC
-					//m_openList[++lastOpenListIndex] = nextNode;
+					Profiler.BeginSample("Add node to open list");
 					m_openList.Add(nextNode);
+					Profiler.EndSample();
 					nextNode.Parent = currentNode;
 				}
+				Profiler.EndSample();
+
+				//Profiler.BeginSample("Not in closed list");
+				//bool inClosedList = m_closedList.Contains(nextNode);
+				//Profiler.EndSample();
+
+				//Profiler.BeginSample("Not in open list");
+				//bool inOpenList = m_openList.Contains(nextNode);
+				//Profiler.EndSample();
+
+				//Profiler.BeginSample("running cost = 0");
+				//bool costIsZero = m_runningCost[nextNode.Index] == 0f;
+				//Profiler.EndSample();
+
+				//Profiler.BeginSample("running cost < previous");
+				//bool costLessThanPrevious = cost < m_runningCost[nextNode.Index];
+				//Profiler.EndSample();
+
+				//if (!inClosedList && !inOpenList && (costIsZero || costLessThanPrevious))
+				//{
+
+				//	m_runningCost[nextNode.Index] = cost; // + HEURISTIC
+				//	Profiler.BeginSample("Add node to open list");
+				//	m_openList.Add(nextNode);
+				//	Profiler.EndSample();
+				//	nextNode.Parent = currentNode;
+				//}
 			}
+			Profiler.EndSample();
 		}
 
 		// Retrace parents to create list from target to start node
@@ -144,6 +169,9 @@ public class AStarSearch
 
 		// Reverse path so it goes from start node to target
 		pathFromTarget.Reverse();
+
+		Profiler.EndSample();
+
 		return pathFromTarget.ToArray();
 		//return new GraphNode[0];
 	}
