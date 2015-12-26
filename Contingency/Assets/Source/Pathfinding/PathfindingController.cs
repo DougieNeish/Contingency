@@ -60,6 +60,7 @@ public class PathfindingController : Singleton<PathfindingController>
 				continue;
 			}
 
+			// Draw nodes
 			float markerSize = 2.5f;
 			if (m_drawNodes)
 			{
@@ -71,7 +72,8 @@ public class PathfindingController : Singleton<PathfindingController>
 			{
 				continue;
 			}
-
+			
+			// Draw edges
 			node = m_navGraph.Nodes[i];
 			for (int j = 0; j < node.Edges.Length; j++)
 			{
