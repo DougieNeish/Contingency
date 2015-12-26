@@ -184,17 +184,21 @@ public static class GraphUtils
 
 		for (int i = 0; i < graph.Nodes.Length; i++)
 		{
+			// Calculate min/max node x and z values
 			float minX = graph.Nodes[i].Position.x - cellWidth / 2;
 			float maxX = graph.Nodes[i].Position.x + cellWidth / 2;
 			float minZ = graph.Nodes[i].Position.z - cellHeight / 2;
 			float maxZ = graph.Nodes[i].Position.z + cellHeight / 2;
 
+			// Calculate left/right/top/bottom/centre node positions
 			Vector3 centre = graph.Nodes[i].Position;
 			Vector3 left = new Vector3(minX, 0f, centre.z);
 			Vector3 right = new Vector3(maxX, 0f, centre.z);
 			Vector3 top = new Vector3(centre.x, 0f, minZ);
 			Vector3 bottom = new Vector3(centre.x, 0f, maxZ);
 
+			// Sample height of terrain at left/right/top/bottom/centre positions
+			// Add them to array for easy iteration
 			float centreHeight = terrain.SampleHeight(graph.Nodes[i].Position);
 			float[] edgeHeights = new float[4];
 			edgeHeights[0] = terrain.SampleHeight(left);
@@ -202,8 +206,11 @@ public static class GraphUtils
 			edgeHeights[2] = terrain.SampleHeight(top);
 			edgeHeights[3] = terrain.SampleHeight(bottom);
 
+			// For each sampled height
 			for (int j = 0; j < edgeHeights.Length; j++)
 			{
+				// Check if difference between left/right/top/bottom positions
+				// and node centre are greater than the max incline
 				if (centreHeight - edgeHeights[j] > maxIncline)
 				{
 					graph.Nodes[i].Disable();
