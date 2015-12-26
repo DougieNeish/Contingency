@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public static class SteeringUtils
 {
-	public const float kEnableWaypointLoopDistance = 2f;
+	public const float kWaypointLoopActivationDistance = 2f;
 
 	public static void SetArriveTarget(SteeringController steeringController, Vector3 target)
 	{
@@ -20,7 +20,7 @@ public static class SteeringUtils
 
 		if (steeringController.PathFollowing.Path.Waypoints.Count > 1)
 		{
-			if (Vector3.Distance(waypoint, steeringController.PathFollowing.Path.Waypoints[0]) < kEnableWaypointLoopDistance)
+			if (Vector3.Distance(waypoint, steeringController.PathFollowing.Path.Waypoints[0]) < kWaypointLoopActivationDistance)
 			{
 				steeringController.PathFollowing.Path.Loop = true;
 			}

@@ -263,7 +263,7 @@ public class SteeringController : MonoBehaviour
 
 		if (PathFollowing.Path.Waypoints.Count > 0)
 		{
-			Gizmos.DrawWireSphere(PathFollowing.Path.Waypoints[0], SteeringUtils.kEnableWaypointLoopDistance);
+			Gizmos.DrawWireSphere(PathFollowing.Path.Waypoints[0], SteeringUtils.kWaypointLoopActivationDistance);
         }
 	}
 
