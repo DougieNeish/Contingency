@@ -9,8 +9,6 @@ public class UnitController : MonoBehaviour
 	public delegate void SelectedUnitsEventHandler(List<GameObject> selectedUnits);
 	public static event SelectedUnitsEventHandler OnSelectedUnitsUpdated;
 
-	private const float kEnableWaypointLoopDistance = 2f;
-
 	public List<GameObject> Units
 	{
 		get
