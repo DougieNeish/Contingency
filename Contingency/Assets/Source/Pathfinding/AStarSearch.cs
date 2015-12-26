@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System;
+using UnityEngine.Assertions;
 using System.Collections.Generic;
 
 public class AStarSearch
@@ -28,7 +28,7 @@ public class AStarSearch
 			m_runningCost[i] = 0f;
 		}
 
-		// Move into above for loop if m_nodeCount == graph.Nodes.Length (which it should)?
+		// TODO: Move into above for loop if m_nodeCount == graph.Nodes.Length (which it should)?
 		// Replace with data structure in A star class instead of nodes to allow concurrent searches
 		for (int i = 0; i < graph.Nodes.Length; i++)
 		{
@@ -39,11 +39,9 @@ public class AStarSearch
 		m_closedList.Clear();
 
 		// Add start node to running cost
-		//m_runningCost.Add(startNode, 0f);
 		m_runningCost[startNode.Index] = 0f; // not required due to above for loop init?
 
 		// Add target node to the open list
-		//m_openList[0] = startNode;
 		m_openList.Add(startNode);
 
 		GraphNode currentNode;
@@ -71,7 +69,9 @@ public class AStarSearch
 			// If current node equals target node end search
 			if (currentNode.Index == targetNode.Index)
 			{
-				break;
+				Debug.Log("<color=green>Target node found</color>");
+				return GetPathFromParents(startNode, targetNode);
+				//break;
 			}
 
 			// Add current node to the first empty slot in the closed list
@@ -86,6 +86,7 @@ public class AStarSearch
 
 			GraphNode nextNode;
 			float cost;
+
 			// Loop through all neighbours of current node
 			Profiler.BeginSample("Loop through neighbours");
 			foreach (GraphEdge edge in currentNode.Edges)
@@ -96,10 +97,15 @@ public class AStarSearch
 				}
 
 				nextNode = edge.To;
+
+				if (nextNode == null || !nextNode.Enabled)
+				{
+					continue;
+				}
+
 				cost = m_runningCost[currentNode.Index] + edge.Cost;
 
 				// If in open list and cost is less than running cost to neighbour, remove from open list because new path is better
-				//if (m_openList[currentNode.Index] != null && cost < m_runningCost[nextNode.Index])
 				Profiler.BeginSample("Check open list contains node");
 				if (m_openList.Contains(currentNode) && cost < m_runningCost[nextNode.Index])
 				{
@@ -110,7 +116,6 @@ public class AStarSearch
 				Profiler.EndSample();
 
 				// If in closed list and cost is less than running cost to neighbour, remove from closed list because new path is better
-				//if (m_closedList[currentNode.Index] != null && cost < m_runningCost[nextNode.Index])
 				if (m_closedList.Contains(currentNode) && cost < m_runningCost[nextNode.Index])
 				{
 					m_closedList.Remove(currentNode);
@@ -129,6 +134,7 @@ public class AStarSearch
 				}
 				Profiler.EndSample();
 
+				// Temporary for profiling
 				//Profiler.BeginSample("Not in closed list");
 				//bool inClosedList = m_closedList.Contains(nextNode);
 				//Profiler.EndSample();
@@ -158,23 +164,10 @@ public class AStarSearch
 			Profiler.EndSample();
 		}
 
-		// Retrace parents to create list from target to start node
-		GraphNode node = targetNode;
-		List<GraphNode> pathFromTarget = new List<GraphNode>();
-		
-		while (node != startNode) // Add null check?
-		{
-			pathFromTarget.Add(node);
-			node = node.Parent;
-		}
-
-		// Reverse path so it goes from start node to target
-		pathFromTarget.Reverse();
-
+		// Adding a return above if target node found may have broken profiling? Might not stop at end of A* search?
 		Profiler.EndSample();
-
-		return pathFromTarget.ToArray();
-		//return new GraphNode[0];
+		Debug.Log("<color=red>Target not node found</color>");
+		return null;
 	}
 
 	public GraphNode[] Search(Graph graph, Vector3 startPosition, Vector3 targetPosition)
@@ -189,6 +182,24 @@ public class AStarSearch
 		float dx = Mathf.Abs(nodePosition.x - targetPosition.x);
 		float dz = Mathf.Abs(nodePosition.z - targetPosition.z);
 		return GraphUtils.baseMovementCost * (dx + dz) + (GraphUtils.sqrt2 - 2 * GraphUtils.baseMovementCost) * Mathf.Min(dx, dz);
+	}
+
+	private GraphNode[] GetPathFromParents(GraphNode startNode, GraphNode targetNode)
+	{
+		GraphNode currentNode = targetNode;
+		List<GraphNode> pathFromTarget = new List<GraphNode>();
+
+		// Retrace parents to create list from target to start node
+		while (currentNode != startNode) // Add null check?
+		{
+			pathFromTarget.Add(currentNode);
+			currentNode = currentNode.Parent;
+			Assert.IsNotNull(currentNode, "Parent node is null");
+		}
+
+		// Reverse path so it goes from start node to target
+		pathFromTarget.Reverse();
+		return pathFromTarget.ToArray();
 	}
 
 	private bool NodeArrayContains(GraphNode[] nodeArray, GraphNode node)
