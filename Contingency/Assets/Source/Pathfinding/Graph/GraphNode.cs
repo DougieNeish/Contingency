@@ -5,6 +5,9 @@ public class GraphNode
 	private int m_index;
 	private Vector3 m_position;
 	private bool m_enabled;
+
+	// m_edges always has length kMaxEdges and should never be set to null
+	// If an edge does not exist its position in the array is null
 	private GraphEdge[] m_edges;
 
 	private GraphNode m_parent;
@@ -53,30 +56,37 @@ public class GraphNode
 	public void Enable()
 	{
 		m_enabled = true;
-		m_edges = new GraphEdge[kMaxEdges];
+
+		// TODO: Add edges to enabled neighbouring nodes
 	}
 
 	public void Disable()
 	{
 		m_enabled = false;
 
+		// Loop through all the node's edges
 		for (int i = 0; i < m_edges.Length; i++)
 		{
-			if (m_edges[i] != null && m_edges[i].To.Index != kInvalidIndex)
+			// If edge is not null and points to a valid node index
+			if (m_edges[i] != null &&
+				m_edges[i].To.Index != kInvalidIndex)
 			{
-				GraphNode otherNode = m_edges[i].To;
+				GraphNode neighbour = m_edges[i].To;
 
-				for (int j = 0; j < otherNode.Edges.Length; j++)
+				// Loop through the neighbour's edges to find the edge that points to this node
+				for (int j = 0; j < neighbour.Edges.Length; j++)
 				{
-					if (otherNode.Edges[j] != null &&
-						otherNode.Edges[j].To.Index == m_edges[i].From.Index)
+					// If node is not null and is the current node
+					if (neighbour.Edges[j] != null &&
+						neighbour.Edges[j].To.Index == m_index)
 					{
-						otherNode.Edges[j].To.Index = kInvalidIndex;
+						// Set edge that points to this node to null
+						neighbour.Edges[j] = null;
 					}
 				}
 
-				m_edges[i].To.Index = kInvalidIndex;
-				m_edges[i].From.Index = kInvalidIndex;
+				// Set current edge to null
+				m_edges[i] = null;
 			}
 		}
 	}
