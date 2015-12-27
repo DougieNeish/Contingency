@@ -173,6 +173,10 @@ public class AStarSearch
 		// Adding a return above if target node found may have broken profiling? Might not stop at end of A* search?
 		Profiler.EndSample();
 		Debug.Log("<color=red>Target not node found</color>");
+
+		// Clear return lists as search did not find valid path
+		m_nodePath.Clear();
+		m_waypoints.Clear();
 		return null;
 	}
 
@@ -183,6 +187,16 @@ public class AStarSearch
 
 		Search(graph, startNode, targetNode);
 		return m_waypoints.ToArray();
+	}
+
+	public GraphNode[] NodePath
+	{
+		get { return m_nodePath.ToArray(); }
+	}
+
+	public Vector3[] Waypoints
+	{
+		get { return m_waypoints.ToArray(); }
 	}
 
 	private float DiagonalDistance(Vector3 nodePosition, Vector3 targetPosition)
