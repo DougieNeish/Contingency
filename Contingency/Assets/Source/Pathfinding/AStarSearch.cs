@@ -9,12 +9,19 @@ public class AStarSearch
 	private HashSet<GraphNode> m_closedList;
 	private float[] m_runningCost;
 
+	// Waypoints are cached and stored separately so only one iteration is required
+	private List<GraphNode> m_nodePath;
+	private List<Vector3> m_waypoints;
+
 	public AStarSearch(int nodeCount)
 	{
 		m_nodeCount = nodeCount;
 		m_openList = new HashSet<GraphNode>();
 		m_closedList = new HashSet<GraphNode>();
 		m_runningCost = new float[nodeCount];
+
+		m_nodePath = new List<GraphNode>();
+		m_waypoints = new List<Vector3>();
 	}
 
 	public GraphNode[] Search(Graph graph, GraphNode startNode, GraphNode targetNode)
@@ -71,7 +78,6 @@ public class AStarSearch
 			{
 				Debug.Log("<color=green>Target node found</color>");
 				return GetPathFromParents(startNode, targetNode);
-				//break;
 			}
 
 			// Add current node to the first empty slot in the closed list
@@ -170,11 +176,13 @@ public class AStarSearch
 		return null;
 	}
 
-	public GraphNode[] Search(Graph graph, Vector3 startPosition, Vector3 targetPosition)
+	public Vector3[] Search(Graph graph, Vector3 startPosition, Vector3 targetPosition)
 	{
 		GraphNode startNode = graph.GetNodeNearestToPosition(startPosition);
 		GraphNode targetNode = graph.GetNodeNearestToPosition(targetPosition);
-		return Search(graph, startNode, targetNode);
+
+		Search(graph, startNode, targetNode);
+		return m_waypoints.ToArray();
 	}
 
 	private float DiagonalDistance(Vector3 nodePosition, Vector3 targetPosition)
@@ -186,20 +194,26 @@ public class AStarSearch
 
 	private GraphNode[] GetPathFromParents(GraphNode startNode, GraphNode targetNode)
 	{
+		m_nodePath.Clear();
+		m_waypoints.Clear();
+
 		GraphNode currentNode = targetNode;
-		List<GraphNode> pathFromTarget = new List<GraphNode>();
 
 		// Retrace parents to create list from target to start node
 		while (currentNode != startNode) // Add null check?
 		{
-			pathFromTarget.Add(currentNode);
+			m_nodePath.Add(currentNode);
+			m_waypoints.Add(currentNode.Position);
+
 			currentNode = currentNode.Parent;
 			Assert.IsNotNull(currentNode, "Parent node is null");
 		}
 
 		// Reverse path so it goes from start node to target
-		pathFromTarget.Reverse();
-		return pathFromTarget.ToArray();
+		m_nodePath.Reverse();
+		m_waypoints.Reverse();
+
+		return m_nodePath.ToArray();
 	}
 
 	//private bool IsNodeInArray(GraphNode[] nodeArray, GraphNode node)

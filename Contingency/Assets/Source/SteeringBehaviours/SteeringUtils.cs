@@ -40,6 +40,14 @@ public static class SteeringUtils
 		steeringController.TurnOnBehaviour(SteeringController.BehaviourType.PathFollowing);
 	}
 
+	public static void AddWaypoints(SteeringController steeringController, Vector3[] waypoints)
+	{
+		for (int i = 0; i < waypoints.Length; i++)
+		{
+			AddWaypoint(steeringController, waypoints[i], (i == waypoints.Length - 1), (i == 1));
+		}
+	}
+
 	public static void SetFlocking(SteeringController steeringController, List<GameObject> neighbours)
 	{
 		steeringController.SetNeighbouringUnits(neighbours);

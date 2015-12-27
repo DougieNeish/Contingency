@@ -81,14 +81,13 @@ public class UnitController : MonoBehaviour
 					else
 					{
 						AStarSearch search = new AStarSearch(PathfindingController.Instance.CellCount);
-						GraphNode[] nodePath = search.Search(PathfindingController.Instance.NavGraph, m_selectedUnits[0].transform.position, hitInfo.point);
-
-						steeringController.PathFollowing.Path.Loop = false;
-						// I'm looping in AStarSearch.Search to make the node path and again here to get their positions. Just loop once?
-						//foreach (GraphNode node in nodePath)
-						for (int i = 0; i < nodePath.Length; i++)
+						Vector3[] waypoints = search.Search(PathfindingController.Instance.NavGraph, m_selectedUnits[0].transform.position, hitInfo.point);
+						
+						// If a path to the target was found, add the path as waypoints
+						if (waypoints != null)
 						{
-							SteeringUtils.AddWaypoint(steeringController, nodePath[i].Position, (i == nodePath.Length - 1), (i == 1));
+							steeringController.PathFollowing.Path.Loop = false;
+							SteeringUtils.AddWaypoints(steeringController, waypoints);
 						}
 					}
 
