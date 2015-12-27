@@ -1,6 +1,5 @@
 ﻿public class GraphEdge
 {
-	// Indexes of GraphNodes the edge connects
 	private GraphNode m_from;
 	private GraphNode m_to;
 	private float m_cost;

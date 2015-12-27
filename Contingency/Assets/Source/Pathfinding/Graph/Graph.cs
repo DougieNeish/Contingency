@@ -68,18 +68,6 @@ public class Graph
 		}
 	}
 
-	public void SetEdgeCost(GraphNode from, GraphNode to, float cost)
-	{
-		Assert.IsTrue(from.Index >= 0 && from.Index < m_nodes.Length, "Graph::SetEdgeCost : 'from' node index out of range");
-		Assert.IsTrue(to.Index >= 0 && to.Index < m_nodes.Length, "Graph::SetEdgeCost : 'to' node index out of range");
-
-		if (EdgeExists(from, to))
-		{
-			// I think to.Index might be wrong. Will be in the range 0-10,000 (num of nodes), not 0-8 (num of possible edges)
-			from.Edges[to.Index].Cost = cost;
-		}
-	}
-
 	public int GetNextFreeNodeIndex()
 	{
 		return m_nextNodeIndex;

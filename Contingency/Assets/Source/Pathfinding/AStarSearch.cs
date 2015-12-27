@@ -202,18 +202,18 @@ public class AStarSearch
 		return pathFromTarget.ToArray();
 	}
 
-	private bool NodeArrayContains(GraphNode[] nodeArray, GraphNode node)
-	{
-		for (int i = 0; i < nodeArray.Length; i++)
-		{
-			if (nodeArray[i] == node)
-			{
-				return true;
-			}
-		}
+	//private bool IsNodeInArray(GraphNode[] nodeArray, GraphNode node)
+	//{
+	//	for (int i = 0; i < nodeArray.Length; i++)
+	//	{
+	//		if (nodeArray[i] == node)
+	//		{
+	//			return true;
+	//		}
+	//	}
 
-		return false;
-	}
+	//	return false;
+	//}
 
 	//private GraphNode GetLowestCost(GraphNode[] nodeArray)
 	//{
@@ -226,16 +226,16 @@ public class AStarSearch
 	//	return lowestCost;
 	//}
 
-	private GraphNode GetFirstValidItem(GraphNode[] array)
-	{
-		for (int i = 0; i < array.Length; i++)
-		{
-			if (array[i] != null)
-			{
-				return array[i];
-			}
-		}
+	//private GraphNode GetFirstValidItem(GraphNode[] array)
+	//{
+	//	for (int i = 0; i < array.Length; i++)
+	//	{
+	//		if (array[i] != null)
+	//		{
+	//			return array[i];
+	//		}
+	//	}
 
-		return null;
-	}
+	//	return null;
+	//}
 }

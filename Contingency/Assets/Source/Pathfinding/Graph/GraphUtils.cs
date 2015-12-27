@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 
 public static class GraphUtils
 {
@@ -17,6 +16,7 @@ public static class GraphUtils
 		Vector3 nodePosition = Vector3.zero;
 		float terrainHeightAtNode = 0f;
 		
+		// Add nodes
 		for (int row = 0; row < numCellsY; row++)
 		{
 			for (int col = 0; col < numCellsX; col++)
@@ -29,6 +29,7 @@ public static class GraphUtils
 			}
 		}
 
+		// Add edges between nodes
 		for (int row = 0; row < numCellsY; row++)
 		{
 			for (int col = 0; col < numCellsX; col++)
