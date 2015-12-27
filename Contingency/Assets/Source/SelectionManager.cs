@@ -24,15 +24,10 @@ public class SelectionManager : MonoBehaviour
 		m_unitController = GetComponent<UnitController>();
 	}
 
-	void Start()
-	{
-		InputManager.OnMouseEvent += SelectionFromMouseEvents; // Moving to OnEnable causes call to InputManager while it's null
-		InputManager.OnMouseDrag += SelectionFromMouseDrag;
-	}
-
 	void OnEnable()
 	{
-		
+		InputManager.OnMouseEvent += SelectionFromMouseEvents;
+		InputManager.OnMouseDrag += SelectionFromMouseDrag;
 	}
 
 	void OnDisable()

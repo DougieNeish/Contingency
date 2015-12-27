@@ -30,16 +30,11 @@ public class UnitController : MonoBehaviour
 		m_ray = InputManager.Ray;
 	}
 
-	void Start()
-	{
-		SelectionManager.OnNoObjectSelected += DeselectUnits;
-        SelectionManager.OnUnitSelected += UpdateSelectedUnitList; // Moving to OnEnable causes call to SelectionManager while it's null
-		InputManager.OnMouseEvent += MouseInput;
-	}
-
 	void OnEnable()
 	{
-		
+		SelectionManager.OnNoObjectSelected += DeselectUnits;
+		SelectionManager.OnUnitSelected += UpdateSelectedUnitList;
+		InputManager.OnMouseEvent += MouseInput;
 	}
 
 	void OnDisable()
