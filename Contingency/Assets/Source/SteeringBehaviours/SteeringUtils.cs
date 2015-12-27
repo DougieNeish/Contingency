@@ -5,13 +5,13 @@ public static class SteeringUtils
 {
 	public const float kWaypointLoopActivationDistance = 2f;
 
-	public static void SetArriveTarget(SteeringController steeringController, Vector3 target)
+	public static void SetArriveTarget(this SteeringController steeringController, Vector3 target)
 	{
 		steeringController.Arrive.TargetPosition = target;
 		steeringController.TurnOnBehaviour(SteeringController.BehaviourType.Arrive);
 	}
 
-	public static void AddWaypoint(SteeringController steeringController, Vector3 waypoint, bool end, bool newPath = false)
+	public static void AddWaypoint(this SteeringController steeringController, Vector3 waypoint, bool end, bool newPath = false)
 	{
 		if (newPath)
 		{
@@ -40,28 +40,28 @@ public static class SteeringUtils
 		steeringController.TurnOnBehaviour(SteeringController.BehaviourType.PathFollowing);
 	}
 
-	public static void AddWaypoints(SteeringController steeringController, Vector3[] waypoints)
+	public static void AddWaypoints(this SteeringController steeringController, Vector3[] waypoints)
 	{
 		for (int i = 0; i < waypoints.Length; i++)
 		{
-			AddWaypoint(steeringController, waypoints[i], (i == waypoints.Length - 1), (i == 1));
+			steeringController.AddWaypoint(waypoints[i], (i == waypoints.Length - 1), (i == 1));
 		}
 	}
 
-	public static void SetFlocking(SteeringController steeringController, List<GameObject> neighbours)
+	public static void SetFlocking(this SteeringController steeringController, List<GameObject> neighbours)
 	{
 		steeringController.SetNeighbouringUnits(neighbours);
 		steeringController.TurnOnBehaviour(SteeringController.BehaviourType.Flocking);
 	}
 
 	// TODO: Need to update ObstacleAvoidance.Obstacles with list of NEARBY obstacles, not just all of them
-	public static void TurnOnObstacleAvoidance(SteeringController steeringController, List<GameObject> obstacles)
+	public static void TurnOnObstacleAvoidance(this SteeringController steeringController, List<GameObject> obstacles)
 	{
-		UpdateObstacleList(steeringController, obstacles);
+		steeringController.UpdateObstacleList(obstacles);
 		steeringController.TurnOnBehaviour(SteeringController.BehaviourType.ObstacleAvoidance);
 	}
 
-	public static void UpdateObstacleList(SteeringController steeringController, List<GameObject> obstacles)
+	public static void UpdateObstacleList(this SteeringController steeringController, List<GameObject> obstacles)
 	{
 		steeringController.ObstacleAvoidance.Obstacles = obstacles;
 	}

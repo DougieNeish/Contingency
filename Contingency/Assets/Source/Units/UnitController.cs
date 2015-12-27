@@ -87,7 +87,7 @@ public class UnitController : MonoBehaviour
 						if (waypoints != null)
 						{
 							steeringController.PathFollowing.Path.Loop = false;
-							SteeringUtils.AddWaypoints(steeringController, waypoints);
+							steeringController.AddWaypoints(waypoints);
 						}
 					}
 
@@ -97,8 +97,8 @@ public class UnitController : MonoBehaviour
 						for (int i = 1; i < m_selectedUnits.Count; i++)
 						{
 							steeringController = m_selectedUnits[i].GetComponent<SteeringController>();
-							// Offset pursuit would probably be better than flocking
-							SteeringUtils.SetFlocking(steeringController, m_selectedUnits);
+							// TODO: Offset pursuit would probably be better than flocking
+							steeringController.SetFlocking(m_selectedUnits);
 						}
 					}
 
