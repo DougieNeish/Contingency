@@ -76,7 +76,7 @@ public class UnitController : MonoBehaviour
 
 					if (Input.GetKey(KeyCode.LeftShift))
 					{
-						//SteeringUtils.AddWaypoint(steeringController, hitInfo.point);
+						steeringController.AddWaypoint(hitInfo.point, true);
 					}
 					else
 					{
