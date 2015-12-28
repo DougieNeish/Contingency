@@ -21,13 +21,17 @@ public class UnitController : MonoBehaviour
 	private List<GameObject> m_units;
 	private List<GameObject> m_selectedUnits;
 
+	private GameObject m_gameManager;
+
 	private Ray m_ray;
 
 	void Awake()
 	{
 		m_units = new List<GameObject>();
 		m_selectedUnits = new List<GameObject>();
-		m_ray = InputManager.Ray;
+
+		m_gameManager = GameObject.FindGameObjectWithTag("GameManager");
+		m_ray = m_gameManager.GetComponent<InputManager>().Ray;
 	}
 
 	void OnEnable()

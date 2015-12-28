@@ -24,10 +24,10 @@ public class InputManager : MonoBehaviour
 	private RaycastHit m_previousHitInfo;
 	private Vector3 m_mouseDownPosition;
 
-	private static Ray m_ray;
+	private Ray m_ray;
 	private RaycastHit m_hitInfo;
 
-	public static Ray Ray
+	public Ray Ray
 	{
 		get { return m_ray; }
 	}
