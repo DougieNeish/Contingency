@@ -64,8 +64,8 @@ public static class GraphUtils
 
 					Vector3 nodePosition = graph.Nodes[nodeIndex].Position;
 					Vector3 neighbourPosition = graph.Nodes[neighbourIndex].Position;
-					// TODO: Do something other than distance?
-					float cost = (rowOffset == 0f || colOffset == 0f) ? baseMovementCost : sqrt2; //Vector3.Distance(nodePosition, neighbourPosition);
+					
+					float cost = (rowOffset == 0f || colOffset == 0f) ? baseMovementCost : sqrt2;
 
 					// Add edges from and to both nodes
 					graph.AddEdge(new GraphEdge(graph.Nodes[nodeIndex], graph.Nodes[neighbourIndex], cost));
