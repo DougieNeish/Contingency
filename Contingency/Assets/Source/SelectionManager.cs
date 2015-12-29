@@ -6,7 +6,7 @@ public class SelectionManager : MonoBehaviour
 	public delegate void ObectNotSelectedEventHandler();
 	public static event ObectNotSelectedEventHandler OnNoObjectSelected;
 
-	public delegate void ObjectSelectedEventHandler(List<GameObject> selectedObjects, bool shiftModifier); // TODO: rename shiftModifier - it's an addTo/RemoveFromCurrentSelection flag
+	public delegate void ObjectSelectedEventHandler(List<GameObject> selectedObjects, bool modifyCurrentSelection);
 	public static event ObjectSelectedEventHandler OnUnitSelected;
 
 	public delegate void MultiSelectionStartEventHandler(Vector3 mouseDownPosition, Vector3 currentMousePosition);

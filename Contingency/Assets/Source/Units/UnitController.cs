@@ -113,7 +113,7 @@ public class UnitController : MonoBehaviour
 		}
 	}
 
-	void UpdateSelectedUnitList(List<GameObject> selectedObjects, bool shiftModifier)
+	void UpdateSelectedUnitList(List<GameObject> selectedObjects, bool modifyCurrentSelection)
 	{
 		if (selectedObjects == null)
 		{
@@ -121,7 +121,7 @@ public class UnitController : MonoBehaviour
 		}
 		else
 		{
-			if (shiftModifier)
+			if (modifyCurrentSelection)
 			{
 				foreach (GameObject unit in selectedObjects)
 				{
