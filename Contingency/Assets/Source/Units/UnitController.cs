@@ -9,6 +9,13 @@ public class UnitController : MonoBehaviour
 	public delegate void SelectedUnitsEventHandler(List<GameObject> selectedUnits);
 	public static event SelectedUnitsEventHandler OnSelectedUnitsUpdated;
 
+	[SerializeField] private GameObject m_unitPrefab;
+	private List<GameObject> m_units;
+	private List<GameObject> m_selectedUnits;
+
+	private GameObject m_gameManager;
+	private Ray m_ray;
+
 	public List<GameObject> Units
 	{
 		get
@@ -17,13 +24,13 @@ public class UnitController : MonoBehaviour
 		}
 	}
 
-	[SerializeField] private GameObject m_unitPrefab;
-	private List<GameObject> m_units;
-	private List<GameObject> m_selectedUnits;
-
-	private GameObject m_gameManager;
-
-	private Ray m_ray;
+	public List<GameObject> SelectedUnits
+	{
+		get
+		{
+			return m_selectedUnits;
+		}
+	}
 
 	void Awake()
 	{
