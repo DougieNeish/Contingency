@@ -7,7 +7,7 @@ public class MouseCursor : MonoBehaviour
 	[SerializeField] private Texture2D m_move2;
 
 	[SerializeField] private Texture2D m_patrol1;
-	[SerializeField] private Texture2D m_patrol;
+	[SerializeField] private Texture2D m_patrol2;
 
 	private bool m_unitsSelected;
 

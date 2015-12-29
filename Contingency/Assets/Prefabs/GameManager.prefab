@@ -8,13 +8,17 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 491310}
+  - 114: {fileID: 11478392}
   - 114: {fileID: 11457958}
   - 114: {fileID: 11420558}
   - 114: {fileID: 11459094}
+  - 114: {fileID: 11434814}
   - 114: {fileID: 11402692}
+  - 114: {fileID: 11430158}
+  - 114: {fileID: 11442574}
   m_Layer: 0
   m_Name: Game
-  m_TagString: Untagged
+  m_TagString: GameManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce9f5f43c0995f940a5ffe77be27a9d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_unitPrefab: {fileID: 191580, guid: f57b4e88d102daf468fce8cab3141710, type: 2}
+  m_unitPrefab: {fileID: 147130, guid: 47b418fe76ffec34a98d6e9d2c215e90, type: 2}
 --- !u!114 &11420558
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -54,6 +58,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cbd33cb270b4b54ea029dc100e48b35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11430158
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 187790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ad0be9a3f7bb9f439ec8b8b0bb4b506, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_terrain: {fileID: 0}
+  m_numCellsX: 100
+  m_numCellsY: 100
+  m_drawNodes: 0
+  m_drawEdges: 0
+--- !u!114 &11434814
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 187790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e05984ab2f4cae74880b71eb69232351, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11442574
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 187790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a72ca22989ff574faf88d7223296a5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_move1: {fileID: 2800000, guid: 67c86fdc82f988d4fb4d0c1f7ca094c1, type: 3}
+  m_move2: {fileID: 2800000, guid: 4e9ed7c71d8e8424d8c98de025a7e734, type: 3}
+  m_patrol1: {fileID: 2800000, guid: d2a1e77f9efbff245a01e50aba07a8b5, type: 3}
+  m_patrol2: {fileID: 2800000, guid: 4e773800947784e4a8de586abab61085, type: 3}
 --- !u!114 &11457958
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -65,7 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82b0ca638e2bf6f49967e660a7b1874a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_mouseDragThreshold: 1
+  m_mouseDragThreshold: 10
 --- !u!114 &11459094
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -77,10 +123,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ded611b7d24bdd48914253f38d9f754, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_lineSegments: 25
-  m_circleRadius: 1.29999995
-  m_circleWidth: .100000001
-  m_selectionBoxBorderThickness: 0
+  m_lineSegments: 50
+  m_circleRadius: 1.3
+  m_circleWidth: 0.3
+  m_selectionBoxBorderThickness: 1.2
+--- !u!114 &11478392
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 187790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 084f1953c96d2b84cab343e1620d810b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
