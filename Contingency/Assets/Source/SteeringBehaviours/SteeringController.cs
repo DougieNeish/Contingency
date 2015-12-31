@@ -39,7 +39,6 @@ public class SteeringController : MonoBehaviour
 
 	[SerializeField] private float m_maxVelocity = 10f;
 	[SerializeField] private float m_maxAcceleration = 10f;
-	private float m_turnSpeed = 20f;
 	private Rigidbody m_rigidbody;
 
 	private List<GameObject> m_units;
@@ -200,12 +199,6 @@ public class SteeringController : MonoBehaviour
 	{
 		get { return m_maxAcceleration; }
 		set { m_maxAcceleration = value; }
-	}
-
-	public float TurnSpeed
-	{
-		get { return m_turnSpeed; }
-		set { m_turnSpeed = value; }
 	}
 
 	public Rigidbody Rigidbody
