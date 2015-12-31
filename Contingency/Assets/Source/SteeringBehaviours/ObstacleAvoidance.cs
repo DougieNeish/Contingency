@@ -4,9 +4,9 @@ using System.Collections.Generic;
 public class ObstacleAvoidance
 {
 	private readonly SteeringController m_steeringController;
-	private List<GameObject> m_obstacles;
+	private HashSet<GameObject> m_obstacles;
 
-	public List<GameObject> Obstacles
+	public HashSet<GameObject> Obstacles
 	{
 		get { return m_obstacles; }
 		set { m_obstacles = value; }
@@ -26,7 +26,7 @@ public class ObstacleAvoidance
 	public ObstacleAvoidance(SteeringController steeringController)
 	{
 		m_steeringController = steeringController;
-		m_obstacles = new List<GameObject>();
+		m_obstacles = new HashSet<GameObject>();
     }
 
 	public Vector3 GetSteeringVector()

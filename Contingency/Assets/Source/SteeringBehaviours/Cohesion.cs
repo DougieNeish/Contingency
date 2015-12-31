@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 public class Cohesion : Seek
 {
-	private List<GameObject> m_neighbours;
+	private HashSet<GameObject> m_neighbours;
 
-	public List<GameObject> Neighbours
+	public HashSet<GameObject> Neighbours
 	{
 		get { return m_neighbours; }
 		set { m_neighbours = value; }
@@ -13,7 +13,7 @@ public class Cohesion : Seek
 
 	public Cohesion(SteeringController steeringController) : base(steeringController)
 	{
-		m_neighbours = new List<GameObject>();
+		m_neighbours = new HashSet<GameObject>();
 	}
 
 	public override Vector3 GetSteeringVector()
