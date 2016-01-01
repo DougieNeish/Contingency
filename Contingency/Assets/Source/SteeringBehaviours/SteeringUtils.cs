@@ -44,7 +44,7 @@ public static class SteeringUtils
 	{
 		for (int i = 0; i < waypoints.Length; i++)
 		{
-			steeringController.AddWaypoint(waypoints[i], (i == waypoints.Length - 1), (i == 1));
+			steeringController.AddWaypoint(waypoints[i], (i == waypoints.Length - 1), (i == 0));
 		}
 	}
 }
