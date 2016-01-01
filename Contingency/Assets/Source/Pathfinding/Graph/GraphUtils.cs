@@ -155,7 +155,6 @@ public static class GraphUtils
 	public static GraphEdge GetEdgeToNode(this GraphNode node1, GraphNode node2)
 	{
 		GraphEdge connectingEdge = null;
-
 		foreach (GraphEdge edge in node1.Edges)
 		{
 			if (edge != null && edge.To.Index == node2.Index)
@@ -228,57 +227,46 @@ public static class GraphUtils
 	// TODO: Fix this abomination
 	private static GraphEdge.EdgeDirection GetEdgeDirectionFromCellOffset(int colOffset, int rowOffset)
 	{
-		switch (colOffset)
+		if (colOffset == 0)
 		{
-			case 0:
-				{
-					if (rowOffset == 1)
-					{
-						return GraphEdge.EdgeDirection.N;
-					}
-					else if (rowOffset == -1)
-					{
-						return GraphEdge.EdgeDirection.S;
-					}
-
-					break;
-				}
-
-			case 1:
-				{
-					if (rowOffset == 0)
-					{
-						return GraphEdge.EdgeDirection.E;
-					}
-					else if (rowOffset == 1)
-					{
-						return GraphEdge.EdgeDirection.NE;
-					}
-					else if (rowOffset == -1)
-					{
-						return GraphEdge.EdgeDirection.SE;
-					}
-
-					break;
-				}
-
-			case -1:
-				{
-					if (rowOffset == 0)
-					{
-						return GraphEdge.EdgeDirection.W;
-					}
-					else if (rowOffset == 1)
-					{
-						return GraphEdge.EdgeDirection.NW;
-					}
-					else if (rowOffset == -1)
-					{
-						return GraphEdge.EdgeDirection.SW;
-					}
-
-					break;
-				}
+			if (rowOffset == 1)
+			{
+				return GraphEdge.EdgeDirection.N;
+			}
+			else if (rowOffset == -1)
+			{
+				return GraphEdge.EdgeDirection.S;
+			}
+		}
+		else if (colOffset == 1)
+		{
+			if (rowOffset == 0)
+			{
+				return GraphEdge.EdgeDirection.E;
+			}
+			else if (rowOffset == 1)
+			{
+				return GraphEdge.EdgeDirection.NE;
+			}
+			else if (rowOffset == -1)
+			{
+				return GraphEdge.EdgeDirection.SE;
+			}
+		}
+		else if (colOffset == -1)
+		{
+			if (rowOffset == 0)
+			{
+				return GraphEdge.EdgeDirection.W;
+			}
+			else if (rowOffset == 1)
+			{
+				return GraphEdge.EdgeDirection.NW;
+			}
+			else if (rowOffset == -1)
+			{
+				return GraphEdge.EdgeDirection.SW;
+			}
 		}
 
 		// Should never get here
