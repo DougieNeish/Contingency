@@ -13,6 +13,8 @@ public class AStarSearch
 	private List<GraphNode> m_nodePath;
 	private List<Vector3> m_waypoints;
 
+	private bool m_simplifyPath;
+
 	public AStarSearch(int nodeCount)
 	{
 		m_nodeCount = nodeCount;
@@ -22,6 +24,8 @@ public class AStarSearch
 
 		m_nodePath = new List<GraphNode>();
 		m_waypoints = new List<Vector3>();
+
+		m_simplifyPath = false;
 	}
 
 	public GraphNode[] Search(Graph graph, GraphNode startNode, GraphNode targetNode)
@@ -213,14 +217,30 @@ public class AStarSearch
 
 		GraphNode currentNode = targetNode;
 
+		GraphEdge.EdgeDirection previousDirection = GraphEdge.EdgeDirection.Null;
+
 		// Retrace parents to create list from target to start node
-		while (currentNode != startNode) // Add null check?
+		while (currentNode != startNode)
 		{
-			m_nodePath.Add(currentNode);
-			m_waypoints.Add(currentNode.Position);
+			if (m_simplifyPath)
+			{
+				GraphEdge connectingEdge = currentNode.GetEdgeToNode(currentNode.Parent);
+				if (connectingEdge.Direction != previousDirection)
+				{
+					m_nodePath.Add(currentNode);
+					m_waypoints.Add(currentNode.Position);
+
+					previousDirection = connectingEdge.Direction;
+				}
+			}
+			else
+			{
+				m_nodePath.Add(currentNode);
+				m_waypoints.Add(currentNode.Position);
+			}
 
 			currentNode = currentNode.Parent;
-			Assert.IsNotNull(currentNode, "Parent node is null");
+			Assert.IsNotNull(currentNode, "GetPathFromParents: Parent node is null");
 		}
 
 		// Reverse path so it goes from start node to target
