@@ -39,10 +39,9 @@ public class SteeringController : MonoBehaviour
 
 	[SerializeField] private float m_maxVelocity = 10f;
 	[SerializeField] private float m_maxAcceleration = 10f;
-	private Rigidbody m_rigidbody;
 
-	private List<GameObject> m_units;
-	private static GameObject[] m_obstacles;
+	private Rigidbody m_rigidbody;
+	private NearSensor m_nearSensor;
 
 #region Properties
 	public Seek Seek
@@ -207,36 +206,55 @@ public class SteeringController : MonoBehaviour
 		set { m_rigidbody = value; }
 	}
 
-	public List<GameObject> Units
-	{
-		get { return m_units; }
-		set { m_units = value; }
-	}
-
-	public static GameObject[] Obstacles
-	{
-		get { return m_obstacles; }
-		set { m_obstacles = value; }
-	}
-
-	// Temp. New class that inherits from SteeringController, that sets m_radius instead?
 	public float Radius
 	{
-		get { return GetComponentInChildren<SphereCollider>().radius; }
+		get
+		{
+			if (GetComponent<SphereCollider>() == null)
+			{
+				Debug.LogWarning("Trying to get the radius of an agent but no SphereCollider was found.");
+			}
+
+			return GetComponent<SphereCollider>().radius;
+		}
 	}
 #endregion
 
 	void Awake()
 	{
 		m_rigidbody = GetComponent<Rigidbody>();
-		m_units = new List<GameObject>();
+		m_nearSensor = GetComponentInChildren<NearSensor>();
 	}
 
 	void Update()
 	{
+		if ((IsBehaviourOn(BehaviourType.ObstacleAvoidance) || 
+			IsBehaviourOn(BehaviourType.Alignment) ||
+			IsBehaviourOn(BehaviourType.Cohesion) ||
+			IsBehaviourOn(BehaviourType.Separation)) &&
+			m_nearSensor == null)
+		{
+			Debug.LogWarning("Trying to use a steering behaviour that requires a NearSensor but one has not been found.");
+		}
+
 		if (IsBehaviourOn(BehaviourType.ObstacleAvoidance))
 		{
-			ObstacleAvoidance.Obstacles = GetNearbyObstacles(m_obstacles);
+			ObstacleAvoidance.Obstacles = m_nearSensor.NearbyObstacles;
+		}
+
+		if (IsBehaviourOn(BehaviourType.Alignment))
+		{
+			Alignment.Neighbours = m_nearSensor.NearbyUnits;
+		}
+
+		if (IsBehaviourOn(BehaviourType.Cohesion))
+		{
+			Cohesion.Neighbours = m_nearSensor.NearbyUnits;
+		}
+
+		if (IsBehaviourOn(BehaviourType.Separation))
+		{
+			Separation.Neighbours = m_nearSensor.NearbyUnits;
 		}
 	}
 
@@ -502,49 +520,11 @@ public class SteeringController : MonoBehaviour
 		return (m_activeBehaviours & behaviour) == behaviour;
 	}
 
-	public void SetNeighbouringUnits(List<GameObject> neighbours)
-	{
-		Alignment.Neighbours = neighbours;
-		Cohesion.Neighbours = neighbours;
-		Separation.Neighbours = neighbours;
-	}
-
-	public List<GameObject> GetNearbyUnits(List<GameObject> units)
-	{
-		const float kNeighbourRange = 6.0f;
-		List<GameObject> neighbours = new List<GameObject>();
-
-		foreach (GameObject unit in units)
-		{
-			if (unit != gameObject && Vector3.Distance(unit.transform.position, transform.position) < kNeighbourRange)
-			{
-				neighbours.Add(unit);
-			}
-		}
-
-		return neighbours;
-	}
-
-	public List<GameObject> GetNearbyObstacles(GameObject[] obstacles)
-	{
-		const float kNeighbourRange = 10.0f;
-		List<GameObject> nearbyObstacles = new List<GameObject>();
-
-		for (int i = 0; i < obstacles.Length; i++)
-		{
-			if (Vector3.Distance(obstacles[i].transform.position, transform.position) < kNeighbourRange)
-			{
-				nearbyObstacles.Add(obstacles[i]);
-			}
-		}
-
-		return nearbyObstacles;
-	}
-
+	// TODO: Move to SteeringUtils?
 	public static float GetBoundingRadius(Transform t)
 	{
 		SphereCollider col = t.GetComponent<SphereCollider>();
-		col = col == null ? t.GetComponentInChildren<SphereCollider>() : col;
+		//col = col == null ? t.GetComponentInChildren<SphereCollider>() : col;
 
 		return Mathf.Max(t.localScale.x, t.localScale.y, t.localScale.z) * col.radius;
 	}

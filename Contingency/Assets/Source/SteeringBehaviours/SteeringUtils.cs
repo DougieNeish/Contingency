@@ -47,22 +47,4 @@ public static class SteeringUtils
 			steeringController.AddWaypoint(waypoints[i], (i == waypoints.Length - 1), (i == 1));
 		}
 	}
-
-	public static void SetFlocking(this SteeringController steeringController, List<GameObject> neighbours)
-	{
-		steeringController.SetNeighbouringUnits(neighbours);
-		steeringController.TurnOnBehaviour(SteeringController.BehaviourType.Flocking);
-	}
-
-	// TODO: Need to update ObstacleAvoidance.Obstacles with list of NEARBY obstacles, not just all of them
-	public static void TurnOnObstacleAvoidance(this SteeringController steeringController, List<GameObject> obstacles)
-	{
-		steeringController.UpdateObstacleList(obstacles);
-		steeringController.TurnOnBehaviour(SteeringController.BehaviourType.ObstacleAvoidance);
-	}
-
-	public static void UpdateObstacleList(this SteeringController steeringController, List<GameObject> obstacles)
-	{
-		steeringController.ObstacleAvoidance.Obstacles = obstacles;
-	}
 }
