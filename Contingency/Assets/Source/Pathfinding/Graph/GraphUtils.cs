@@ -67,9 +67,12 @@ public static class GraphUtils
 					
 					float cost = (rowOffset == 0f || colOffset == 0f) ? baseMovementCost : sqrt2;
 
+					GraphEdge.EdgeDirection direction = GetEdgeDirectionFromCellOffset(colOffset, rowOffset);
+					GraphEdge.EdgeDirection reverseDirection = ReverseDirection(direction);
+
 					// Add edges from and to both nodes
-					graph.AddEdge(new GraphEdge(graph.Nodes[nodeIndex], graph.Nodes[neighbourIndex], cost));
-					graph.AddEdge(new GraphEdge(graph.Nodes[neighbourIndex], graph.Nodes[nodeIndex], cost));
+					graph.AddEdge(new GraphEdge(graph.Nodes[nodeIndex], graph.Nodes[neighbourIndex], cost, direction));
+					graph.AddEdge(new GraphEdge(graph.Nodes[neighbourIndex], graph.Nodes[nodeIndex], cost, reverseDirection));
 				}
 			}
 		}
@@ -149,6 +152,22 @@ public static class GraphUtils
 		return closestNode;
 	}
 
+	public static GraphEdge GetEdgeToNode(this GraphNode node1, GraphNode node2)
+	{
+		GraphEdge connectingEdge = null;
+
+		foreach (GraphEdge edge in node1.Edges)
+		{
+			if (edge != null && edge.To.Index == node2.Index)
+			{
+				connectingEdge = edge;
+				break;
+			}
+		}
+
+		return connectingEdge;
+	}
+
 	public static void RemoveNodesBasedOnTerrainHeight(this Graph graph, Terrain terrain, float maxHeight)
 	{
 		for (int i = 0; i < graph.Nodes.Length; i++)
@@ -204,5 +223,77 @@ public static class GraphUtils
 				}
 			}
 		}
+	}
+
+	// TODO: Fix this abomination
+	private static GraphEdge.EdgeDirection GetEdgeDirectionFromCellOffset(int colOffset, int rowOffset)
+	{
+		switch (colOffset)
+		{
+			case 0:
+				{
+					if (rowOffset == 1)
+					{
+						return GraphEdge.EdgeDirection.N;
+					}
+					else if (rowOffset == -1)
+					{
+						return GraphEdge.EdgeDirection.S;
+					}
+
+					break;
+				}
+
+			case 1:
+				{
+					if (rowOffset == 0)
+					{
+						return GraphEdge.EdgeDirection.E;
+					}
+					else if (rowOffset == 1)
+					{
+						return GraphEdge.EdgeDirection.NE;
+					}
+					else if (rowOffset == -1)
+					{
+						return GraphEdge.EdgeDirection.SE;
+					}
+
+					break;
+				}
+
+			case -1:
+				{
+					if (rowOffset == 0)
+					{
+						return GraphEdge.EdgeDirection.W;
+					}
+					else if (rowOffset == 1)
+					{
+						return GraphEdge.EdgeDirection.NW;
+					}
+					else if (rowOffset == -1)
+					{
+						return GraphEdge.EdgeDirection.SW;
+					}
+
+					break;
+				}
+		}
+
+		// Should never get here
+		return GraphEdge.EdgeDirection.Null;
+	}
+
+	private static GraphEdge.EdgeDirection ReverseDirection(GraphEdge.EdgeDirection direction)
+	{
+		int newDirection = (int)direction + 4;
+
+		if (newDirection > 7)
+		{
+			newDirection -= 8;
+		}
+
+		return (GraphEdge.EdgeDirection)newDirection;
 	}
 }
