@@ -216,7 +216,6 @@ public class AStarSearch
 		m_waypoints.Clear();
 
 		GraphNode currentNode = targetNode;
-
 		GraphEdge.EdgeDirection previousDirection = GraphEdge.EdgeDirection.Null;
 
 		// Retrace parents to create list from target to start node
