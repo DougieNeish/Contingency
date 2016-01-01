@@ -132,21 +132,6 @@ public static class GraphUtils
 		}
 	}
 
-	public static GraphNode[] GetNeighbours(this GraphNode node)
-	{
-		GraphNode[] neighbours = new GraphNode[node.Edges.Length];
-		for (int i = 0; i < node.Edges.Length; i++)
-		{
-			neighbours[i] = node.Edges[i].To;
-		}
-		return neighbours;
-	}
-
-	public static GraphNode GetNodeFromIndex(this Graph graph, int index)
-	{
-		return graph.Nodes[index];
-	}
-
 	public static GraphNode GetNodeNearestToPosition(this Graph graph, Vector3 position)
 	{
 		// TODO: Is there something more efficient than looping through every node checking distance?
