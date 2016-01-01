@@ -14,6 +14,7 @@ public class UnitController : MonoBehaviour
 	private List<GameObject> m_selectedUnits;
 
 	private GameObject m_gameManager;
+	private PathfindingController m_pathfindingController;
 	private Ray m_ray;
 
 	public List<GameObject> Units
@@ -38,6 +39,7 @@ public class UnitController : MonoBehaviour
 		m_selectedUnits = new List<GameObject>();
 
 		m_gameManager = GameObject.FindGameObjectWithTag("GameManager");
+		m_pathfindingController = m_gameManager.GetComponent<PathfindingController>();
 		m_ray = m_gameManager.GetComponent<InputManager>().Ray;
 	}
 
@@ -86,8 +88,8 @@ public class UnitController : MonoBehaviour
 					}
 					else
 					{
-						AStarSearch search = new AStarSearch(PathfindingController.Instance.CellCount);
-						Vector3[] waypoints = search.Search(PathfindingController.Instance.NavGraph, m_selectedUnits[0].transform.position, hitInfo.point);
+						AStarSearch search = new AStarSearch(m_pathfindingController.CellCount);
+						Vector3[] waypoints = search.Search(m_pathfindingController.NavGraph, m_selectedUnits[0].transform.position, hitInfo.point);
 						
 						// If a path to the target was found, add the path as waypoints
 						if (waypoints != null)

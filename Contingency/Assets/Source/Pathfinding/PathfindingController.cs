@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class PathfindingController : Singleton<PathfindingController>
+public class PathfindingController : MonoBehaviour
 {
 	[SerializeField] private Terrain m_terrain;
 	[SerializeField] private int m_numCellsX;
