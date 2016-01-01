@@ -177,7 +177,6 @@ public class UnitController : MonoBehaviour
 				OnUnitCreated(newUnit);
 			}
 
-			//SteeringController.Obstacles = m_units.ToArray();
 			newUnit.GetComponent<SteeringController>().TurnOnBehaviour(SteeringController.BehaviourType.ObstacleAvoidance);
 			Physics.IgnoreCollision(newUnit.GetComponent<SphereCollider>(), GameObject.FindGameObjectWithTag("Terrain").GetComponent<Collider>());
 		}
