@@ -101,12 +101,19 @@ public class UnitController : MonoBehaviour
 
 					if (m_selectedUnits.Count > 1)
 					{
+						//Vector3[] formationPositions = Formations.CalculateSquareFormation(m_selectedUnits.Count, 2f, 2f);
+
 						// Start from 1 as unit 0 is the leader
 						for (int i = 1; i < m_selectedUnits.Count; i++)
 						{
 							steeringController = m_selectedUnits[i].GetComponent<SteeringController>();
-							// TODO: Offset pursuit would probably be better than flocking
-							steeringController.SetFlocking(m_selectedUnits);
+
+							steeringController.TurnOnBehaviour(SteeringController.BehaviourType.Flocking);
+							// TODO: Do I need to add all selected units as neighbours?
+
+							//steeringController.OffsetPursuit.Leader = m_selectedUnits[0].GetComponent<Rigidbody>();
+							//steeringController.OffsetPursuit.Offset = formationPositions[i];
+							//steeringController.TurnOnBehaviour(SteeringController.BehaviourType.OffsetPursuit);
 						}
 					}
 
