@@ -53,18 +53,18 @@ public class Graph
 				}
 			}
 
-			if (!EdgeExists(edge.To, edge.From))
-			{
-				node = edge.To;
-				for (int i = 0; i < node.Edges.Length; i++)
-				{
-					if (node.Edges[i] == null)
-					{
-						node.Edges[i] = ReverseEdge(edge);
-						break;
-					}
-				}
-			}
+			//if (!EdgeExists(edge.To, edge.From))
+			//{
+			//	node = edge.To;
+			//	for (int i = 0; i < node.Edges.Length; i++)
+			//	{
+			//		if (node.Edges[i] == null)
+			//		{
+			//			node.Edges[i] = ReverseEdge(edge);
+			//			break;
+			//		}
+			//	}
+			//}
 		}
 	}
 
@@ -86,8 +86,8 @@ public class Graph
 		return false;
 	}
 
-	private GraphEdge ReverseEdge(GraphEdge edge)
-	{
-		return new GraphEdge(edge.To, edge.From, edge.Cost);
-	}
+	//private GraphEdge ReverseEdge(GraphEdge edge)
+	//{
+	//	return new GraphEdge(edge.To, edge.From, edge.Cost);
+	//}
 }
