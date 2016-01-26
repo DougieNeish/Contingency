@@ -9,13 +9,22 @@ public class UnitController : MonoBehaviour
 	public delegate void SelectedUnitsEventHandler(List<GameObject> selectedUnits);
 	public static event SelectedUnitsEventHandler OnSelectedUnitsUpdated;
 
+	private static int m_nextUnitID;
+
 	[SerializeField] private GameObject m_unitPrefab;
 	private List<GameObject> m_units;
 	private List<GameObject> m_selectedUnits;
 
 	private GameObject m_gameManager;
+	private Player m_player;
 	private PathfindingController m_pathfindingController;
+
 	private Ray m_ray;
+
+	public static int NextUnitID
+	{
+		get { return m_nextUnitID++; }
+	}
 
 	public List<GameObject> Units
 	{
@@ -35,36 +44,55 @@ public class UnitController : MonoBehaviour
 
 	void Awake()
 	{
+		// TODO: This could be an issue if a player is added mid-game and m_nextUnitID is reset to 0
+		m_nextUnitID = 0;
+
 		m_units = new List<GameObject>();
 		m_selectedUnits = new List<GameObject>();
 
 		m_gameManager = GameObject.FindGameObjectWithTag("GameManager");
+		m_player = GetComponent<Player>();
 		m_pathfindingController = m_gameManager.GetComponent<PathfindingController>();
-		m_ray = m_gameManager.GetComponent<InputManager>().Ray;
+
+		if (m_player.Type == Player.PlayerType.Human)
+		{
+			m_ray = GetComponent<InputManager>().Ray;
+		}
 	}
 
 	void OnEnable()
 	{
 		SelectionManager.OnNoObjectSelected += DeselectUnits;
 		SelectionManager.OnUnitSelected += UpdateSelectedUnitList;
-		InputManager.OnMouseEvent += MouseInput;
+
+		if (m_player.Type == Player.PlayerType.Human)
+		{
+			InputManager.OnMouseEvent += MouseInput;
+		}
 	}
 
 	void OnDisable()
 	{
 		SelectionManager.OnNoObjectSelected -= DeselectUnits;
 		SelectionManager.OnUnitSelected -= UpdateSelectedUnitList;
-		InputManager.OnMouseEvent -= MouseInput;
+
+		if (m_player.Type == Player.PlayerType.Human)
+		{
+			InputManager.OnMouseEvent -= MouseInput;
+		}
 	}
 
 	void Update()
 	{
-		m_ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		//Debug.DrawRay(m_ray.origin, m_ray.direction * InputManager.kRaycastLength, Color.cyan);
-
-		if (Input.GetKeyDown(KeyCode.Space))
+		if (m_player.Type == Player.PlayerType.Human)
 		{
-			CreateUnitOnMouse();
+			m_ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			//Debug.DrawRay(m_ray.origin, m_ray.direction * InputManager.kRaycastLength, Color.cyan);
+
+			if (Input.GetKeyDown(KeyCode.Space))
+			{
+				CreateUnitOnMouse();
+			}
 		}
 	}
 

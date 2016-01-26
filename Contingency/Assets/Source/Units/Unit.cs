@@ -2,12 +2,16 @@
 
 public class Unit : MonoBehaviour
 {
-	//public float MaxSpeed;
-	//public float MaxForce;
+	private int m_id;
 
-	void Start()
+	public int ID
 	{
-	
+		get { return m_id; }
+	}
+
+	void Awake()
+	{
+		m_id = UnitController.NextUnitID;
 	}
 	
 	void Update()
