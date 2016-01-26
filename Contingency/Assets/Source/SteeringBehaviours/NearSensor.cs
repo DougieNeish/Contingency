@@ -33,21 +33,29 @@ public class NearSensor : MonoBehaviour
 
 	void OnTriggerEnter(Collider collider)
 	{
-		m_nearbyObstacles.Add(collider.transform.parent.gameObject);
-
-		if (collider.transform.parent.tag == "Unit")
+		// TODO: Why is this sometimes null?
+		if (collider.transform.parent != null)
 		{
-			m_nearbyUnits.Add(collider.transform.parent.gameObject);
+			m_nearbyObstacles.Add(collider.transform.parent.gameObject);
+
+			if (collider.transform.parent.tag == "Unit")
+			{
+				m_nearbyUnits.Add(collider.transform.parent.gameObject);
+			}
 		}
 	}
 
 	void OnTriggerExit(Collider collider)
 	{
-		m_nearbyObstacles.Remove(collider.transform.parent.gameObject);
-
-		if (collider.transform.parent.tag == "Unit")
+		// TODO: Why is this sometimes null?
+		if (collider.transform.parent != null)
 		{
-			m_nearbyUnits.Remove(collider.transform.parent.gameObject);
+			m_nearbyObstacles.Remove(collider.transform.parent.gameObject);
+
+			if (collider.transform.parent.tag == "Unit")
+			{
+				m_nearbyUnits.Remove(collider.transform.parent.gameObject);
+			}
 		}
 	}
 }
