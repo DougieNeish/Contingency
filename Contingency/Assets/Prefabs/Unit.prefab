@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 425250}
   - 135: {fileID: 13569796}
   - 114: {fileID: 11488306}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: NearSensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,7 +212,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_maxVelocity: 6
   m_maxAcceleration: 6
-  m_turnSpeed: 20
 --- !u!114 &11488306
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -329,6 +328,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_maxVelocity
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

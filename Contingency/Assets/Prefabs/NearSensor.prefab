@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 452140}
   - 135: {fileID: 13513184}
   - 114: {fileID: 11488162}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: NearSensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,6 +62,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_IsTrigger
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
