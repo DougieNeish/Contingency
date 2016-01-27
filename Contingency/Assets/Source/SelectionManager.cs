@@ -4,16 +4,16 @@ using System.Collections.Generic;
 public class SelectionManager : MonoBehaviour
 {
 	public delegate void ObectNotSelectedEventHandler();
-	public static event ObectNotSelectedEventHandler OnNoObjectSelected;
+	public event ObectNotSelectedEventHandler OnNoObjectSelected;
 
 	public delegate void ObjectSelectedEventHandler(List<GameObject> selectedObjects, bool modifyCurrentSelection);
-	public static event ObjectSelectedEventHandler OnUnitSelected;
+	public event ObjectSelectedEventHandler OnUnitSelected;
 
 	public delegate void MultiSelectionStartEventHandler(Vector3 mouseDownPosition, Vector3 currentMousePosition);
-	public static event MultiSelectionStartEventHandler OnMultiSelectionStart;
+	public event MultiSelectionStartEventHandler OnMultiSelectionStart;
 
 	public delegate void MultiSelectionEndEventHandler();
-	public static event MultiSelectionEndEventHandler OnMultiSelectionEnd;
+	public event MultiSelectionEndEventHandler OnMultiSelectionEnd;
 
 	private List<GameObject> m_selectedUnits;
 	private UnitController m_unitController;

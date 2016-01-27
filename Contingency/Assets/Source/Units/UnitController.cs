@@ -4,10 +4,13 @@ using System.Collections.Generic;
 public class UnitController : MonoBehaviour
 {
 	public delegate void UnitEventHandler(GameObject unit);
-	public static event UnitEventHandler OnUnitCreated;
+	public event UnitEventHandler OnUnitCreated;
 
 	public delegate void SelectedUnitsEventHandler(List<GameObject> selectedUnits);
-	public static event SelectedUnitsEventHandler OnSelectedUnitsUpdated;
+	public event SelectedUnitsEventHandler OnSelectedUnitsUpdated;
+
+	public delegate void PathEventHandler(int unitID, Vector3 waypoints);
+	public event PathEventHandler OnPathCreated;
 
 	private static int m_nextUnitID;
 
@@ -17,6 +20,7 @@ public class UnitController : MonoBehaviour
 
 	private GameObject m_gameManager;
 	private Player m_player;
+	private SelectionManager m_selectionManager;
 	private PathfindingController m_pathfindingController;
 
 	private Ray m_ray;
@@ -52,47 +56,33 @@ public class UnitController : MonoBehaviour
 
 		m_gameManager = GameObject.FindGameObjectWithTag("GameManager");
 		m_player = GetComponent<Player>();
+		m_selectionManager = GetComponent<SelectionManager>();
 		m_pathfindingController = m_gameManager.GetComponent<PathfindingController>();
-
-		if (m_player.Type == Player.PlayerType.Human)
-		{
-			m_ray = GetComponent<InputManager>().Ray;
-		}
+		m_ray = GetComponent<InputManager>().Ray;
 	}
 
 	void OnEnable()
 	{
-		SelectionManager.OnNoObjectSelected += DeselectUnits;
-		SelectionManager.OnUnitSelected += UpdateSelectedUnitList;
-
-		if (m_player.Type == Player.PlayerType.Human)
-		{
-			InputManager.OnMouseEvent += MouseInput;
-		}
+		m_selectionManager.OnNoObjectSelected += DeselectUnits;
+		m_selectionManager.OnUnitSelected += UpdateSelectedUnitList;
+		InputManager.OnMouseEvent += MouseInput;
 	}
 
 	void OnDisable()
 	{
-		SelectionManager.OnNoObjectSelected -= DeselectUnits;
-		SelectionManager.OnUnitSelected -= UpdateSelectedUnitList;
-
-		if (m_player.Type == Player.PlayerType.Human)
-		{
-			InputManager.OnMouseEvent -= MouseInput;
-		}
+		m_selectionManager.OnNoObjectSelected -= DeselectUnits;
+		m_selectionManager.OnUnitSelected -= UpdateSelectedUnitList;
+		InputManager.OnMouseEvent -= MouseInput;
 	}
 
 	void Update()
 	{
-		if (m_player.Type == Player.PlayerType.Human)
-		{
-			m_ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			//Debug.DrawRay(m_ray.origin, m_ray.direction * InputManager.kRaycastLength, Color.cyan);
+		m_ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		//Debug.DrawRay(m_ray.origin, m_ray.direction * InputManager.kRaycastLength, Color.cyan);
 
-			if (Input.GetKeyDown(KeyCode.Space))
-			{
-				CreateUnitOnMouse();
-			}
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			CreateUnitOnMouse();
 		}
 	}
 

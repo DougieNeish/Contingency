@@ -9,23 +9,25 @@ public class MouseCursor : MonoBehaviour
 	[SerializeField] private Texture2D m_patrol1;
 	[SerializeField] private Texture2D m_patrol2;
 
+	private UnitController m_unitController;
 	private bool m_unitsSelected;
 
 	void Awake()
 	{
+		m_unitController = GetComponent<UnitController>();
 		m_unitsSelected = false;
 	}
 
 	void OnEnable()
 	{
 		InputManager.OnMouseEvent += MouseInput;
-		UnitController.OnSelectedUnitsUpdated += SelectedUnitUpdated;
+		m_unitController.OnSelectedUnitsUpdated += SelectedUnitUpdated;
 	}
 
 	void OnDisable()
 	{
 		InputManager.OnMouseEvent -= MouseInput;
-		UnitController.OnSelectedUnitsUpdated -= SelectedUnitUpdated;
+		m_unitController.OnSelectedUnitsUpdated -= SelectedUnitUpdated;
 	}
 
 	private void MouseInput(InputManager.MouseEventType eventType, RaycastHit hitInfo)

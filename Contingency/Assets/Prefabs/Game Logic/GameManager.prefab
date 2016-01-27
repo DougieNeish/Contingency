@@ -11,7 +11,6 @@ GameObject:
   - 114: {fileID: 11447068}
   - 114: {fileID: 11478392}
   - 114: {fileID: 11430158}
-  - 114: {fileID: 11442574}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameManager
@@ -47,21 +46,6 @@ MonoBehaviour:
   m_numCellsY: 100
   m_drawNodes: 1
   m_drawEdges: 0
---- !u!114 &11442574
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 187790}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a72ca22989ff574faf88d7223296a5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_move1: {fileID: 2800000, guid: 67c86fdc82f988d4fb4d0c1f7ca094c1, type: 3}
-  m_move2: {fileID: 2800000, guid: 4e9ed7c71d8e8424d8c98de025a7e734, type: 3}
-  m_patrol1: {fileID: 2800000, guid: d2a1e77f9efbff245a01e50aba07a8b5, type: 3}
-  m_patrol2: {fileID: 2800000, guid: 4e773800947784e4a8de586abab61085, type: 3}
 --- !u!114 &11447068
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -9,6 +9,7 @@ public class SelectionUIController : MonoBehaviour
 	[SerializeField] private float m_selectionBoxBorderThickness;
 
 	private UnitController m_unitController;
+	private SelectionManager m_selectionManager;
 
 	private Texture2D m_selectionBoxTexture;
 	private Vector3 m_mouseDownPosition;
@@ -18,32 +19,28 @@ public class SelectionUIController : MonoBehaviour
 	void Awake()
 	{
 		m_unitController = GetComponent<UnitController>();
+		m_selectionManager = GetComponent<SelectionManager>();
 
 		m_selectionBoxTexture = new Texture2D(1, 1);
 		m_selectionBoxTexture.SetPixel(0, 0, Color.white);
 		m_selectionBoxTexture.Apply();
 		m_mouseIsDragging = false;
     }
-
-	void Start()
-	{
-		UnitController.OnUnitCreated += SetLineRendererToCircle;
-		UnitController.OnSelectedUnitsUpdated += UpdateSelectionMarkers;
-		SelectionManager.OnMultiSelectionStart += EnableSelectionBox;
-		SelectionManager.OnMultiSelectionEnd += DisableSelectionBox;
-	}
 	
 	void OnEnable()
 	{
-
+		m_unitController.OnUnitCreated += SetLineRendererToCircle;
+		m_unitController.OnSelectedUnitsUpdated += UpdateSelectionMarkers;
+		m_selectionManager.OnMultiSelectionStart += EnableSelectionBox;
+		m_selectionManager.OnMultiSelectionEnd += DisableSelectionBox;
 	}
 
 	void OnDisable()
 	{
-		UnitController.OnUnitCreated -= SetLineRendererToCircle;
-		UnitController.OnSelectedUnitsUpdated -= UpdateSelectionMarkers;
-		SelectionManager.OnMultiSelectionStart -= EnableSelectionBox;
-		SelectionManager.OnMultiSelectionEnd -= DisableSelectionBox;
+		m_unitController.OnUnitCreated -= SetLineRendererToCircle;
+		m_unitController.OnSelectedUnitsUpdated -= UpdateSelectionMarkers;
+		m_selectionManager.OnMultiSelectionStart -= EnableSelectionBox;
+		m_selectionManager.OnMultiSelectionEnd -= DisableSelectionBox;
 	}
 
 	void Update()
