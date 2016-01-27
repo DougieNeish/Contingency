@@ -124,9 +124,21 @@ public class UnitController : MonoBehaviour
 						// Start from 1 as unit 0 is the leader
 						for (int i = 1; i < m_selectedUnits.Count; i++)
 						{
-							steeringController = m_selectedUnits[i].GetComponent<SteeringController>();
+							// TODO: Change this. Temporary A* search for all selected units
+							AStarSearch search = new AStarSearch(m_pathfindingController.CellCount);
+							Vector3[] waypoints = search.Search(m_pathfindingController.NavGraph, m_selectedUnits[i].transform.position, hitInfo.point);
 
-							steeringController.TurnOnBehaviour(SteeringController.BehaviourType.Flocking);
+							// If a path to the target was found, add the path as waypoints
+							if (waypoints != null)
+							{
+								m_selectedUnits[i].GetComponent<SteeringController>().PathFollowing.Path.Loop = false;
+								m_selectedUnits[i].GetComponent<SteeringController>().AddWaypoints(waypoints);
+							}
+
+
+							//steeringController = m_selectedUnits[i].GetComponent<SteeringController>();
+							//steeringController.TurnOnBehaviour(SteeringController.BehaviourType.Flocking);
+
 							// TODO: Do I need to add all selected units as neighbours?
 
 							//steeringController.OffsetPursuit.Leader = m_selectedUnits[0].GetComponent<Rigidbody>();
