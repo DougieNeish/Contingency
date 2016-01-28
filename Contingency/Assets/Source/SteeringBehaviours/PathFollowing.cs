@@ -31,7 +31,7 @@ public class PathFollowing
 
 	public Vector3 GetSteeringVector()
 	{
-		Vector3 vectorToWaypoint = m_steeringController.transform.position - m_path.CurrentWaypoint;
+		Vector3 vectorToWaypoint = m_steeringController.transform.position - m_path.CurrentWaypointPosition;
 		float sqrDistance = vectorToWaypoint.sqrMagnitude;
 
 		if (sqrDistance < SqrArriveRadius)
@@ -49,7 +49,7 @@ public class PathFollowing
 			}
 		}
 
-		return m_steeringController.Arrive.GetSteeringVector(m_path.CurrentWaypoint);
+		return m_steeringController.Arrive.GetSteeringVector(m_path.CurrentWaypointPosition);
 
 		//if (!m_path.Finished())
 		//{

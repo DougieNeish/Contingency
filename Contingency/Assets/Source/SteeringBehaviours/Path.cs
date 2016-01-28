@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 public class Path
 {
+	public delegate void WaypointEventHandler(List<Vector3> waypoints, int currentWaypoint);
+	public event WaypointEventHandler OnWaypointAdded;
+	public event WaypointEventHandler OnCurrentWaypointUpdated;
+
 	private List<Vector3> m_waypoints;
 	private int m_currentWaypoint;
 	private bool m_loop;
@@ -14,7 +18,12 @@ public class Path
 		set { m_waypoints = value; }
 	}
 
-	public Vector3 CurrentWaypoint
+	public int CurrentWaypoint
+	{
+		get { return m_currentWaypoint; }
+	}
+
+	public Vector3 CurrentWaypointPosition
 	{
 		get { return m_waypoints[m_currentWaypoint]; }
 	}
@@ -41,17 +50,33 @@ public class Path
 	public void AddWaypoint(Vector3 newPoint)
 	{
 		m_waypoints.Add(newPoint);
+
+		if (OnWaypointAdded != null)
+		{
+			OnWaypointAdded(m_waypoints, m_currentWaypoint);
+		}
 	}
 
 	public void SetWaypoints(List<Vector3> newPath)
 	{
 		m_waypoints = newPath;
 		m_currentWaypoint = 0;
+
+		if (OnWaypointAdded != null)
+		{
+			OnWaypointAdded(m_waypoints, m_currentWaypoint);
+		}
 	}
+
 	public void SetWaypoints(Path path)
 	{
 		m_waypoints = path.Waypoints;
 		m_currentWaypoint = 0;
+
+		if (OnWaypointAdded != null)
+		{
+			OnWaypointAdded(m_waypoints, m_currentWaypoint);
+		}
 	}
 
 	public void ClearWaypoints()
@@ -59,6 +84,11 @@ public class Path
 		m_waypoints.Clear();
 		m_currentWaypoint = 0;
 		m_finalWaypointSelected = false;
+
+		if (OnCurrentWaypointUpdated != null)
+		{
+			OnCurrentWaypointUpdated(m_waypoints, m_currentWaypoint);
+		}
 	}
 
 	public void SetNextWaypoint()
@@ -77,6 +107,11 @@ public class Path
 					m_finalWaypointSelected = true;
 				}
 			}
+		}
+
+		if (OnCurrentWaypointUpdated != null)
+		{
+			OnCurrentWaypointUpdated(m_waypoints, m_currentWaypoint);
 		}
 	}
 
