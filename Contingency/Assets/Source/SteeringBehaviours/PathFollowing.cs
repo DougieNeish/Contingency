@@ -36,7 +36,17 @@ public class PathFollowing
 
 		if (sqrDistance < SqrArriveRadius)
 		{
-			m_path.SetNextWaypoint();
+			if (m_path.FinalWaypointSelected)
+			{
+				m_path.ClearWaypoints();
+				m_steeringController.TurnOffBehaviour(SteeringController.BehaviourType.PathFollowing);
+				m_steeringController.Rigidbody.velocity = Vector3.zero;
+				return Vector3.zero;
+			}
+			else
+			{
+				m_path.SetNextWaypoint();
+			}
 		}
 
 		return m_steeringController.Arrive.GetSteeringVector(m_path.CurrentWaypoint);
