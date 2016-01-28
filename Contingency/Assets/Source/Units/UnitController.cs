@@ -9,9 +9,6 @@ public class UnitController : MonoBehaviour
 	public delegate void SelectedUnitsEventHandler(List<GameObject> selectedUnits);
 	public event SelectedUnitsEventHandler OnSelectedUnitsUpdated;
 
-	public delegate void PathEventHandler(int unitID, Vector3 waypoints);
-	public event PathEventHandler OnPathCreated;
-
 	private static int m_nextUnitID;
 
 	[SerializeField] private GameObject m_unitPrefab;
@@ -209,6 +206,8 @@ public class UnitController : MonoBehaviour
 		{
 			Vector3 position = new Vector3(hitObject.point.x, hitObject.point.y + 0.7f, hitObject.point.z);
 			GameObject newUnit = Instantiate(m_unitPrefab, position, Quaternion.identity) as GameObject;
+			newUnit.GetComponent<Unit>().Owner = m_player;
+
 			m_units.Add(newUnit);
 
 			if (OnUnitCreated != null)
