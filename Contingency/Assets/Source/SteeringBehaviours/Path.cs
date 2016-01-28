@@ -6,6 +6,7 @@ public class Path
 	private List<Vector3> m_waypoints;
 	private int m_currentWaypoint;
 	private bool m_loop;
+	private bool m_finalWaypointSelected;
 
 	public List<Vector3> Waypoints
 	{
@@ -24,10 +25,17 @@ public class Path
 		set { m_loop = value; }
 	}
 
+	public bool FinalWaypointSelected
+	{
+		get { return m_finalWaypointSelected; }
+		set { m_finalWaypointSelected = value; }
+	}
+
 	public Path()
 	{
 		m_waypoints = new List<Vector3>();
 		m_loop = false;
+		m_finalWaypointSelected = false;
 	}
 
 	public void AddWaypoint(Vector3 newPoint)
@@ -50,6 +58,7 @@ public class Path
 	{
 		m_waypoints.Clear();
 		m_currentWaypoint = 0;
+		m_finalWaypointSelected = false;
 	}
 
 	public void SetNextWaypoint()
@@ -65,6 +74,7 @@ public class Path
 				else
 				{
 					m_currentWaypoint = m_waypoints.Count - 1;
+					m_finalWaypointSelected = true;
 				}
 			}
 		}
