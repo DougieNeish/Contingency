@@ -5,11 +5,11 @@ public static class GraphUtils
 	public static float baseMovementCost = 1f;
 	public static float sqrt2 = Mathf.Sqrt(2);
 
-	public static void CreateGrid(this Graph graph, Terrain terrain, int numCellsX, int numCellsY)
+	public static void CreateGrid(this Graph graph, Terrain terrain)
 	{
 		TerrainData terrainData = terrain.terrainData;
-		float cellWidth = terrainData.size.x / numCellsX;
-		float cellHeight = terrainData.size.z / numCellsY;
+		float cellWidth = terrainData.size.x / graph.NumCellsX;
+		float cellHeight = terrainData.size.z / graph.NumCellsY;
 		float cellXPosition = cellWidth / 2;
 		float cellYPosition = cellHeight / 2;
 
@@ -17,9 +17,9 @@ public static class GraphUtils
 		float terrainHeightAtNode = 0f;
 		
 		// Add nodes
-		for (int row = 0; row < numCellsY; row++)
+		for (int row = 0; row < graph.NumCellsY; row++)
 		{
-			for (int col = 0; col < numCellsX; col++)
+			for (int col = 0; col < graph.NumCellsX; col++)
 			{
 				nodePosition = new Vector3(cellXPosition + (col * cellWidth), 0f, cellYPosition + (row * cellHeight));
 				terrainHeightAtNode = terrain.SampleHeight(nodePosition);
@@ -30,16 +30,16 @@ public static class GraphUtils
 		}
 
 		// Add edges between nodes
-		for (int row = 0; row < numCellsY; row++)
+		for (int row = 0; row < graph.NumCellsY; row++)
 		{
-			for (int col = 0; col < numCellsX; col++)
+			for (int col = 0; col < graph.NumCellsX; col++)
 			{
-				graph.AddEdgesFromNodeToNeighbours(row, col, numCellsX, numCellsY);
+				graph.AddEdgesFromNodeToNeighbours(row, col);
 			}
 		}
 	}
 
-	public static void AddEdgesFromNodeToNeighbours(this Graph graph, int row, int col, int numCellsX, int numCellsY)
+	public static void AddEdgesFromNodeToNeighbours(this Graph graph, int row, int col)
 	{
 		int neighbourCol;
 		int neighbourRow;
@@ -57,10 +57,10 @@ public static class GraphUtils
 				neighbourRow = row + rowOffset;
 				neighbourCol = col + colOffset;
 
-				if (IsValidNodePosition(neighbourCol, neighbourRow, numCellsX, numCellsY))
+				if (IsValidNodePosition(neighbourCol, neighbourRow, graph.NumCellsX, graph.NumCellsY))
 				{
-					int nodeIndex = GetNodeIndexFromGraphCells(row, col, numCellsX);
-					int neighbourIndex = GetNodeIndexFromGraphCells(neighbourRow, neighbourCol, numCellsX);
+					int nodeIndex = GetNodeIndexFromGraphCells(row, col, graph.NumCellsX);
+					int neighbourIndex = GetNodeIndexFromGraphCells(neighbourRow, neighbourCol, graph.NumCellsX);
 
 					Vector3 nodePosition = graph.Nodes[nodeIndex].Position;
 					Vector3 neighbourPosition = graph.Nodes[neighbourIndex].Position;
@@ -178,13 +178,11 @@ public static class GraphUtils
 		}
 	}
 
-	public static void RemoveNodesBasedOnTerrainIncline(this Graph graph, Terrain terrain, float maxIncline, int numCellsX, int numCellsY)
+	public static void RemoveNodesBasedOnTerrainIncline(this Graph graph, Terrain terrain, float maxIncline)
 	{
 		TerrainData terrainData = terrain.terrainData;
-		float cellWidth = terrainData.size.x / numCellsX;
-		float cellHeight = terrainData.size.z / numCellsY;
-		float cellXPosition = cellWidth / 2;
-		float cellYPosition = cellHeight / 2;
+		float cellWidth = terrainData.size.x / graph.NumCellsX;
+		float cellHeight = terrainData.size.z / graph.NumCellsY;
 
 		for (int i = 0; i < graph.Nodes.Length; i++)
 		{
@@ -219,6 +217,30 @@ public static class GraphUtils
 				{
 					graph.Nodes[i].Disable();
 					break;
+				}
+			}
+		}
+	}
+
+	public static void RemoveNodesFromObstacles(this Graph graph, Terrain terrain)
+	{
+		TerrainData terrainData = terrain.terrainData;
+		float cellWidth = terrainData.size.x / graph.NumCellsX;
+		float cellHeight = terrainData.size.z / graph.NumCellsY;
+
+		Bounds bounds = new Bounds(Vector3.zero, new Vector3(cellHeight, 1f, cellHeight));
+		GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
+
+		// Move a bounds object to each node, and check whether it intersects with an obstacle
+		foreach (GraphNode node in graph.Nodes)
+		{
+			bounds.center = node.Position;
+
+			foreach (GameObject obstacle in obstacles)
+			{
+				if (bounds.Intersects(obstacle.GetComponent<Collider>().bounds))
+				{
+					node.Disable();
 				}
 			}
 		}

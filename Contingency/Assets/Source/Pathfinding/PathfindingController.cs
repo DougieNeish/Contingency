@@ -10,7 +10,6 @@ public class PathfindingController : MonoBehaviour
 	[SerializeField] private bool m_drawNodes;
 	[SerializeField] private bool m_drawEdges;
 
-	private int m_cellCount;
 	private Graph m_navGraph;
 
 	public Graph NavGraph
@@ -20,7 +19,7 @@ public class PathfindingController : MonoBehaviour
 
 	public int CellCount
 	{
-		get { return m_cellCount; }
+		get { return m_numCellsX * m_numCellsY; }
 	}
 
 	// Should change based on number of grid cells
@@ -28,15 +27,15 @@ public class PathfindingController : MonoBehaviour
 
 	void Awake()
 	{
-		m_cellCount = m_numCellsX * m_numCellsY;
-		m_navGraph = new Graph(m_cellCount);
+		m_navGraph = new Graph(m_numCellsX, m_numCellsY);
 	}
 
 	void Start()
 	{
 		Vector3 terrainSize = m_terrain.terrainData.size;
-		m_navGraph.CreateGrid(m_terrain, m_numCellsX, m_numCellsY);
-		m_navGraph.RemoveNodesBasedOnTerrainIncline(m_terrain, kNavGraphMaxIncline, m_numCellsX, m_numCellsY);
+		m_navGraph.CreateGrid(m_terrain);
+		m_navGraph.RemoveNodesBasedOnTerrainIncline(m_terrain, kNavGraphMaxIncline);
+		m_navGraph.RemoveNodesFromObstacles(m_terrain);
 		// TODO: Remove groups of nodes isolated from the rest of the nav graph
 	}
 

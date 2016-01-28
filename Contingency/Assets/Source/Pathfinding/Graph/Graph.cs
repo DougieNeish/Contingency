@@ -2,13 +2,27 @@
 
 public class Graph
 {
+	private int m_numCellsX;
+	private int m_numCellsY;
 	private GraphNode[] m_nodes;
 	private int m_nextNodeIndex;
 
-	public Graph(int maxNodes)
+	public Graph(int numCellsX, int numCellsY)
 	{
-		m_nodes = new GraphNode[maxNodes];
+		m_numCellsX = numCellsX;
+		m_numCellsY = numCellsY;
+		m_nodes = new GraphNode[m_numCellsX * m_numCellsY];
 		m_nextNodeIndex = 0;
+	}
+
+	public int NumCellsX
+	{
+		get { return m_numCellsX; }
+	}
+
+	public int NumCellsY
+	{
+		get { return m_numCellsY; }
 	}
 
 	public GraphNode[] Nodes
