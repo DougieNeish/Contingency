@@ -13,30 +13,32 @@ public static class SteeringUtils
 
 	public static void AddWaypoint(this SteeringController steeringController, Vector3 waypoint, bool end, bool newPath = false)
 	{
+		Path path = steeringController.PathFollowing.Path;
+		
 		if (newPath)
 		{
-			steeringController.PathFollowing.Path.ClearWaypoints();
+			path.ClearWaypoints();
 		}
+		//else
+		//{
+		//	if (path.Waypoints.Count > 1)
+		//	{
+		//		if (Vector3.Distance(waypoint, path.Waypoints[path.Waypoints.Count - 1]) < kWaypointLoopActivationDistance)
+		//		{
+		//			path.Loop = true;
+		//		}
+		//	}
+		//}
 
-		if (steeringController.PathFollowing.Path.Waypoints.Count > 1)
+		if (path.Waypoints.Count > 1)
 		{
-			if (Vector3.Distance(waypoint, steeringController.PathFollowing.Path.Waypoints[0]) < kWaypointLoopActivationDistance)
+			if (Vector3.Distance(waypoint, path.Waypoints[0]) < kWaypointLoopActivationDistance)
 			{
-				steeringController.PathFollowing.Path.Loop = true;
+				path.Loop = true;
 			}
 		}
 
-		GameObject waypointMarker = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-		waypointMarker.transform.position = waypoint;
-		waypointMarker.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-		Object.Destroy(waypointMarker.GetComponent<Collider>());
-
-		if (end)
-		{
-			waypointMarker.transform.localScale = new Vector3(1f, 1f, 1f);
-		}
-
-		steeringController.PathFollowing.Path.AddWaypoint(waypoint);
+		path.AddWaypoint(waypoint);
 		steeringController.TurnOnBehaviour(SteeringController.BehaviourType.PathFollowing);
 	}
 
