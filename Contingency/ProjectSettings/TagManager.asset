@@ -8,6 +8,7 @@ TagManager:
   - Building
   - Terrain
   - GameManager
+  - Obstacle
   layers:
   - Default
   - TransparentFX
