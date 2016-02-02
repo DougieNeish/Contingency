@@ -67,8 +67,6 @@ public class SelectionManager : MonoBehaviour
 				{
 					if (hitInfo.transform.tag == "Unit")
 					{
-						Debug.Log(hitInfo.transform.gameObject.GetComponent<Unit>().Owner.ID);
-
 						if (hitInfo.transform.gameObject.GetComponent<Unit>().Owner.ID == m_player.ID)
 						{
 							m_selectedUnits.Add(hitInfo.transform.gameObject);
