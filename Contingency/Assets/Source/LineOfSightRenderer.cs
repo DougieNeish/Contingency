@@ -39,7 +39,7 @@ public class LineOfSightRenderer : MonoBehaviour
 
 	void OnTriggerEnter(Collider other)
 	{
-		if (other.tag == "SightRadius")
+		if (other.tag == "Unit")
 		{
 			m_seenByUnits++;
 		}
@@ -47,7 +47,7 @@ public class LineOfSightRenderer : MonoBehaviour
 
 	void OnTriggerExit(Collider other)
 	{
-		if (other.tag == "SightRadius")
+		if (other.tag == "Unit")
 		{
 			m_seenByUnits--;
 		}
