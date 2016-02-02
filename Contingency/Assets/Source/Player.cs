@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
 	}
 
 	void Awake()
-	{		
-
+	{
+		m_id = Game.NextPlayerID;
 	}
 }
