@@ -53,23 +53,33 @@ public class UnitController : MonoBehaviour
 
 		m_gameManager = GameObject.FindGameObjectWithTag("GameManager");
 		m_player = GetComponent<Player>();
-		m_selectionManager = GetComponent<SelectionManager>();
 		m_pathfindingController = m_gameManager.GetComponent<PathfindingController>();
 		m_ray = GetComponent<InputManager>().Ray;
+
+		if (m_player.Type == Player.PlayerType.Human)
+		{
+			m_selectionManager = GetComponent<SelectionManager>();
+		}
 	}
 
 	void OnEnable()
 	{
-		m_selectionManager.OnNoObjectSelected += DeselectUnits;
-		m_selectionManager.OnUnitSelected += UpdateSelectedUnitList;
-		InputManager.OnMouseEvent += MouseInput;
+		if (m_player.Type == Player.PlayerType.Human)
+		{
+			m_selectionManager.OnNoObjectSelected += DeselectUnits;
+			m_selectionManager.OnUnitSelected += UpdateSelectedUnitList;
+			InputManager.OnMouseEvent += MouseInput;
+		}
 	}
 
 	void OnDisable()
 	{
-		m_selectionManager.OnNoObjectSelected -= DeselectUnits;
-		m_selectionManager.OnUnitSelected -= UpdateSelectedUnitList;
-		InputManager.OnMouseEvent -= MouseInput;
+		if (m_player.Type == Player.PlayerType.Human)
+		{
+			m_selectionManager.OnNoObjectSelected -= DeselectUnits;
+			m_selectionManager.OnUnitSelected -= UpdateSelectedUnitList;
+			InputManager.OnMouseEvent -= MouseInput;
+		}
 	}
 
 	void Update()
@@ -77,10 +87,10 @@ public class UnitController : MonoBehaviour
 		m_ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		//Debug.DrawRay(m_ray.origin, m_ray.direction * InputManager.kRaycastLength, Color.cyan);
 
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-			CreateUnitOnMouse();
-		}
+		//if (Input.GetKeyDown(KeyCode.Space))
+		//{
+		//	CreateUnitOnMouse();
+		//}
 	}
 
 	private void MouseInput(InputManager.MouseEventType eventType, RaycastHit hitInfo)
@@ -199,7 +209,7 @@ public class UnitController : MonoBehaviour
 		}
 	}
 
-	private void CreateUnitOnMouse()
+	public void CreateUnitOnMouse()
 	{
 		RaycastHit hitObject;
 		if (Physics.Raycast(m_ray, out hitObject, InputManager.kRaycastLength))

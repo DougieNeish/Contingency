@@ -45,4 +45,17 @@ public class Game : MonoBehaviour
 			m_players[kMaxHumanPlayers + i] = player.GetComponent<Player>();
 		}
 	}
+
+	void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			m_players[0].GetComponent<UnitController>().CreateUnitOnMouse();
+		}
+
+		if (Input.GetKeyDown(KeyCode.E))
+		{
+			m_players[1].GetComponent<UnitController>().CreateUnitOnMouse();
+		}
+	}
 }
