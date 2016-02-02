@@ -9,13 +9,22 @@ public class MouseCursor : MonoBehaviour
 	[SerializeField] private Texture2D m_patrol1;
 	[SerializeField] private Texture2D m_patrol2;
 
+	[SerializeField] private Texture2D m_attack1;
+	[SerializeField] private Texture2D m_attack2;
+
+	private Player m_player;
 	private UnitController m_unitController;
+
 	private bool m_unitsSelected;
+	private bool m_mouseOverEnemy;
 
 	void Awake()
 	{
+		m_player = GetComponent<Player>();
 		m_unitController = GetComponent<UnitController>();
+
 		m_unitsSelected = false;
+		m_mouseOverEnemy = false;
 	}
 
 	void OnEnable()
@@ -38,7 +47,14 @@ public class MouseCursor : MonoBehaviour
 				{
 					if (m_unitsSelected)
 					{
-						Cursor.SetCursor(m_move2, getCursorCentre(m_move2), CursorMode.ForceSoftware);
+						if (m_mouseOverEnemy)
+						{
+							Cursor.SetCursor(m_attack2, getCursorCentre(m_attack2), CursorMode.ForceSoftware);
+						}
+						else
+						{
+							Cursor.SetCursor(m_move2, getCursorCentre(m_move2), CursorMode.ForceSoftware);
+						}
 					}
 
 					break;
@@ -48,17 +64,49 @@ public class MouseCursor : MonoBehaviour
 				{
 					if (m_unitsSelected)
 					{
-						Cursor.SetCursor(m_move1, getCursorCentre(m_move1), CursorMode.ForceSoftware);
+						if (m_mouseOverEnemy)
+						{
+							Cursor.SetCursor(m_attack1, getCursorCentre(m_attack1), CursorMode.ForceSoftware);
+						}
+						else
+						{
+							Cursor.SetCursor(m_move1, getCursorCentre(m_move1), CursorMode.ForceSoftware);
+						}
 					}
 
 					break;
 				}
 
 			case InputManager.MouseEventType.OnMouseOverEnter:
-				break;
+				{
+					if (m_unitsSelected)
+					{
+						if (hitInfo.transform.tag == "Unit")
+						{
+							if (hitInfo.transform.gameObject.GetComponent<Unit>().Owner.ID != m_player.ID)
+							{
+								Cursor.SetCursor(m_attack1, getCursorCentre(m_attack1), CursorMode.ForceSoftware);
+								m_mouseOverEnemy = true;
+							}
+						}
+					}
+					break;
+				}
 
 			case InputManager.MouseEventType.OnMouseOverExit:
-				break;
+				{
+					// if some shit
+					if (m_unitsSelected)
+					{
+						Cursor.SetCursor(m_move1, getCursorCentre(m_move1), CursorMode.ForceSoftware);
+						m_mouseOverEnemy = false;
+					}
+					else
+					{
+						Cursor.SetCursor(null, Vector2.zero, CursorMode.ForceSoftware);
+					}
+					break;
+				}
 
 			default:
 				break;
