@@ -83,7 +83,7 @@ public class UnitController : MonoBehaviour
 		}
 	}
 
-	void MouseInput(InputManager.MouseEventType eventType, RaycastHit hitInfo)
+	private void MouseInput(InputManager.MouseEventType eventType, RaycastHit hitInfo)
 	{
 		switch (eventType)
 		{
@@ -149,7 +149,7 @@ public class UnitController : MonoBehaviour
 		}
 	}
 
-	void UpdateSelectedUnitList(List<GameObject> selectedObjects, bool modifyCurrentSelection)
+	private void UpdateSelectedUnitList(List<GameObject> selectedObjects, bool modifyCurrentSelection)
 	{
 		if (selectedObjects == null)
 		{
