@@ -15,6 +15,8 @@ public class SelectionManager : MonoBehaviour
 	public delegate void MultiSelectionEndEventHandler();
 	public event MultiSelectionEndEventHandler OnMultiSelectionEnd;
 
+	private Player m_player;
+
 	private List<GameObject> m_selectedUnits;
 	private UnitController m_unitController;
 
@@ -26,6 +28,8 @@ public class SelectionManager : MonoBehaviour
 
 	void Awake()
 	{
+		m_player = GetComponent<Player>();
+
 		m_selectedUnits = new List<GameObject>();
 		m_unitController = GetComponent<UnitController>();
 
@@ -63,7 +67,12 @@ public class SelectionManager : MonoBehaviour
 				{
 					if (hitInfo.transform.tag == "Unit")
 					{
-						m_selectedUnits.Add(hitInfo.transform.gameObject);
+						Debug.Log(hitInfo.transform.gameObject.GetComponent<Unit>().Owner.ID);
+
+						if (hitInfo.transform.gameObject.GetComponent<Unit>().Owner.ID == m_player.ID)
+						{
+							m_selectedUnits.Add(hitInfo.transform.gameObject);
+						}
 					}
 					else
 					{
@@ -115,7 +124,9 @@ public class SelectionManager : MonoBehaviour
 		{
 			bool alreadySelected = m_selectedUnits.Contains(unit);
 
-			if (!alreadySelected && IsObjectWithinSelectionBounds(unit, mouseDownPosition, currentMousePosition))
+			if (!alreadySelected &&
+				IsObjectWithinSelectionBounds(unit, mouseDownPosition, currentMousePosition) &&
+				unit.GetComponent<Unit>().Owner.ID == m_player.ID)
 			{
 				m_selectedUnits.Add(unit);
             }
