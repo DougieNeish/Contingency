@@ -35,12 +35,14 @@ public class Game : MonoBehaviour
 		{
 			player = Instantiate(m_humanPlayerPrefab, Vector3.zero, Quaternion.identity) as GameObject;
 			player.transform.SetParent(gameObject.transform);
+			m_players[i] = player.GetComponent<Player>();
 		}
 
 		for (int i = 0; i < kMaxAIPlayers; i++)
 		{
 			player = Instantiate(m_AIPlayerPrefab, Vector3.zero, Quaternion.identity) as GameObject;
 			player.transform.SetParent(gameObject.transform);
+			m_players[kMaxHumanPlayers + i] = player.GetComponent<Player>();
 		}
 	}
 }
