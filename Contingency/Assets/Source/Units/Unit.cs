@@ -4,15 +4,20 @@ using System;
 
 public class Unit : MonoBehaviour, IDamageable, IAttacker
 {
+	public delegate void UnitKilledEventHandler(GameObject unit);
+	public event UnitKilledEventHandler OnUnitKilled;
+
 	private int m_id;
-	[SerializeField] private Player m_owner;
+	private Player m_owner;
 	private Renderer m_renderer;
 	private SteeringController m_steeringController;
 
 	private float m_health;
+	private IDamageable m_currentTarget;
 	[SerializeField] private float m_sightRadius;
 	[SerializeField] private float m_attackRange;
-	private IDamageable m_currentTarget;
+	[SerializeField] private float m_attackDamage;
+	[SerializeField] private float m_attackSpeed;
 
 	public int ID
 	{
@@ -58,6 +63,16 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 	{
 		get { return m_attackRange; }
 	}
+
+	public float AttackDamage
+	{
+		get { return m_attackDamage; }
+	}
+
+	public float AttackSpeed
+	{
+		get { return m_attackSpeed; }
+	}
 	#endregion
 
 	void Awake()
@@ -77,10 +92,9 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 
 	void Update()
 	{
-		if (m_currentTarget != null)
+		if (m_health <= 0f)
 		{
-			Vector3 direction = m_currentTarget.transform.position - transform.position;
-			Debug.DrawRay(transform.position, direction, Color.cyan);
+			StartCoroutine(DeathActions());
 		}
 	}
 
@@ -93,7 +107,7 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 
 	public virtual void TakeDamage(float damage)
 	{
-		Debug.LogError("Unit.TakeDamage() is not implemented");
+		m_health -= damage;
 	}
 
 	public virtual void Attack(IDamageable target)
@@ -112,7 +126,22 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 
 	protected virtual IEnumerator AttackActions()
 	{
-		// TODO: Unit attack action... laser line renderer?
+		while (m_currentTarget.Health > 0)
+		{
+			m_currentTarget.TakeDamage(m_attackDamage);
+			yield return new WaitForSeconds(m_attackSpeed);
+		}
+	}
+
+	protected virtual IEnumerator DeathActions()
+	{
+		Destroy(gameObject);
+
+		if (OnUnitKilled != null)
+		{
+			OnUnitKilled(gameObject);
+		}
+
 		yield return null;
 	}
 }

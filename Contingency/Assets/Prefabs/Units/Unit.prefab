@@ -259,9 +259,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a43b8a04f67cca34ebcd600afae44e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_owner: {fileID: 0}
   m_sightRadius: 60
   m_attackRange: 30
+  m_attackDamage: 5
+  m_attackSpeed: 1
 --- !u!114 &11448678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -493,6 +494,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_attackRange
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_attackDamage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_attackSpeed
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

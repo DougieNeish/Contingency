@@ -81,6 +81,11 @@ public class UnitController : MonoBehaviour
 			m_selectionManager.OnUnitSelected -= UpdateSelectedUnitList;
 			InputManager.OnMouseEvent -= MouseInput;
 		}
+
+		foreach (GameObject unit in m_units)
+		{
+			unit.GetComponent<Unit>().OnUnitKilled -= HandleUnitDeath;
+		}
 	}
 
 	void Update()
@@ -257,6 +262,12 @@ public class UnitController : MonoBehaviour
 		unit.Attack(target);
 	}
 
+	private void HandleUnitDeath(GameObject unit)
+	{
+		m_units.Remove(unit);
+		m_selectedUnits.Remove(unit);
+	}
+
 	public void CreateUnitOnMouse()
 	{
 		RaycastHit hitObject;
@@ -264,7 +275,10 @@ public class UnitController : MonoBehaviour
 		{
 			Vector3 position = new Vector3(hitObject.point.x, hitObject.point.y + 0.7f, hitObject.point.z);
 			GameObject newUnit = Instantiate(m_unitPrefab, position, Quaternion.identity) as GameObject;
-			newUnit.GetComponent<Unit>().Owner = m_player;
+
+			Unit unit = newUnit.GetComponent<Unit>();
+			unit.Owner = m_player;
+			unit.OnUnitKilled += HandleUnitDeath;
 
 			m_units.Add(newUnit);
 
