@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class UnitController : MonoBehaviour
 {
-	public delegate void UnitEventHandler(GameObject unit);
-	public event UnitEventHandler OnUnitCreated;
+	public delegate void UnitSpawnedEventHandler(GameObject unit);
+	public event UnitSpawnedEventHandler OnUnitSpawned;
 
 	public delegate void SelectedUnitsEventHandler(List<GameObject> selectedUnits);
 	public event SelectedUnitsEventHandler OnSelectedUnitsUpdated;
@@ -282,9 +282,9 @@ public class UnitController : MonoBehaviour
 
 			m_units.Add(newUnit);
 
-			if (OnUnitCreated != null)
+			if (OnUnitSpawned != null)
 			{
-				OnUnitCreated(newUnit);
+				OnUnitSpawned(newUnit);
 			}
 
 			//newUnit.GetComponent<SteeringController>().TurnOnBehaviour(SteeringController.BehaviourType.ObstacleAvoidance);

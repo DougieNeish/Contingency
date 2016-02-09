@@ -29,7 +29,7 @@ public class SelectionUIController : MonoBehaviour
 	
 	void OnEnable()
 	{
-		m_unitController.OnUnitCreated += SetLineRendererToCircle;
+		m_unitController.OnUnitSpawned += SetLineRendererToCircle;
 		m_unitController.OnSelectedUnitsUpdated += UpdateSelectionMarkers;
 		m_selectionManager.OnMultiSelectionStart += EnableSelectionBox;
 		m_selectionManager.OnMultiSelectionEnd += DisableSelectionBox;
@@ -37,7 +37,7 @@ public class SelectionUIController : MonoBehaviour
 
 	void OnDisable()
 	{
-		m_unitController.OnUnitCreated -= SetLineRendererToCircle;
+		m_unitController.OnUnitSpawned -= SetLineRendererToCircle;
 		m_unitController.OnSelectedUnitsUpdated -= UpdateSelectionMarkers;
 		m_selectionManager.OnMultiSelectionStart -= EnableSelectionBox;
 		m_selectionManager.OnMultiSelectionEnd -= DisableSelectionBox;
