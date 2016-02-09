@@ -91,18 +91,6 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 		m_currentTarget = null;
 	}
 
-	//public virtual void Attack(GameObject target)
-	//{
-	//	Debug.Log("Pew pew pew");
-
-	//	if (target != m_currentTarget)
-	//	{
-	//		Stop();
-	//		m_currentTarget = target;
-	//		StartCoroutine(AttackActions());
-	//	}
-	//}
-
 	public virtual void TakeDamage(float damage)
 	{
 		Debug.LogError("Unit.TakeDamage() is not implemented");
