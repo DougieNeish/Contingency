@@ -127,9 +127,4 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 		// TODO: Unit attack action... laser line renderer?
 		yield return null;
 	}
-
-	void IAttacker.Attack(IDamageable target)
-	{
-		throw new NotImplementedException();
-	}
 }
