@@ -260,7 +260,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_owner: {fileID: 0}
-  m_sightRadius: 30
+  m_sightRadius: 60
+  m_attackRange: 30
 --- !u!114 &11448678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -483,11 +484,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_sightRadius
-      value: 30
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_IsTrigger
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_attackRange
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

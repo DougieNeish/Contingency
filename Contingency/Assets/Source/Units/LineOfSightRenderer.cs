@@ -39,7 +39,7 @@ public class LineOfSightRenderer : MonoBehaviour
 
 	void OnTriggerEnter(Collider other)
 	{
-		if (other.tag == "Unit")
+		if (other.tag == "Unit")// && HasDirectLineOfSight(gameObject, other.gameObject))
 		{
 			m_seenByUnits++;
 		}
@@ -52,4 +52,18 @@ public class LineOfSightRenderer : MonoBehaviour
 			m_seenByUnits--;
 		}
 	}
+
+	// TODO: FINISH ME
+	//private bool HasDirectLineOfSight(GameObject unit, GameObject target)
+	//{
+	//	Vector3 direction = target.transform.position - unit.transform.position;
+	//	RaycastHit hit;
+	//	//Debug.DrawRay(unit.transform.position, direction, Color.cyan, 5f);
+	//	if (Physics.Raycast(unit.transform.position, direction, out hit, unit.AttackRange))
+	//	{
+	//		return hit.transform == target.transform;
+	//	}
+
+	//	return false;
+	//}
 }

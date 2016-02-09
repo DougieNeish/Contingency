@@ -11,7 +11,7 @@ public static class SteeringUtils
 		steeringController.TurnOnBehaviour(SteeringController.BehaviourType.Arrive);
 	}
 
-	public static void AddWaypoint(this SteeringController steeringController, Vector3 waypoint, bool end, bool newPath = false)
+	public static void AddWaypoint(this SteeringController steeringController, Vector3 waypoint, bool newPath = false)
 	{
 		Path path = steeringController.PathFollowing.Path;
 		
@@ -42,11 +42,22 @@ public static class SteeringUtils
 		steeringController.TurnOnBehaviour(SteeringController.BehaviourType.PathFollowing);
 	}
 
-	public static void AddWaypoints(this SteeringController steeringController, Vector3[] waypoints)
+	public static void AddWaypoints(this SteeringController steeringController, Vector3[] waypoints, bool loop)
 	{
-		for (int i = 0; i < waypoints.Length; i++)
+		if (waypoints != null)
 		{
-			steeringController.AddWaypoint(waypoints[i], (i == waypoints.Length - 1), (i == 0));
+			for (int i = 0; i < waypoints.Length; i++)
+			{
+				steeringController.AddWaypoint(waypoints[i], (i == 0));
+			}
 		}
+
+		steeringController.PathFollowing.Path.Loop = false;
+	}
+
+	public static void Stop(this SteeringController steeringController)
+	{
+		steeringController.TurnOffBehaviour(SteeringController.BehaviourType.PathFollowing);
+		steeringController.Rigidbody.velocity = Vector3.zero;
 	}
 }
