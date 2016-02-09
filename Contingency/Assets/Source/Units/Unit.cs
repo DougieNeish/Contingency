@@ -36,7 +36,7 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 	}
 
 	#region IDamageable Properties
-	float IDamageable.Health
+	public float Health
 	{
 		get { return m_health; }
 		set { m_health = value; }
@@ -49,12 +49,12 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 	#endregion
 
 	#region IAttacker Properties
-	IDamageable IAttacker.CurrentTarget
+	public IDamageable CurrentTarget
 	{
 		get { return m_currentTarget; }
 	}
 
-	float IAttacker.AttackRange
+	public float AttackRange
 	{
 		get { return m_attackRange; }
 	}
