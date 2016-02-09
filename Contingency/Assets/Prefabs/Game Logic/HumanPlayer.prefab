@@ -110,6 +110,8 @@ MonoBehaviour:
   m_move2: {fileID: 2800000, guid: 4e9ed7c71d8e8424d8c98de025a7e734, type: 3}
   m_patrol1: {fileID: 2800000, guid: d2a1e77f9efbff245a01e50aba07a8b5, type: 3}
   m_patrol2: {fileID: 2800000, guid: 4e773800947784e4a8de586abab61085, type: 3}
+  m_attack1: {fileID: 2800000, guid: db2938816341db44f84705c90d30d8fb, type: 3}
+  m_attack2: {fileID: 2800000, guid: 64241ac95029aaf44b4049793a009faf, type: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -125,6 +127,14 @@ Prefab:
       propertyPath: m_circleWidth
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_attack1
+      value: 
+      objectReference: {fileID: 2800000, guid: db2938816341db44f84705c90d30d8fb, type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_attack2
+      value: 
+      objectReference: {fileID: 2800000, guid: 64241ac95029aaf44b4049793a009faf, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 192962}

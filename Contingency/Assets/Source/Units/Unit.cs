@@ -1,13 +1,18 @@
 ﻿using UnityEngine;
+using System.Collections;
+using System;
 
-public class Unit : MonoBehaviour
+public class Unit : MonoBehaviour, IDamageable, IAttacker
 {
 	private int m_id;
 	[SerializeField] private Player m_owner;
-
-	[SerializeField] private float m_sightRadius;
-
 	private Renderer m_renderer;
+	private SteeringController m_steeringController;
+
+	private float m_health;
+	[SerializeField] private float m_sightRadius;
+	[SerializeField] private float m_attackRange;
+	private IDamageable m_currentTarget;
 
 	public int ID
 	{
@@ -20,15 +25,49 @@ public class Unit : MonoBehaviour
 		set { m_owner = value; }
 	}
 
+	public SteeringController SteeringController
+	{
+		get { return m_steeringController; }
+	}
+
 	public float SightRadius
 	{
 		get { return m_sightRadius; }
 	}
 
+	#region IDamageable Properties
+	float IDamageable.Health
+	{
+		get { return m_health; }
+		set { m_health = value; }
+	}
+
+	Transform IDamageable.transform
+	{
+		get { return transform; }
+	}
+	#endregion
+
+	#region IAttacker Properties
+	IDamageable IAttacker.CurrentTarget
+	{
+		get { return m_currentTarget; }
+	}
+
+	float IAttacker.AttackRange
+	{
+		get { return m_attackRange; }
+	}
+	#endregion
+
 	void Awake()
 	{
 		m_id = UnitController.NextUnitID;
+		m_steeringController = GetComponent<SteeringController>();
 		m_renderer = GetComponent<Renderer>();
+
+		m_health = 100f;
+		m_currentTarget = null;
 	}
 
 	void Start()
@@ -36,14 +75,61 @@ public class Unit : MonoBehaviour
 		gameObject.GetComponentInChildWithTag<SphereCollider>("SightRadius").radius = m_sightRadius;
 	}
 
-	void OnDrawGizmos()
+	void Update()
 	{
-		Gizmos.color = Color.cyan;
-		Gizmos.DrawWireSphere(transform.position, m_sightRadius);
+		if (m_currentTarget != null)
+		{
+			Vector3 direction = m_currentTarget.transform.position - transform.position;
+			Debug.DrawRay(transform.position, direction, Color.cyan);
+		}
 	}
 
-	public static explicit operator GameObject(Unit unit)
+	public void Stop()
 	{
-		return unit.gameObject;
+		m_steeringController.Stop();
+		StopAllCoroutines();
+		m_currentTarget = null;
+	}
+
+	//public virtual void Attack(GameObject target)
+	//{
+	//	Debug.Log("Pew pew pew");
+
+	//	if (target != m_currentTarget)
+	//	{
+	//		Stop();
+	//		m_currentTarget = target;
+	//		StartCoroutine(AttackActions());
+	//	}
+	//}
+
+	public virtual void TakeDamage(float damage)
+	{
+		Debug.LogError("Unit.TakeDamage() is not implemented");
+	}
+
+	public virtual void Attack(IDamageable target)
+	{
+		Debug.Log("Pew pew pew");
+
+		if (target != m_currentTarget)
+		{
+			Stop();
+			m_currentTarget = target;
+			transform.LookAt(target.transform);
+
+			StartCoroutine(AttackActions());
+		}
+	}
+
+	protected virtual IEnumerator AttackActions()
+	{
+		// TODO: Unit attack action... laser line renderer?
+		yield return null;
+	}
+
+	void IAttacker.Attack(IDamageable target)
+	{
+		throw new NotImplementedException();
 	}
 }

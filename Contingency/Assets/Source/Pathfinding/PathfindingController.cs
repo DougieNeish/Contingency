@@ -11,6 +11,7 @@ public class PathfindingController : MonoBehaviour
 	[SerializeField] private bool m_drawEdges;
 
 	private Graph m_navGraph;
+	private AStarSearch m_aStarSearch;
 
 	public Graph NavGraph
 	{
@@ -28,6 +29,7 @@ public class PathfindingController : MonoBehaviour
 	void Awake()
 	{
 		m_navGraph = new Graph(m_numCellsX, m_numCellsY);
+		m_aStarSearch = new AStarSearch(CellCount);
 	}
 
 	void Start()
@@ -88,5 +90,10 @@ public class PathfindingController : MonoBehaviour
 				Gizmos.DrawLine(fromPos, toPos);
 			}
 		}
+	}
+
+	public Vector3[] Search(Vector3 startPosition, Vector3 targetPosition)
+	{
+		return m_aStarSearch.Search(m_navGraph, startPosition, targetPosition);
 	}
 }

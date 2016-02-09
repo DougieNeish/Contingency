@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public class UnitController : MonoBehaviour
@@ -99,61 +100,29 @@ public class UnitController : MonoBehaviour
 		{
 			case InputManager.MouseEventType.OnRightMouseDown:
 				{
+					// If no units are selected, break
 					if (m_selectedUnits.Count < 1)
 					{
 						break;
 					}
 
-					SteeringController steeringController = m_selectedUnits[0].GetComponent<SteeringController>();
-					steeringController.TurnOffBehaviour(SteeringController.BehaviourType.Flocking);
-
-					if (Input.GetKey(KeyCode.LeftShift))
+					// If a unit that has been right-clicked on and it doesn't belong to the player, attack it
+					Unit target = hitInfo.transform.gameObject.GetComponent<Unit>();
+					//if (hitInfo.transform.tag == "Unit") // TODO: maybe do this instead?
+					if (target != null && target.Owner.ID != m_player.ID)
 					{
-						steeringController.AddWaypoint(hitInfo.point, true);
-					}
-					else
-					{
-						AStarSearch search = new AStarSearch(m_pathfindingController.CellCount);
-						Vector3[] waypoints = search.Search(m_pathfindingController.NavGraph, m_selectedUnits[0].transform.position, hitInfo.point);
-						
-						// If a path to the target was found, add the path as waypoints
-						if (waypoints != null)
+						foreach (GameObject unit in m_selectedUnits)
 						{
-							steeringController.PathFollowing.Path.Loop = false;
-							steeringController.AddWaypoints(waypoints);
+							Attack(unit.GetComponent<Unit>(), target);
 						}
 					}
-
-					if (m_selectedUnits.Count > 1)
+					else // move to the right-clicked location
 					{
-						//Vector3[] formationPositions = Formations.CalculateSquareFormation(m_selectedUnits.Count, 2f, 2f);
-
-						// Start from 1 as unit 0 is the leader
-						for (int i = 1; i < m_selectedUnits.Count; i++)
+						foreach (GameObject unit in m_selectedUnits)
 						{
-							// TODO: Change this. Temporary A* search for all selected units
-							AStarSearch search = new AStarSearch(m_pathfindingController.CellCount);
-							Vector3[] waypoints = search.Search(m_pathfindingController.NavGraph, m_selectedUnits[i].transform.position, hitInfo.point);
-
-							// If a path to the target was found, add the path as waypoints
-							if (waypoints != null)
-							{
-								m_selectedUnits[i].GetComponent<SteeringController>().PathFollowing.Path.Loop = false;
-								m_selectedUnits[i].GetComponent<SteeringController>().AddWaypoints(waypoints);
-							}
-
-
-							//steeringController = m_selectedUnits[i].GetComponent<SteeringController>();
-							//steeringController.TurnOnBehaviour(SteeringController.BehaviourType.Flocking);
-
-							// TODO: Do I need to add all selected units as neighbours?
-
-							//steeringController.OffsetPursuit.Leader = m_selectedUnits[0].GetComponent<Rigidbody>();
-							//steeringController.OffsetPursuit.Offset = formationPositions[i];
-							//steeringController.TurnOnBehaviour(SteeringController.BehaviourType.OffsetPursuit);
+							MoveToPosition(unit.GetComponent<Unit>(), hitInfo.point);
 						}
 					}
-
 					break;
 				}
 		}
@@ -209,6 +178,85 @@ public class UnitController : MonoBehaviour
 		}
 	}
 
+	private void Attack(Unit unit, IDamageable target)
+	{
+		StartCoroutine(MoveToAttack(unit, target));
+	}
+
+	private void MoveToPosition(Unit unit, Vector3 targetPosition)
+	{
+		SteeringController steeringController = unit.SteeringController; //m_selectedUnits[0].GetComponent<SteeringController>();
+		steeringController.TurnOffBehaviour(SteeringController.BehaviourType.Flocking);
+
+		// TODO: Remove this to allow patrols made from proper paths?
+		if (Input.GetKey(KeyCode.LeftShift))
+		{
+			steeringController.AddWaypoint(targetPosition);
+		}
+		else
+		{
+			Vector3[] waypoints = m_pathfindingController.Search(m_selectedUnits[0].transform.position, targetPosition);
+			steeringController.AddWaypoints(waypoints, false);
+		}
+
+		//if (m_selectedUnits.Count > 1)
+		//{
+		//	//Vector3[] formationPositions = Formations.CalculateSquareFormation(m_selectedUnits.Count, 2f, 2f);
+
+		//	// Start from 1 as unit 0 is the leader
+		//	for (int i = 1; i < m_selectedUnits.Count; i++)
+		//	{
+		//		// TODO: Change this. Temporary A* search for all selected units
+		//		Vector3[] waypoints = m_pathfindingController.Search(m_selectedUnits[i].transform.position, targetPosition);
+		//		m_selectedUnits[i].GetComponent<SteeringController>().AddWaypoints(waypoints, false);
+
+
+		//		//steeringController = m_selectedUnits[i].GetComponent<SteeringController>();
+		//		//steeringController.TurnOnBehaviour(SteeringController.BehaviourType.Flocking);
+
+		//		// TODO: Do I need to add all selected units as neighbours?
+
+		//		//steeringController.OffsetPursuit.Leader = m_selectedUnits[0].GetComponent<Rigidbody>();
+		//		//steeringController.OffsetPursuit.Offset = formationPositions[i];
+		//		//steeringController.TurnOnBehaviour(SteeringController.BehaviourType.OffsetPursuit);
+		//	}
+		//}
+	}
+
+	private bool CanAttack(Unit unit, IDamageable target)
+	{
+		return IsInAttackRange(unit, target) && HasDirectLineOfSight(unit, target);
+	}
+
+	private bool IsInAttackRange(Unit unit, IDamageable target)
+	{
+		Vector3 velocityToTarget = target.transform.position - unit.transform.position;
+		velocityToTarget.y = 0;
+		float sqrDistance = velocityToTarget.sqrMagnitude;
+
+		return sqrDistance < unit.AttackRange * unit.AttackRange;
+	}
+
+	private bool HasDirectLineOfSight(Unit unit, IDamageable target)
+	{	
+		Vector3 direction = target.transform.position - unit.transform.position;
+		RaycastHit hit;
+		//Debug.DrawRay(unit.transform.position, direction, Color.cyan, 5f);
+		if (Physics.Raycast(unit.transform.position, direction, out hit, unit.AttackRange))
+		{
+			return hit.transform == target.transform;
+		}
+
+		return false;
+	}
+
+	private IEnumerator MoveToAttack(Unit unit, IDamageable target)
+	{
+		MoveToPosition(unit, target.transform.position);
+		yield return new WaitUntil(() => CanAttack(unit, target));
+		unit.Attack(target);
+	}
+
 	public void CreateUnitOnMouse()
 	{
 		RaycastHit hitObject;
@@ -225,7 +273,7 @@ public class UnitController : MonoBehaviour
 				OnUnitCreated(newUnit);
 			}
 
-			newUnit.GetComponent<SteeringController>().TurnOnBehaviour(SteeringController.BehaviourType.ObstacleAvoidance);
+			//newUnit.GetComponent<SteeringController>().TurnOnBehaviour(SteeringController.BehaviourType.ObstacleAvoidance);
 			Physics.IgnoreCollision(newUnit.GetComponent<SphereCollider>(), GameObject.FindGameObjectWithTag("Terrain").GetComponent<Collider>());
 		}
 	}
