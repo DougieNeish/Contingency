@@ -30,8 +30,19 @@ public class PathUIController : MonoBehaviour
 		m_path.OnCurrentWaypointUpdated -= CalculatePathMarker;
 	}
 
+	void Update()
+	{
+		m_line.SetPosition(0, transform.position);
+	}
+
 	private void CalculatePathMarker(List<Vector3> waypoints, int currentWaypoint)
 	{
+		if (!DebugInfo.Instance.DrawUnitPaths)
+		{
+			m_line.enabled = false;
+			return;
+		}
+
 		// If there are no waypoints, or if the player is an AI don't draw path
 		if (waypoints.Count < 1 || m_unit.Owner.Type == Player.PlayerType.AI)
 		{

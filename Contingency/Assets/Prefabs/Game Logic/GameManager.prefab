@@ -8,6 +8,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 491310}
+  - 114: {fileID: 11478252}
   - 114: {fileID: 11447068}
   - 114: {fileID: 11478392}
   - 114: {fileID: 11430158}
@@ -44,7 +45,7 @@ MonoBehaviour:
   m_terrain: {fileID: 0}
   m_numCellsX: 100
   m_numCellsY: 100
-  m_drawNodes: 1
+  m_drawNodes: 0
   m_drawEdges: 0
 --- !u!114 &11447068
 MonoBehaviour:
@@ -59,6 +60,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_humanPlayerPrefab: {fileID: 192962, guid: 80137d163c0ec074886452db3a2f37d2, type: 2}
   m_AIPlayerPrefab: {fileID: 144416, guid: 3e40ffb419e14af40b258382d1e5371a, type: 2}
+--- !u!114 &11478252
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 187790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9263da5c074d2a4eaf14d54e6568d85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DrawUnitPaths: 0
 --- !u!114 &11478392
 MonoBehaviour:
   m_ObjectHideFlags: 1
