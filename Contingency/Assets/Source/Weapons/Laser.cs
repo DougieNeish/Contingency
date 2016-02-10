@@ -6,6 +6,7 @@ using System;
 public class Laser : Weapon
 {
 	private LineRenderer m_laser;
+	private const float kPulseTime = 0.4f;
 
 	void Awake()
 	{
@@ -22,7 +23,7 @@ public class Laser : Weapon
 
 	public override IEnumerator Fire(IDamageable target)
 	{
-		while (target.Health > 0)
+		while (target.Health > 0f)
 		{
 			m_laser.SetPosition(0, transform.position);
 			m_laser.SetPosition(1, target.transform.position);
@@ -37,7 +38,7 @@ public class Laser : Weapon
 	private IEnumerator Pulse()
 	{
 		m_laser.enabled = true;
-		yield return new WaitForSeconds(0.4f);
+		yield return new WaitForSeconds(kPulseTime);
 		m_laser.enabled = false;
 	}
 }
