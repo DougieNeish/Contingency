@@ -190,20 +190,21 @@ public class UnitController : MonoBehaviour
 
 	private void MoveToPosition(Unit unit, Vector3 targetPosition)
 	{
-		unit.Stop();
-
-		SteeringController steeringController = unit.SteeringController; //m_selectedUnits[0].GetComponent<SteeringController>();
+		SteeringController steeringController = unit.SteeringController;
 		steeringController.TurnOffBehaviour(SteeringController.BehaviourType.Flocking);
 
-		// TODO: Remove this to allow patrols made from proper paths?
+		Vector3[] waypoints;
 		if (Input.GetKey(KeyCode.LeftShift))
 		{
-			steeringController.AddWaypoint(targetPosition);
+			waypoints = m_pathfindingController.Search(steeringController.PathFollowing.Path.EndPosition, targetPosition);
+			steeringController.AddWaypoints(waypoints, false, false);
 		}
 		else
 		{
-			Vector3[] waypoints = m_pathfindingController.Search(m_selectedUnits[0].transform.position, targetPosition);
-			steeringController.AddWaypoints(waypoints, false);
+			unit.Stop();
+
+			waypoints = m_pathfindingController.Search(unit.transform.position, targetPosition);
+			steeringController.AddWaypoints(waypoints, false, true);
 		}
 
 		//if (m_selectedUnits.Count > 1)

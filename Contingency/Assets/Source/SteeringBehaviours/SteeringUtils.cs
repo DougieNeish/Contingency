@@ -42,13 +42,13 @@ public static class SteeringUtils
 		steeringController.TurnOnBehaviour(SteeringController.BehaviourType.PathFollowing);
 	}
 
-	public static void AddWaypoints(this SteeringController steeringController, Vector3[] waypoints, bool loop)
+	public static void AddWaypoints(this SteeringController steeringController, Vector3[] waypoints, bool loop, bool newPath = false)
 	{
 		if (waypoints != null)
 		{
 			for (int i = 0; i < waypoints.Length; i++)
 			{
-				steeringController.AddWaypoint(waypoints[i], (i == 0));
+				steeringController.AddWaypoint(waypoints[i], (newPath && i == 0));
 			}
 		}
 
