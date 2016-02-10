@@ -79,7 +79,7 @@ public class AStarSearch
 			// If current node equals target node end search
 			if (currentNode.Index == targetNode.Index)
 			{
-				Debug.Log("<color=green>Target node found</color>");
+				//Debug.Log("<color=green>Target node found</color>");
 				return GetPathFromParents(startNode, targetNode);
 			}
 
