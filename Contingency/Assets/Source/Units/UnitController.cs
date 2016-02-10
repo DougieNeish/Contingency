@@ -82,10 +82,10 @@ public class UnitController : MonoBehaviour
 			InputManager.OnMouseEvent -= MouseInput;
 		}
 
-		foreach (GameObject unit in m_units)
-		{
-			unit.GetComponent<Unit>().OnUnitKilled -= HandleUnitDeath;
-		}
+		//foreach (GameObject unit in m_units)
+		//{
+		//	unit.GetComponent<Unit>().OnUnitKilled -= HandleUnitDeath;
+		//}
 	}
 
 	void Update()
