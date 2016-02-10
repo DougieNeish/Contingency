@@ -40,6 +40,11 @@ public class Path
 		set { m_finalWaypointSelected = value; }
 	}
 
+	public Vector3 EndPosition
+	{
+		get { return m_waypoints[m_waypoints.Count - 1]; }
+	}
+
 	public Path()
 	{
 		m_waypoints = new List<Vector3>();
