@@ -26,22 +26,30 @@ public class LineOfSightRenderer : MonoBehaviour
 		m_owner = gameObject.GetComponentInParent<Unit>().Owner;
 		if (m_owner.Type == Player.PlayerType.AI)
 		{
-			if (m_seenByUnits == 0)
-			{
-				m_renderer.enabled = false;
-			}
-			else
-			{
-				m_renderer.enabled = true;
-			}
+			m_renderer.enabled = m_seenByUnits == 0 ? false : true;
+
+			//if (m_seenByUnits == 0)
+			//{
+			//	m_renderer.enabled = false;
+			//}
+			//else
+			//{
+			//	m_renderer.enabled = true;
+			//}
 		}
 	}
 
 	void OnTriggerEnter(Collider other)
 	{
-		if (other.tag == "Unit")// && HasDirectLineOfSight(gameObject, other.gameObject))
+		if (other.tag == "Unit")
 		{
-			m_seenByUnits++;
+			// Only counts as 'seen' if the other unit belongs to a human player
+
+			Unit unit = other.GetComponent<Unit>();
+			if (unit.Owner.Type == Player.PlayerType.Human)
+			{
+				m_seenByUnits++;
+			}
 		}
 	}
 
@@ -49,7 +57,11 @@ public class LineOfSightRenderer : MonoBehaviour
 	{
 		if (other.tag == "Unit")
 		{
-			m_seenByUnits--;
+			Unit unit = other.GetComponent<Unit>();
+			if (unit.Owner.Type == Player.PlayerType.Human)
+			{
+				m_seenByUnits--;
+			}
 		}
 	}
 
