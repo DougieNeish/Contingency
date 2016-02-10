@@ -14,5 +14,5 @@ public interface IDamageable
 		get;
 	}
 
-	void TakeDamage(float damage);
+	void ReceiveDamage(float damage);
 }

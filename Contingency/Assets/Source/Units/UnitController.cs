@@ -190,6 +190,8 @@ public class UnitController : MonoBehaviour
 
 	private void MoveToPosition(Unit unit, Vector3 targetPosition)
 	{
+		unit.Stop();
+
 		SteeringController steeringController = unit.SteeringController; //m_selectedUnits[0].GetComponent<SteeringController>();
 		steeringController.TurnOffBehaviour(SteeringController.BehaviourType.Flocking);
 
@@ -239,15 +241,15 @@ public class UnitController : MonoBehaviour
 		velocityToTarget.y = 0;
 		float sqrDistance = velocityToTarget.sqrMagnitude;
 
-		return sqrDistance < unit.AttackRange * unit.AttackRange;
+		return sqrDistance < unit.Weapon.Range * unit.Weapon.Range;
 	}
 
 	private bool HasDirectLineOfSight(Unit unit, IDamageable target)
 	{	
 		Vector3 direction = target.transform.position - unit.transform.position;
 		RaycastHit hit;
-		//Debug.DrawRay(unit.transform.position, direction, Color.cyan, 5f);
-		if (Physics.Raycast(unit.transform.position, direction, out hit, unit.AttackRange))
+		Debug.DrawRay(unit.transform.position, direction, Color.cyan, 5f);
+		if (Physics.Raycast(unit.transform.position, direction, out hit, unit.Weapon.Range))
 		{
 			return hit.transform == target.transform;
 		}

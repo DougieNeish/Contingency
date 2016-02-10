@@ -28,7 +28,7 @@ public class Laser : Weapon
 			m_laser.SetPosition(1, target.transform.position);
 
 			StartCoroutine(Pulse());
-			target.TakeDamage(Damage);
+			target.ReceiveDamage(Damage);
 
 			yield return new WaitForSeconds(FireRate);
 		}

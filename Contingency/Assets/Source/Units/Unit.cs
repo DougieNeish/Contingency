@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System;
 
 public class Unit : MonoBehaviour, IDamageable, IAttacker
 {
@@ -15,9 +14,7 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 	private float m_health;
 	private IDamageable m_currentTarget;
 	[SerializeField] private float m_sightRadius;
-	[SerializeField] private float m_attackRange;
-	[SerializeField] private float m_attackDamage;
-	[SerializeField] private float m_attackSpeed;
+	[SerializeField] private Weapon m_weapon;
 
 	public int ID
 	{
@@ -40,6 +37,11 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 		get { return m_sightRadius; }
 	}
 
+	public Weapon Weapon
+	{
+		get { return m_weapon; }
+	}
+
 	#region IDamageable Properties
 	public float Health
 	{
@@ -58,21 +60,6 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 	{
 		get { return m_currentTarget; }
 	}
-
-	public float AttackRange
-	{
-		get { return m_attackRange; }
-	}
-
-	public float AttackDamage
-	{
-		get { return m_attackDamage; }
-	}
-
-	public float AttackSpeed
-	{
-		get { return m_attackSpeed; }
-	}
 	#endregion
 
 	void Awake()
@@ -83,6 +70,9 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 
 		m_health = 100f;
 		m_currentTarget = null;
+
+		m_weapon = Instantiate(m_weapon, transform.position, Quaternion.identity) as Weapon;
+		m_weapon.gameObject.transform.SetParent(gameObject.transform);
 	}
 
 	void Start()
@@ -90,50 +80,38 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 		gameObject.GetComponentInChildWithTag<SphereCollider>("SightRadius").radius = m_sightRadius;
 	}
 
-	void Update()
+	public void Stop()
 	{
+		m_steeringController.Stop();
+		StopAllCoroutines();
+		m_weapon.StopAllCoroutines();
+		m_currentTarget = null;
+	}
+
+	public virtual void ReceiveDamage(float damage)
+	{
+		m_health -= damage;
+		Debug.Log(m_health);
+
 		if (m_health <= 0f)
 		{
 			StartCoroutine(DeathActions());
 		}
 	}
 
-	public void Stop()
+	public void Attack(IDamageable target)
 	{
-		m_steeringController.Stop();
-		StopAllCoroutines();
-		m_currentTarget = null;
-	}
-
-	public virtual void TakeDamage(float damage)
-	{
-		m_health -= damage;
-	}
-
-	public virtual void Attack(IDamageable target)
-	{
-		Debug.Log("Pew pew pew");
-
 		if (target != m_currentTarget)
 		{
 			Stop();
 			m_currentTarget = target;
 			transform.LookAt(target.transform);
 
-			StartCoroutine(AttackActions());
+			StartCoroutine(m_weapon.Fire(m_currentTarget));
 		}
 	}
 
-	protected virtual IEnumerator AttackActions()
-	{
-		while (m_currentTarget.Health > 0)
-		{
-			m_currentTarget.TakeDamage(m_attackDamage);
-			yield return new WaitForSeconds(m_attackSpeed);
-		}
-	}
-
-	protected virtual IEnumerator DeathActions()
+	private IEnumerator DeathActions()
 	{
 		Destroy(gameObject);
 
