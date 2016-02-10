@@ -72,7 +72,7 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 		m_currentTarget = null;
 
 		m_weapon = Instantiate(m_weapon, transform.position, Quaternion.identity) as Weapon;
-		m_weapon.gameObject.transform.SetParent(gameObject.transform);
+		m_weapon.transform.SetParent(gameObject.transform);
 	}
 
 	void Start()
