@@ -9,13 +9,18 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 	private int m_id;
 	private Player m_owner;
 	private Renderer m_renderer;
+	private UnitController m_unitController;
 	private SteeringController m_steeringController;
+	private LineOfSightRenderer m_lineOfSightRenderer;
 
 	private float m_health;
 	private IDamageable m_currentTarget;
 	[SerializeField] private float m_sightRadius;
 	[SerializeField] private Weapon m_weapon;
 
+	private StateMachine<Unit> m_stateMachine;
+
+	#region Unit Properties
 	public int ID
 	{
 		get { return m_id; }
@@ -27,9 +32,20 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 		set { m_owner = value; }
 	}
 
+	public UnitController UnitController
+	{
+		get { return m_unitController; }
+		set { m_unitController = value; }
+	}
+
 	public SteeringController SteeringController
 	{
 		get { return m_steeringController; }
+	}
+
+	public LineOfSightRenderer LineOfSightRenderer
+	{
+		get { return m_lineOfSightRenderer; }
 	}
 
 	public float SightRadius
@@ -41,6 +57,12 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 	{
 		get { return m_weapon; }
 	}
+
+	public StateMachine<Unit> StateMachine
+	{
+		get { return m_stateMachine; }
+	}
+	#endregion
 
 	#region IDamageable Properties
 	public float Health
@@ -67,17 +89,26 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 		m_id = UnitController.NextUnitID;
 		m_steeringController = GetComponent<SteeringController>();
 		m_renderer = GetComponent<Renderer>();
+		m_lineOfSightRenderer = gameObject.GetComponentInChildWithTag<LineOfSightRenderer>("SightRadius");
 
 		m_health = 100f;
 		m_currentTarget = null;
 
 		m_weapon = Instantiate(m_weapon, transform.position, Quaternion.identity) as Weapon;
 		m_weapon.transform.SetParent(gameObject.transform);
+
+		m_stateMachine = new StateMachine<Unit>(this);
+		m_stateMachine.ChangeState(new Idle());
 	}
 
 	void Start()
 	{
 		gameObject.GetComponentInChildWithTag<SphereCollider>("SightRadius").radius = m_sightRadius;
+	}
+
+	void Update()
+	{
+		m_stateMachine.Update();
 	}
 
 	public void Stop()
@@ -88,7 +119,7 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 		m_currentTarget = null;
 	}
 
-	public virtual void ReceiveDamage(float damage)
+	public void ReceiveDamage(float damage)
 	{
 		m_health -= damage;
 		Debug.Log(m_health);

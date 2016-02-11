@@ -23,6 +23,7 @@ public class UnitController : MonoBehaviour
 
 	private Ray m_ray;
 
+	#region Properties
 	public static int NextUnitID
 	{
 		get { return m_nextUnitID++; }
@@ -30,19 +31,14 @@ public class UnitController : MonoBehaviour
 
 	public List<GameObject> Units
 	{
-		get
-		{
-			return m_units;
-		}
+		get { return m_units; }
 	}
 
 	public List<GameObject> SelectedUnits
 	{
-		get
-		{
-			return m_selectedUnits;
-		}
+		get { return m_selectedUnits; }
 	}
+	#endregion
 
 	void Awake()
 	{
@@ -97,6 +93,54 @@ public class UnitController : MonoBehaviour
 		//{
 		//	CreateUnitOnMouse();
 		//}
+	}
+
+	public void MoveToPosition(Unit unit, Vector3 targetPosition)
+	{
+		SteeringController steeringController = unit.SteeringController;
+		steeringController.TurnOffBehaviour(SteeringController.BehaviourType.Flocking);
+
+		Vector3[] waypoints;
+		if (Input.GetKey(KeyCode.LeftShift))
+		{
+			waypoints = m_pathfindingController.Search(steeringController.PathFollowing.Path.EndPosition, targetPosition);
+			steeringController.AddWaypoints(waypoints, false, false);
+		}
+		else
+		{
+			unit.Stop();
+
+			waypoints = m_pathfindingController.Search(unit.transform.position, targetPosition);
+			steeringController.AddWaypoints(waypoints, false, true);
+		}
+
+		//if (m_selectedUnits.Count > 1)
+		//{
+		//	//Vector3[] formationPositions = Formations.CalculateSquareFormation(m_selectedUnits.Count, 2f, 2f);
+
+		//	// Start from 1 as unit 0 is the leader
+		//	for (int i = 1; i < m_selectedUnits.Count; i++)
+		//	{
+		//		// TODO: Change this. Temporary A* search for all selected units
+		//		Vector3[] waypoints = m_pathfindingController.Search(m_selectedUnits[i].transform.position, targetPosition);
+		//		m_selectedUnits[i].GetComponent<SteeringController>().AddWaypoints(waypoints, false);
+
+
+		//		//steeringController = m_selectedUnits[i].GetComponent<SteeringController>();
+		//		//steeringController.TurnOnBehaviour(SteeringController.BehaviourType.Flocking);
+
+		//		// TODO: Do I need to add all selected units as neighbours?
+
+		//		//steeringController.OffsetPursuit.Leader = m_selectedUnits[0].GetComponent<Rigidbody>();
+		//		//steeringController.OffsetPursuit.Offset = formationPositions[i];
+		//		//steeringController.TurnOnBehaviour(SteeringController.BehaviourType.OffsetPursuit);
+		//	}
+		//}
+	}
+
+	public void Attack(Unit unit, IDamageable target)
+	{
+		StartCoroutine(MoveToAttack(unit, target));
 	}
 
 	private void MouseInput(InputManager.MouseEventType eventType, RaycastHit hitInfo)
@@ -168,6 +212,7 @@ public class UnitController : MonoBehaviour
 				}
 			}
 		}
+
 		if (OnSelectedUnitsUpdated != null)
 		{
 			OnSelectedUnitsUpdated(m_selectedUnits);
@@ -183,52 +228,11 @@ public class UnitController : MonoBehaviour
 		}
 	}
 
-	private void Attack(Unit unit, IDamageable target)
+	private IEnumerator MoveToAttack(Unit unit, IDamageable target)
 	{
-		StartCoroutine(MoveToAttack(unit, target));
-	}
-
-	private void MoveToPosition(Unit unit, Vector3 targetPosition)
-	{
-		SteeringController steeringController = unit.SteeringController;
-		steeringController.TurnOffBehaviour(SteeringController.BehaviourType.Flocking);
-
-		Vector3[] waypoints;
-		if (Input.GetKey(KeyCode.LeftShift))
-		{
-			waypoints = m_pathfindingController.Search(steeringController.PathFollowing.Path.EndPosition, targetPosition);
-			steeringController.AddWaypoints(waypoints, false, false);
-		}
-		else
-		{
-			unit.Stop();
-
-			waypoints = m_pathfindingController.Search(unit.transform.position, targetPosition);
-			steeringController.AddWaypoints(waypoints, false, true);
-		}
-
-		//if (m_selectedUnits.Count > 1)
-		//{
-		//	//Vector3[] formationPositions = Formations.CalculateSquareFormation(m_selectedUnits.Count, 2f, 2f);
-
-		//	// Start from 1 as unit 0 is the leader
-		//	for (int i = 1; i < m_selectedUnits.Count; i++)
-		//	{
-		//		// TODO: Change this. Temporary A* search for all selected units
-		//		Vector3[] waypoints = m_pathfindingController.Search(m_selectedUnits[i].transform.position, targetPosition);
-		//		m_selectedUnits[i].GetComponent<SteeringController>().AddWaypoints(waypoints, false);
-
-
-		//		//steeringController = m_selectedUnits[i].GetComponent<SteeringController>();
-		//		//steeringController.TurnOnBehaviour(SteeringController.BehaviourType.Flocking);
-
-		//		// TODO: Do I need to add all selected units as neighbours?
-
-		//		//steeringController.OffsetPursuit.Leader = m_selectedUnits[0].GetComponent<Rigidbody>();
-		//		//steeringController.OffsetPursuit.Offset = formationPositions[i];
-		//		//steeringController.TurnOnBehaviour(SteeringController.BehaviourType.OffsetPursuit);
-		//	}
-		//}
+		MoveToPosition(unit, target.transform.position);
+		yield return new WaitUntil(() => CanAttack(unit, target));
+		unit.Attack(target);
 	}
 
 	private bool CanAttack(Unit unit, IDamageable target)
@@ -258,13 +262,6 @@ public class UnitController : MonoBehaviour
 		return false;
 	}
 
-	private IEnumerator MoveToAttack(Unit unit, IDamageable target)
-	{
-		MoveToPosition(unit, target.transform.position);
-		yield return new WaitUntil(() => CanAttack(unit, target));
-		unit.Attack(target);
-	}
-
 	private void HandleUnitDeath(GameObject unit)
 	{
 		m_units.Remove(unit);
@@ -280,7 +277,10 @@ public class UnitController : MonoBehaviour
 			GameObject newUnit = Instantiate(m_unitPrefab, position, Quaternion.identity) as GameObject;
 
 			Unit unit = newUnit.GetComponent<Unit>();
+			// TODO: Move to init params?
 			unit.Owner = m_player;
+			unit.UnitController = this;
+
 			unit.OnUnitKilled += HandleUnitDeath;
 
 			m_units.Add(newUnit);
