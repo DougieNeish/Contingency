@@ -3,6 +3,9 @@ using System.Collections;
 
 public class LineOfSightRenderer : MonoBehaviour
 {
+	public delegate void EnemyUnitSpottedEventHandler(Unit enemy);
+	public event EnemyUnitSpottedEventHandler OnEnemyUnitSpotted;
+
 	private Player m_owner;
 	private Renderer m_renderer;
 
@@ -44,11 +47,19 @@ public class LineOfSightRenderer : MonoBehaviour
 		if (other.tag == "Unit")
 		{
 			// Only counts as 'seen' if the other unit belongs to a human player
-
 			Unit unit = other.GetComponent<Unit>();
 			if (unit.Owner.Type == Player.PlayerType.Human)
 			{
 				m_seenByUnits++;
+			}
+
+			// If the unit doesn't belong to me, an enemy has been spotted
+			if (unit.Owner.ID != m_owner.ID)
+			{
+				if (OnEnemyUnitSpotted != null)
+				{
+					OnEnemyUnitSpotted(unit);
+				}
 			}
 		}
 	}
