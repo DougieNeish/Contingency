@@ -97,6 +97,12 @@ public class UnitController : MonoBehaviour
 
 	public void MoveToPosition(Unit unit, Vector3 targetPosition)
 	{
+		// Don't override MovingToAttack state
+		if (!unit.StateMachine.IsInState(new MovingToAttack()))
+		{
+			unit.StateMachine.ChangeState(new Moving());
+		}
+
 		SteeringController steeringController = unit.SteeringController;
 		steeringController.TurnOffBehaviour(SteeringController.BehaviourType.Flocking);
 
@@ -140,6 +146,7 @@ public class UnitController : MonoBehaviour
 
 	public void Attack(Unit unit, IDamageable target)
 	{
+		unit.StateMachine.ChangeState(new MovingToAttack());
 		StartCoroutine(MoveToAttack(unit, target));
 	}
 

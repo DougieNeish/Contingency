@@ -135,6 +135,8 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 	{
 		if (target != m_currentTarget)
 		{
+			m_stateMachine.ChangeState(new Attacking());
+
 			Stop();
 			m_currentTarget = target;
 			transform.LookAt(target.transform);
