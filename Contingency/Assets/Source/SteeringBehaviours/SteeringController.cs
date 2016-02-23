@@ -272,10 +272,10 @@ public class SteeringController : MonoBehaviour
 		//	Gizmos.DrawLine(PathFollowing.Path.Waypoints[i], PathFollowing.Path.Waypoints[i++]);
 		//}
 
-		if (PathFollowing.Path.Waypoints.Count > 0)
-		{
-			Gizmos.DrawWireSphere(PathFollowing.Path.Waypoints[0], SteeringUtils.kWaypointLoopActivationDistance);
-        }
+		//if (PathFollowing.Path.Waypoints.Count > 0)
+		//{
+		//	Gizmos.DrawWireSphere(PathFollowing.Path.Waypoints[0], SteeringUtils.kWaypointLoopActivationDistance);
+        //}
 	}
 
 	public void Steer(Vector3 steeringForce)
