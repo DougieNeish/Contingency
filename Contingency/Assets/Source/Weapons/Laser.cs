@@ -23,7 +23,7 @@ public class Laser : Weapon
 
 	public override IEnumerator Fire(IDamageable target)
 	{
-		while (target.Health > 0f)
+		while (target.Health > 0f && target.transform != null)
 		{
 			m_laser.SetPosition(0, transform.position);
 			m_laser.SetPosition(1, target.transform.position);
