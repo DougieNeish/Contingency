@@ -73,7 +73,7 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 
 	Transform IDamageable.transform
 	{
-		get { return transform; }
+		get { return this == null ? null : transform; }
 	}
 	#endregion
 

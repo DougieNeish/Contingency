@@ -237,6 +237,11 @@ public class UnitController : MonoBehaviour
 
 	private bool CanAttack(Unit unit, IDamageable target)
 	{
+		if (unit == null || target.transform == null)
+		{
+			return false;
+		}
+
 		return IsInAttackRange(unit, target) && HasDirectLineOfSight(unit, target);
 	}
 
