@@ -13,7 +13,6 @@ public class LineOfSightRenderer : MonoBehaviour
 
 	void Awake()
 	{
-		//m_owner = gameObject.GetComponentInParent<Unit>().Owner;
 		m_renderer = gameObject.transform.parent.GetComponent<Renderer>();
 
 		m_seenByUnits = 0;
@@ -27,19 +26,9 @@ public class LineOfSightRenderer : MonoBehaviour
 
 	void Update()
 	{
-		//m_owner = gameObject.GetComponentInParent<Unit>().Owner;
 		if (m_owner.Type == Player.PlayerType.AI)
 		{
 			m_renderer.enabled = m_seenByUnits == 0 ? false : true;
-
-			//if (m_seenByUnits == 0)
-			//{
-			//	m_renderer.enabled = false;
-			//}
-			//else
-			//{
-			//	m_renderer.enabled = true;
-			//}
 		}
 	}
 
