@@ -13,7 +13,7 @@ public class LineOfSightRenderer : MonoBehaviour
 
 	void Awake()
 	{
-		m_owner = gameObject.GetComponentInParent<Unit>().Owner;
+		//m_owner = gameObject.GetComponentInParent<Unit>().Owner;
 		m_renderer = gameObject.transform.parent.GetComponent<Renderer>();
 
 		m_seenByUnits = 0;
@@ -21,12 +21,13 @@ public class LineOfSightRenderer : MonoBehaviour
 
 	void Start()
 	{
+		m_owner = gameObject.GetComponentInParent<Unit>().Owner;
 		Physics.IgnoreCollision(GetComponent<SphereCollider>(), GameObject.FindGameObjectWithTag("Terrain").GetComponent<Collider>());
 	}
 
 	void Update()
 	{
-		m_owner = gameObject.GetComponentInParent<Unit>().Owner;
+		//m_owner = gameObject.GetComponentInParent<Unit>().Owner;
 		if (m_owner.Type == Player.PlayerType.AI)
 		{
 			m_renderer.enabled = m_seenByUnits == 0 ? false : true;
