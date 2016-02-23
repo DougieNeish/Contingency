@@ -98,12 +98,13 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 		m_weapon.transform.SetParent(gameObject.transform);
 
 		m_stateMachine = new StateMachine<Unit>(this);
-		m_stateMachine.ChangeState(new Idle());
 	}
 
 	void Start()
 	{
 		gameObject.GetComponentInChildWithTag<SphereCollider>("SightRadius").radius = m_sightRadius;
+
+		m_stateMachine.ChangeState(new Idle());
 	}
 
 	void Update()
