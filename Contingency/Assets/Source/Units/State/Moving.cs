@@ -5,7 +5,8 @@ public class Moving : State<Unit>
 
 	public override void Enter(Unit entity)
 	{
-		//m_unit = entity;
+		m_unit = entity;
+		entity.SteeringController.PathFollowing.OnPathCompleted += HandlePathCompleted;
 		//entity.LineOfSightRenderer.OnEnemyUnitSpotted += HandleEnemySpotted;
 	}
 
@@ -16,7 +17,13 @@ public class Moving : State<Unit>
 
 	public override void Exit(Unit entity)
 	{
+		entity.SteeringController.PathFollowing.OnPathCompleted -= HandlePathCompleted;
 		//entity.LineOfSightRenderer.OnEnemyUnitSpotted -= HandleEnemySpotted;
+	}
+
+	private void HandlePathCompleted()
+	{
+		m_unit.StateMachine.ChangeState(new Idle());
 	}
 
 	//private void HandleEnemySpotted(Unit enemy)

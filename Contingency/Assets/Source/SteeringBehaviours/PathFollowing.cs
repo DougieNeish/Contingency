@@ -2,6 +2,9 @@
 
 public class PathFollowing
 {
+	public delegate void PathCompletedEventHandler();
+	public event PathCompletedEventHandler OnPathCompleted;
+
 	private SteeringController m_steeringController;
 	private Path m_path;
 	private float m_arriveRadius = 1.3f; // Ensure this is > Arrive.ArriveRadius
@@ -41,6 +44,12 @@ public class PathFollowing
 				m_path.ClearWaypoints();
 				m_steeringController.TurnOffBehaviour(SteeringController.BehaviourType.PathFollowing);
 				m_steeringController.Rigidbody.velocity = Vector3.zero;
+
+				if (OnPathCompleted != null)
+				{
+					OnPathCompleted();
+				}
+
 				return Vector3.zero;
 			}
 			else
