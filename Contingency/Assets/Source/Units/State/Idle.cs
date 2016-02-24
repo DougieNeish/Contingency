@@ -7,6 +7,7 @@ public class Idle : State<Unit>
 	{
 		m_unit = entity;
 		entity.LineOfSightRenderer.OnEnemyUnitSpotted += HandleEnemySpotted;
+		entity.OnDamageReceived += HandleDamageReceived;
 
 		entity.Stop();
 	}
@@ -19,10 +20,16 @@ public class Idle : State<Unit>
 	public override void Exit(Unit entity)
 	{
 		entity.LineOfSightRenderer.OnEnemyUnitSpotted -= HandleEnemySpotted;
+		entity.OnDamageReceived -= HandleDamageReceived;
 	}
 
 	private void HandleEnemySpotted(Unit enemy)
 	{
 		m_unit.UnitController.Attack(m_unit, enemy);
+	}
+
+	private void HandleDamageReceived(float remainingHealth, IAttacker attacker)
+	{
+		m_unit.UnitController.Attack(m_unit, attacker.gameObject.GetComponent<Unit>());
 	}
 }
