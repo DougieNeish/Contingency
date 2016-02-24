@@ -146,6 +146,12 @@ public class UnitController : MonoBehaviour
 
 	public void Attack(Unit unit, IDamageable target)
 	{
+		// If the unit has the 'Unarmed' weapon, do nothing when told to attack
+		if (unit.Weapon.GetType() == typeof(Unarmed))
+		{
+			return;
+		}
+
 		unit.StateMachine.ChangeState(new MovingToAttack());
 		StartCoroutine(MoveToAttack(unit, target));
 	}
