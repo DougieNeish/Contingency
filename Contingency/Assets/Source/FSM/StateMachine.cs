@@ -1,10 +1,16 @@
-﻿
+﻿using UnityEngine;
+
 public class StateMachine<EntityType>
 {
 	private EntityType m_owner;
 	private State<EntityType> m_currentState;
 	private State<EntityType> m_previousState;
 	private State<EntityType> m_globalState;
+
+	public State<EntityType> CurrentState
+	{
+		get { return m_currentState; }
+	}
 
 	public StateMachine(EntityType owner)
 	{
@@ -29,12 +35,18 @@ public class StateMachine<EntityType>
 
 	public void ChangeState(State<EntityType> newState)
 	{
+		string debug = "";
+
 		if (m_currentState != null)
 		{
+			debug += m_currentState.GetType() + " -> ";
+
 			m_previousState = m_currentState;
 			m_currentState.Exit(m_owner); 
 		}
 
+		debug += newState.GetType();
+		Debug.Log(debug);
 		m_currentState = newState;
 		m_currentState.Enter(m_owner);
 	}
