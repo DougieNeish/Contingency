@@ -59,6 +59,16 @@ public class SelectionManager : MonoBehaviour
 		ControlGroupSelection();
 	}
 
+	// TODO: Move to debug info class
+	Unit m_lastSelectedUnit;
+	void OnGUI()
+	{
+		if (m_lastSelectedUnit != null)
+		{
+			GUI.Label(new Rect(5, 30, 100, 25), m_lastSelectedUnit.StateMachine.CurrentState.GetType().ToString());
+		}
+	}
+
 	private void SelectionFromMouseEvents(InputManager.MouseEventType eventType, RaycastHit hitInfo)
 	{
 		switch (eventType)
@@ -67,6 +77,8 @@ public class SelectionManager : MonoBehaviour
 				{
 					if (hitInfo.transform.tag == "Unit")
 					{
+						m_lastSelectedUnit = hitInfo.transform.GetComponent<Unit>();
+
 						if (hitInfo.transform.gameObject.GetComponent<Unit>().Owner.ID == m_player.ID)
 						{
 							m_selectedUnits.Add(hitInfo.transform.gameObject);
