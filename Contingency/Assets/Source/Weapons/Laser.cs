@@ -35,6 +35,8 @@ public class Laser : Weapon
 
 			yield return new WaitForSeconds(FireRate);
 		}
+
+		DispatchOnTargetKilled();
 	}
 
 	private IEnumerator Pulse()
