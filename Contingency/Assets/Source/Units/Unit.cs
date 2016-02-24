@@ -14,7 +14,7 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 	private Renderer m_renderer;
 	private UnitController m_unitController;
 	private SteeringController m_steeringController;
-	private LineOfSightRenderer m_lineOfSightRenderer;
+	private LineOfSightController m_lineOfSightController;
 
 	private float m_health;
 	private IDamageable m_currentTarget;
@@ -46,9 +46,9 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 		get { return m_steeringController; }
 	}
 
-	public LineOfSightRenderer LineOfSightRenderer
+	public LineOfSightController LineOfSightController
 	{
-		get { return m_lineOfSightRenderer; }
+		get { return m_lineOfSightController; }
 	}
 
 	public float SightRadius
@@ -97,7 +97,7 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 		m_id = UnitController.NextUnitID;
 		m_steeringController = GetComponent<SteeringController>();
 		m_renderer = GetComponent<Renderer>();
-		m_lineOfSightRenderer = gameObject.GetComponentInChildWithTag<LineOfSightRenderer>("SightRadius");
+		m_lineOfSightController = gameObject.GetComponentInChildWithTag<LineOfSightController>("SightRadius");
 
 		m_health = 100f;
 		m_currentTarget = null;

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
-public class LineOfSightRenderer : MonoBehaviour
+public class LineOfSightController : MonoBehaviour
 {
 	public delegate void EnemyUnitSpottedEventHandler(Unit enemy);
 	public event EnemyUnitSpottedEventHandler OnEnemyUnitSpotted;
@@ -10,12 +10,19 @@ public class LineOfSightRenderer : MonoBehaviour
 	private Renderer m_renderer;
 
 	private int m_seenByUnits;
+	private List<Unit> m_nearbyEnemies;
+
+	public List<Unit> NearbyEnemies
+	{
+		get { return m_nearbyEnemies; }
+	}
 
 	void Awake()
 	{
 		m_renderer = gameObject.transform.parent.GetComponent<Renderer>();
 
 		m_seenByUnits = 0;
+		m_nearbyEnemies = new List<Unit>();
 	}
 
 	void Start()
@@ -46,12 +53,25 @@ public class LineOfSightRenderer : MonoBehaviour
 			// If the unit doesn't belong to me, an enemy has been spotted
 			if (unit.Owner.ID != m_owner.ID)
 			{
+				if (!m_nearbyEnemies.Contains(unit))
+				{
+					m_nearbyEnemies.Add(unit);
+					unit.OnUnitKilled += HandleUnitKilled;
+				}
+
 				if (OnEnemyUnitSpotted != null)
 				{
 					OnEnemyUnitSpotted(unit);
 				}
 			}
 		}
+	}
+
+	private void HandleUnitKilled(GameObject unit)
+	{
+		Unit enemy = unit.GetComponent<Unit>();
+		m_nearbyEnemies.Remove(enemy);
+		enemy.OnUnitKilled -= HandleUnitKilled;
 	}
 
 	void OnTriggerExit(Collider other)
@@ -62,6 +82,21 @@ public class LineOfSightRenderer : MonoBehaviour
 			if (unit.Owner.Type == Player.PlayerType.Human)
 			{
 				m_seenByUnits--;
+			}
+
+			// Handle enemies
+			if (unit.Owner.ID != m_owner.ID)
+			{
+				if (!m_nearbyEnemies.Contains(unit))
+				{
+					m_nearbyEnemies.Remove(unit);
+					unit.OnUnitKilled -= HandleUnitKilled;
+				}
+
+				if (OnEnemyUnitSpotted != null)
+				{
+					OnEnemyUnitSpotted(unit);
+				}
 			}
 		}
 	}

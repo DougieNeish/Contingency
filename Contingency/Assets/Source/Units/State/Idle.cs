@@ -6,7 +6,7 @@ public class Idle : State<Unit>
 	public override void Enter(Unit entity)
 	{
 		m_unit = entity;
-		entity.LineOfSightRenderer.OnEnemyUnitSpotted += HandleEnemySpotted;
+		entity.LineOfSightController.OnEnemyUnitSpotted += HandleEnemySpotted;
 		entity.OnDamageReceived += HandleDamageReceived;
 
 		entity.Stop();
@@ -19,7 +19,7 @@ public class Idle : State<Unit>
 
 	public override void Exit(Unit entity)
 	{
-		entity.LineOfSightRenderer.OnEnemyUnitSpotted -= HandleEnemySpotted;
+		entity.LineOfSightController.OnEnemyUnitSpotted -= HandleEnemySpotted;
 		entity.OnDamageReceived -= HandleDamageReceived;
 	}
 

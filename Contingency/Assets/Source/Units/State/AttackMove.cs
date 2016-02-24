@@ -6,7 +6,7 @@ public class AttackMove : State<Unit>
 	public override void Enter(Unit entity)
 	{
 		m_unit = entity;
-		entity.LineOfSightRenderer.OnEnemyUnitSpotted += HandleEnemySpotted;
+		entity.LineOfSightController.OnEnemyUnitSpotted += HandleEnemySpotted;
 	}
 
 	public override void Execute(Unit entity)
@@ -16,7 +16,7 @@ public class AttackMove : State<Unit>
 
 	public override void Exit(Unit entity)
 	{
-		entity.LineOfSightRenderer.OnEnemyUnitSpotted -= HandleEnemySpotted;
+		entity.LineOfSightController.OnEnemyUnitSpotted -= HandleEnemySpotted;
 	}
 
 	private void HandleEnemySpotted(Unit enemy)
