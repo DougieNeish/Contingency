@@ -3,9 +3,10 @@ using System.Collections;
 
 public abstract class Weapon : MonoBehaviour
 {
-	[SerializeField] private float m_damage;
-	[SerializeField] private float m_range;
-	[SerializeField] private float m_fireRate;
+	[SerializeField] protected float m_damage;
+	[SerializeField] protected float m_range;
+	[SerializeField] protected float m_fireRate;
+	protected Unit m_owner;
 
 	public float Damage
 	{

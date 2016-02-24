@@ -15,6 +15,8 @@ public class Laser : Weapon
 	
 	void Start()
 	{
+		m_owner = GetComponentInParent<Unit>();
+
 		m_laser.enabled = false;
 		m_laser.SetWidth(0.1f, 0.3f);
 		m_laser.SetVertexCount(2);
@@ -29,7 +31,7 @@ public class Laser : Weapon
 			m_laser.SetPosition(1, target.transform.position);
 
 			StartCoroutine(Pulse());
-			target.ReceiveDamage(Damage);
+			target.ReceiveDamage(Damage, m_owner);
 
 			yield return new WaitForSeconds(FireRate);
 		}

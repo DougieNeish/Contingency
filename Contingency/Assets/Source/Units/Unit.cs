@@ -6,6 +6,9 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 	public delegate void UnitKilledEventHandler(GameObject unit);
 	public event UnitKilledEventHandler OnUnitKilled;
 
+	public delegate void DamageReceivedEventHandler(float remainingHealth, IAttacker attacker);
+	public event DamageReceivedEventHandler OnDamageReceived;
+
 	private int m_id;
 	private Player m_owner;
 	private Renderer m_renderer;
@@ -82,6 +85,11 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 	{
 		get { return m_currentTarget; }
 	}
+
+	GameObject IAttacker.gameObject
+	{
+		get { return gameObject; }
+	}
 	#endregion
 
 	void Awake()
@@ -120,10 +128,15 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 		m_currentTarget = null;
 	}
 
-	public void ReceiveDamage(float damage)
+	public void ReceiveDamage(float damage, IAttacker attacker)
 	{
 		m_health -= damage;
-		Debug.Log(m_health);
+		//Debug.Log(m_health);
+
+		if (OnDamageReceived != null)
+		{
+			OnDamageReceived(m_health, attacker);
+		}
 
 		if (m_health <= 0f)
 		{
