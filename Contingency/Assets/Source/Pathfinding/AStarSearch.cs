@@ -145,7 +145,7 @@ public class AStarSearch
 		}
 
 		Profiler.EndSample();
-		Debug.Log("<color=red>Target not node found</color>");
+		Debug.Log("<color=red>Target node not found</color>");
 
 		// Clear return lists as search did not find valid path
 		m_nodePath.Clear();
