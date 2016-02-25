@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public static class GraphUtils
 {
@@ -229,7 +230,13 @@ public static class GraphUtils
 		float cellHeight = terrainData.size.z / graph.NumCellsY;
 
 		Bounds bounds = new Bounds(Vector3.zero, new Vector3(cellHeight, 1f, cellHeight));
-		GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
+
+		GameObject[] misc = GameObject.FindGameObjectsWithTag("Static/Misc");
+		GameObject[] buildings = GameObject.FindGameObjectsWithTag("Static/Building");
+
+		List<GameObject> obstacles = new List<GameObject>();
+		obstacles.AddRange(misc);
+		obstacles.AddRange(buildings);
 
 		// Move a bounds object to each node, and check whether it intersects with an obstacle
 		foreach (GraphNode node in graph.Nodes)

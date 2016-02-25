@@ -81,13 +81,13 @@ public class MouseCursor : MonoBehaviour
 				{
 					if (m_unitsSelected)
 					{
-						if (hitInfo.transform.tag == "Unit")
+						GameObject target = hitInfo.transform.gameObject;
+
+						if (target.tag == "Unit" && target.GetComponent<Unit>().Owner.ID != m_player.ID ||
+							target.tag == "Static/Building" && target.GetComponent<Building>().Owner.ID != m_player.ID)
 						{
-							if (hitInfo.transform.gameObject.GetComponent<Unit>().Owner.ID != m_player.ID)
-							{
-								Cursor.SetCursor(m_attack1, getCursorCentre(m_attack1), CursorMode.ForceSoftware);
-								m_mouseOverEnemy = true;
-							}
+							Cursor.SetCursor(m_attack1, getCursorCentre(m_attack1), CursorMode.ForceSoftware);
+							m_mouseOverEnemy = true;
 						}
 					}
 					break;
@@ -95,7 +95,6 @@ public class MouseCursor : MonoBehaviour
 
 			case InputManager.MouseEventType.OnMouseOverExit:
 				{
-					// if some shit
 					if (m_unitsSelected)
 					{
 						Cursor.SetCursor(m_move1, getCursorCentre(m_move1), CursorMode.ForceSoftware);
@@ -107,9 +106,6 @@ public class MouseCursor : MonoBehaviour
 					}
 					break;
 				}
-
-			default:
-				break;
 		}
 	}
 

@@ -168,14 +168,15 @@ public class UnitController : MonoBehaviour
 						break;
 					}
 
-					// If a unit that has been right-clicked on and it doesn't belong to the player, attack it
-					Unit target = hitInfo.transform.gameObject.GetComponent<Unit>();
-					//if (hitInfo.transform.tag == "Unit") // TODO: maybe do this instead?
-					if (target != null && target.Owner.ID != m_player.ID)
+					// If a unit or building that has been right-clicked doesn't belong to the player, attack it
+					GameObject target = hitInfo.transform.gameObject;
+
+					if (target.tag == "Unit" && target.GetComponent<Unit>().Owner.ID != m_player.ID ||
+						target.tag == "Static/Building" && target.GetComponent<Building>().Owner.ID != m_player.ID)
 					{
 						foreach (GameObject unit in m_selectedUnits)
 						{
-							Attack(unit.GetComponent<Unit>(), target);
+							Attack(unit.GetComponent<Unit>(), target.GetComponent<IDamageable>());
 						}
 					}
 					else // move to the right-clicked location
