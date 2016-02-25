@@ -47,7 +47,7 @@ public class Arrive
 	{
 		Vector3 velocityToTarget = targetPosition - m_steeringController.transform.position;
 
-		velocityToTarget.y = 0;
+		//velocityToTarget.y = 0;
 
 		float distance = velocityToTarget.magnitude;
 
@@ -74,7 +74,7 @@ public class Arrive
 		velocityToTarget *= targetSpeed;
 
 		// Calculate the linear acceleration
-		Vector3 acceleration = velocityToTarget - new Vector3(m_steeringController.Rigidbody.velocity.x, 0f, m_steeringController.Rigidbody.velocity.z);
+		Vector3 acceleration = velocityToTarget - new Vector3(m_steeringController.Rigidbody.velocity.x, m_steeringController.Rigidbody.velocity.y, m_steeringController.Rigidbody.velocity.z);
 
 		// Rather than accelerate the character to the correct speed in 1 second, 
 		// accelerate so we reach the desired speed in timeToTarget seconds 
