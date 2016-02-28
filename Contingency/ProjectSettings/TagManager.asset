@@ -11,6 +11,7 @@ TagManager:
   - SightRadius
   - Static/Misc
   - Static/Building
+  - Locator
   layers:
   - Default
   - TransparentFX

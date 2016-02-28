@@ -246,7 +246,14 @@ public class UnitController : MonoBehaviour
 
 	private IEnumerator MoveToAttack(Unit unit, IDamageable target)
 	{
-		MoveToPosition(unit, target.transform.position);
+		Vector3 targetPosition = target.transform.position;
+
+		if (target.transform.GetChild(0).tag == "Locator")
+		{
+			targetPosition = target.transform.GetChild(0).position;
+		}
+
+		MoveToPosition(unit, targetPosition);
 		yield return new WaitUntil(() => CanAttack(unit, target));
 		unit.Attack(target);
 	}
