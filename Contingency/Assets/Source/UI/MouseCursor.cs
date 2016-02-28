@@ -14,6 +14,7 @@ public class MouseCursor : MonoBehaviour
 
 	private Player m_player;
 	private UnitController m_unitController;
+	private InputManager m_inputManager;
 
 	private bool m_unitsSelected;
 	private bool m_mouseOverEnemy;
@@ -22,6 +23,7 @@ public class MouseCursor : MonoBehaviour
 	{
 		m_player = GetComponent<Player>();
 		m_unitController = GetComponent<UnitController>();
+		m_inputManager = GetComponent<InputManager>();
 
 		m_unitsSelected = false;
 		m_mouseOverEnemy = false;
@@ -29,13 +31,13 @@ public class MouseCursor : MonoBehaviour
 
 	void OnEnable()
 	{
-		InputManager.OnMouseEvent += MouseInput;
+		m_inputManager.OnMouseEvent += MouseInput;
 		m_unitController.OnSelectedUnitsUpdated += SelectedUnitUpdated;
 	}
 
 	void OnDisable()
 	{
-		InputManager.OnMouseEvent -= MouseInput;
+		m_inputManager.OnMouseEvent -= MouseInput;
 		m_unitController.OnSelectedUnitsUpdated -= SelectedUnitUpdated;
 	}
 

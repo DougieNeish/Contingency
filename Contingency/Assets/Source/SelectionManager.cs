@@ -19,6 +19,7 @@ public class SelectionManager : MonoBehaviour
 
 	private List<GameObject> m_selectedUnits;
 	private UnitController m_unitController;
+	private InputManager m_inputManager;
 
 	private List<GameObject>[] m_controlGroups;
 	private int m_selectedControlGroup;
@@ -32,6 +33,7 @@ public class SelectionManager : MonoBehaviour
 
 		m_selectedUnits = new List<GameObject>();
 		m_unitController = GetComponent<UnitController>();
+		m_inputManager = GetComponent<InputManager>();
 
 		m_controlGroups = new List<GameObject>[kMaxControlGroups];
 		for (int i = 0; i < m_controlGroups.Length; i++)
@@ -44,15 +46,15 @@ public class SelectionManager : MonoBehaviour
 
 	void OnEnable()
 	{
-		InputManager.OnMouseEvent += SelectionFromMouseEvents;
-		InputManager.OnMouseDrag += SelectionFromMouseDrag;
+		m_inputManager.OnMouseEvent += SelectionFromMouseEvents;
+		m_inputManager.OnMouseDrag += SelectionFromMouseDrag;
 	}
 
 	void OnDisable()
 	{
-		InputManager.OnMouseEvent -= SelectionFromMouseEvents;
-		InputManager.OnMouseDrag -= SelectionFromMouseDrag;
-	}	
+		m_inputManager.OnMouseEvent -= SelectionFromMouseEvents;
+		m_inputManager.OnMouseDrag -= SelectionFromMouseDrag;
+	}
 
 	void Update()
 	{

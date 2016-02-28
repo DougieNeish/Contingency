@@ -13,10 +13,10 @@ public class InputManager : MonoBehaviour
 	}
 
 	public delegate void MouseInputEventHandler(MouseEventType eventType, RaycastHit hitInfo);
-	public static event MouseInputEventHandler OnMouseEvent;
+	public event MouseInputEventHandler OnMouseEvent;
 
 	public delegate void MouseDragEventHandler(Vector3 mouseDownPosition, Vector3 currentMousePosition);
-	public static event MouseDragEventHandler OnMouseDrag;
+	public event MouseDragEventHandler OnMouseDrag;
 
 	public const int kRaycastLength = 1000;
 

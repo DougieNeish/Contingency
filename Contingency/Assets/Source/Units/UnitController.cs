@@ -19,6 +19,7 @@ public class UnitController : MonoBehaviour
 	private GameObject m_gameManager;
 	private Player m_player;
 	private SelectionManager m_selectionManager;
+	private InputManager m_inputManager;
 	private PathfindingController m_pathfindingController;
 
 	private Ray m_ray;
@@ -56,6 +57,7 @@ public class UnitController : MonoBehaviour
 		if (m_player.Type == Player.PlayerType.Human)
 		{
 			m_selectionManager = GetComponent<SelectionManager>();
+			m_inputManager = GetComponent<InputManager>();
 		}
 	}
 
@@ -65,7 +67,7 @@ public class UnitController : MonoBehaviour
 		{
 			m_selectionManager.OnNoObjectSelected += DeselectUnits;
 			m_selectionManager.OnUnitSelected += UpdateSelectedUnitList;
-			InputManager.OnMouseEvent += MouseInput;
+			m_inputManager.OnMouseEvent += MouseInput;
 		}
 	}
 
@@ -75,7 +77,7 @@ public class UnitController : MonoBehaviour
 		{
 			m_selectionManager.OnNoObjectSelected -= DeselectUnits;
 			m_selectionManager.OnUnitSelected -= UpdateSelectedUnitList;
-			InputManager.OnMouseEvent -= MouseInput;
+			m_inputManager.OnMouseEvent -= MouseInput;
 		}
 
 		//foreach (GameObject unit in m_units)
