@@ -2,6 +2,9 @@
 
 public class Building : MonoBehaviour, IDamageable
 {
+	public delegate void BuildingDestroyedEventHandler(Building building);
+	public event BuildingDestroyedEventHandler OnBuildingDestroyed;
+
 	private Player m_owner;
 	private float m_health;
 

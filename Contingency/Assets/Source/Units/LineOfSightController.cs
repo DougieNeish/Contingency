@@ -6,15 +6,24 @@ public class LineOfSightController : MonoBehaviour
 	public delegate void EnemyUnitSpottedEventHandler(Unit enemy);
 	public event EnemyUnitSpottedEventHandler OnEnemyUnitSpotted;
 
+	public delegate void EnemyBuildingSpottedEventHandler(Building building);
+	public event EnemyBuildingSpottedEventHandler OnEnemyBuildingSpotted;
+
 	private Player m_owner;
 	private Renderer m_renderer;
 
 	private int m_seenByUnits;
 	private List<Unit> m_nearbyEnemies;
+	private List<Building> m_nearbyEnemyBuildings;
 
 	public List<Unit> NearbyEnemies
 	{
 		get { return m_nearbyEnemies; }
+	}
+
+	public List<Building> NearbyEnemyBuildings
+	{
+		get { return m_nearbyEnemyBuildings; }
 	}
 
 	void Awake()
@@ -23,6 +32,7 @@ public class LineOfSightController : MonoBehaviour
 
 		m_seenByUnits = 0;
 		m_nearbyEnemies = new List<Unit>();
+		m_nearbyEnemyBuildings = new List<Building>();
 	}
 
 	void Start()
@@ -65,13 +75,23 @@ public class LineOfSightController : MonoBehaviour
 				}
 			}
 		}
-	}
+		else if (other.tag == "Static/Building")
+		{
+			Building building = other.GetComponent<Building>();
+			if (building.Owner.ID != m_owner.ID)
+			{
+				if (!m_nearbyEnemyBuildings.Contains(building))
+				{
+					m_nearbyEnemyBuildings.Add(building);
+					building.OnBuildingDestroyed += HandleBuildingDestroyed;
+				}
 
-	private void HandleUnitKilled(GameObject unit)
-	{
-		Unit enemy = unit.GetComponent<Unit>();
-		m_nearbyEnemies.Remove(enemy);
-		enemy.OnUnitKilled -= HandleUnitKilled;
+				if (OnEnemyBuildingSpotted != null)
+				{
+					OnEnemyBuildingSpotted(building);
+				}
+			}
+		}
 	}
 
 	void OnTriggerExit(Collider other)
@@ -92,13 +112,33 @@ public class LineOfSightController : MonoBehaviour
 					m_nearbyEnemies.Remove(unit);
 					unit.OnUnitKilled -= HandleUnitKilled;
 				}
-
-				if (OnEnemyUnitSpotted != null)
+			}
+		}
+		else if (other.tag == "Static/Building")
+		{
+			Building building = other.GetComponent<Building>();
+			if (building.Owner.ID != m_owner.ID)
+			{
+				if (!m_nearbyEnemyBuildings.Contains(building))
 				{
-					OnEnemyUnitSpotted(unit);
+					m_nearbyEnemyBuildings.Remove(building);
+					building.OnBuildingDestroyed -= HandleBuildingDestroyed;
 				}
 			}
 		}
+	}
+
+	private void HandleUnitKilled(GameObject unit)
+	{
+		Unit enemy = unit.GetComponent<Unit>();
+		m_nearbyEnemies.Remove(enemy);
+		enemy.OnUnitKilled -= HandleUnitKilled;
+	}
+
+	private void HandleBuildingDestroyed(Building building)
+	{
+		m_nearbyEnemyBuildings.Remove(building);
+		building.OnBuildingDestroyed -= HandleBuildingDestroyed;
 	}
 
 	// TODO: FINISH ME

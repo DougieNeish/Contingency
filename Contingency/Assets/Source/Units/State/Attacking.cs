@@ -37,6 +37,13 @@ public class Attacking : State<Unit>
 		{
 			m_unit.UnitController.Attack(m_unit, m_unit.LineOfSightController.NearbyEnemies[0]);
 		}
+		else if (m_unit.LineOfSightController.NearbyEnemyBuildings.Count > 0)
+		{
+			if (m_unit.LineOfSightController.NearbyEnemyBuildings[0] != null)
+			{
+				m_unit.UnitController.Attack(m_unit, m_unit.LineOfSightController.NearbyEnemyBuildings[0]);
+			}
+		}
 		else
 		{
 			m_unit.StateMachine.ChangeState(new Idle());

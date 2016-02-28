@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 public class Idle : State<Unit>
 {
 	private Unit m_unit;
@@ -7,6 +9,7 @@ public class Idle : State<Unit>
 	{
 		m_unit = entity;
 		entity.LineOfSightController.OnEnemyUnitSpotted += HandleEnemySpotted;
+		entity.LineOfSightController.OnEnemyBuildingSpotted += HandleEnemyBuildingSpotted;
 		entity.OnDamageReceived += HandleDamageReceived;
 
 		entity.Stop();
@@ -26,6 +29,11 @@ public class Idle : State<Unit>
 	private void HandleEnemySpotted(Unit enemy)
 	{
 		m_unit.UnitController.Attack(m_unit, enemy);
+	}
+
+	private void HandleEnemyBuildingSpotted(Building building)
+	{
+		m_unit.UnitController.Attack(m_unit, building);
 	}
 
 	private void HandleDamageReceived(float remainingHealth, IAttacker attacker)
