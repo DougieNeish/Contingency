@@ -17,6 +17,11 @@ public class Building : MonoBehaviour, IDamageable
 		set { m_owner = value; }
 	}
 
+	void Awake()
+	{
+		m_health = 100f;
+	}
+
 	public void ReceiveDamage(float damage, IAttacker attacker)
 	{
 		m_health -= damage;
