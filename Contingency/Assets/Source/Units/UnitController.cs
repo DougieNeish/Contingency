@@ -4,6 +4,20 @@ using System.Collections.Generic;
 
 public class UnitController : MonoBehaviour
 {
+	public enum UnitType
+	{
+		Laser,
+		Sniper,
+		Scout,
+	}
+
+	[System.Serializable]
+	public class UnitLookup
+	{
+		public UnitType type;
+		public GameObject prefab;
+	}
+
 	public delegate void UnitSpawnedEventHandler(GameObject unit);
 	public event UnitSpawnedEventHandler OnUnitSpawned;
 
@@ -12,7 +26,7 @@ public class UnitController : MonoBehaviour
 
 	private static int m_nextUnitID;
 
-	[SerializeField] private GameObject[] m_unitPrefabs;
+	[SerializeField] private UnitLookup[] m_unitLookup;
 	private List<GameObject> m_units;
 	private List<GameObject> m_selectedUnits;
 
@@ -296,19 +310,30 @@ public class UnitController : MonoBehaviour
 		m_selectedUnits.Remove(unit);
 	}
 
-	public void CreateUnitOnMouse()
+	private GameObject GetUnitPrefab(UnitType unitType)
+	{
+		for (int i = 0; i < m_unitLookup.Length; i++)
+		{
+			if (m_unitLookup[i].type == unitType)
+			{
+				return m_unitLookup[i].prefab;
+			}
+		}
+		return null;
+	}
+
+	public void CreateUnitOnMouse(UnitType unitType)
 	{
 		RaycastHit hitObject;
 		if (Physics.Raycast(m_ray, out hitObject, InputManager.kRaycastLength))
 		{
 			Vector3 position = new Vector3(hitObject.point.x, hitObject.point.y + 0.7f, hitObject.point.z);
-			GameObject newUnit = Instantiate(m_unitPrefabs[0], position, Quaternion.identity) as GameObject;
+			GameObject newUnit = Instantiate(GetUnitPrefab(unitType), position, Quaternion.identity) as GameObject;
 
 			Unit unit = newUnit.GetComponent<Unit>();
 			// TODO: Move to init params?
 			unit.Owner = m_player;
 			unit.UnitController = this;
-
 			unit.OnUnitKilled += HandleUnitDeath;
 
 			m_units.Add(newUnit);

@@ -38,7 +38,7 @@ public class Game : MonoBehaviour
 			player.transform.SetParent(gameObject.transform);
 			m_players[i] = player.GetComponent<Player>();
 
-			m_buildings[1].GetComponent<Building>().Owner = player.GetComponent<Player>();
+			m_buildings[0].GetComponent<Building>().Owner = player.GetComponent<Player>();
 		}
 
 		for (int i = 0; i < kAIPlayerCount; i++)
@@ -47,20 +47,45 @@ public class Game : MonoBehaviour
 			player.transform.SetParent(gameObject.transform);
 			m_players[kHumanPlayerCount + i] = player.GetComponent<Player>();
 
-			m_buildings[0].GetComponent<Building>().Owner = player.GetComponent<Player>();
+			m_buildings[1].GetComponent<Building>().Owner = player.GetComponent<Player>();
 		}
 	}
 
 	void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-			m_players[0].GetComponent<UnitController>().CreateUnitOnMouse();
-		}
+		//if (Input.GetKeyDown(KeyCode.Space))
+		//{
+		//	m_players[0].GetComponent<UnitController>().CreateUnitOnMouse(UnitController.UnitType.Laser);
+		//}
 
-		if (Input.GetKeyDown(KeyCode.E))
+		//if (Input.GetKeyDown(KeyCode.E))
+		//{
+		//	m_players[1].GetComponent<UnitController>().CreateUnitOnMouse(UnitController.UnitType.Laser);
+		//}
+
+		if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
-			m_players[1].GetComponent<UnitController>().CreateUnitOnMouse();
+			m_players[0].GetComponent<UnitController>().CreateUnitOnMouse(UnitController.UnitType.Laser);
+		}
+		else if (Input.GetKeyDown(KeyCode.Alpha2))
+		{
+			m_players[0].GetComponent<UnitController>().CreateUnitOnMouse(UnitController.UnitType.Sniper);
+		}
+		else if (Input.GetKeyDown(KeyCode.Alpha3))
+		{
+			m_players[0].GetComponent<UnitController>().CreateUnitOnMouse(UnitController.UnitType.Scout);
+		}
+		else if (Input.GetKeyDown(KeyCode.Alpha4))
+		{
+			m_players[1].GetComponent<UnitController>().CreateUnitOnMouse(UnitController.UnitType.Laser);
+		}
+		else if (Input.GetKeyDown(KeyCode.Alpha5))
+		{
+			m_players[1].GetComponent<UnitController>().CreateUnitOnMouse(UnitController.UnitType.Sniper);
+		}
+		else if (Input.GetKeyDown(KeyCode.Alpha6))
+		{
+			m_players[1].GetComponent<UnitController>().CreateUnitOnMouse(UnitController.UnitType.Scout);
 		}
 	}
 }
