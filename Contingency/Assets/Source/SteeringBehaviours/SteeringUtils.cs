@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public static class SteeringUtils
 {
-	public const float kWaypointLoopActivationDistance = 2f;
+	public const float kWaypointLoopActivationDistance = 3f;
 
 	public static void SetArriveTarget(this SteeringController steeringController, Vector3 target)
 	{
@@ -51,8 +51,6 @@ public static class SteeringUtils
 				steeringController.AddWaypoint(waypoints[i], (newPath && i == 0));
 			}
 		}
-
-		steeringController.PathFollowing.Path.Loop = false;
 	}
 
 	public static void Stop(this SteeringController steeringController)

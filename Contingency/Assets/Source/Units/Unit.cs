@@ -120,6 +120,14 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 		m_stateMachine.Update();
 	}
 
+	void OnDrawGizmos()
+	{
+		if (m_steeringController.PathFollowing.Path.Waypoints.Count > 1)
+		{
+			Gizmos.DrawWireSphere(m_steeringController.PathFollowing.Path.Waypoints[0], SteeringUtils.kWaypointLoopActivationDistance);
+		}
+	}
+
 	public void Stop()
 	{
 		m_steeringController.Stop();
