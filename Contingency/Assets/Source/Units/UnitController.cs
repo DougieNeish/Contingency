@@ -12,7 +12,7 @@ public class UnitController : MonoBehaviour
 
 	private static int m_nextUnitID;
 
-	[SerializeField] private GameObject m_unitPrefab;
+	[SerializeField] private GameObject[] m_unitPrefabs;
 	private List<GameObject> m_units;
 	private List<GameObject> m_selectedUnits;
 
@@ -302,7 +302,7 @@ public class UnitController : MonoBehaviour
 		if (Physics.Raycast(m_ray, out hitObject, InputManager.kRaycastLength))
 		{
 			Vector3 position = new Vector3(hitObject.point.x, hitObject.point.y + 0.7f, hitObject.point.z);
-			GameObject newUnit = Instantiate(m_unitPrefab, position, Quaternion.identity) as GameObject;
+			GameObject newUnit = Instantiate(m_unitPrefabs[0], position, Quaternion.identity) as GameObject;
 
 			Unit unit = newUnit.GetComponent<Unit>();
 			// TODO: Move to init params?

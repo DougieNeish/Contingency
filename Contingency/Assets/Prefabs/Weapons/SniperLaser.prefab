@@ -40,9 +40,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10bf123f2496c4240b0e3a3bed36c996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_damage: 10
-  m_range: 25
-  m_fireRate: 1.2
+  m_damage: 25
+  m_range: 35
+  m_fireRate: 0.7
 --- !u!120 &12090274
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -91,7 +91,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: m_range
-      value: 25
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_UseWorldSpace
@@ -99,11 +99,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_damage
-      value: 10
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_fireRate
-      value: 1.2
+      value: 0.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
