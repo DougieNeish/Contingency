@@ -7,18 +7,16 @@ public class Moving : State<Unit>
 	{
 		m_unit = entity;
 		entity.SteeringController.PathFollowing.OnPathCompleted += HandlePathCompleted;
-		//entity.LineOfSightRenderer.OnEnemyUnitSpotted += HandleEnemySpotted;
+		entity.OnDamageReceived += HandleOnDamageReceived;
 	}
 
 	public override void Execute(Unit entity)
 	{
-		// if (stance == aggressive && taking damage) attack
 	}
 
 	public override void Exit(Unit entity)
 	{
 		entity.SteeringController.PathFollowing.OnPathCompleted -= HandlePathCompleted;
-		//entity.LineOfSightRenderer.OnEnemyUnitSpotted -= HandleEnemySpotted;
 	}
 
 	private void HandlePathCompleted()
@@ -26,8 +24,11 @@ public class Moving : State<Unit>
 		m_unit.StateMachine.ChangeState(new Idle());
 	}
 
-	//private void HandleEnemySpotted(Unit enemy)
-	//{
-	//	m_unit.UnitController.Attack(m_unit, enemy);
-	//}
+	private void HandleOnDamageReceived(float remainingHealth, IAttacker attacker)
+	{
+		if (m_unit.Stance == Unit.CombatStance.Aggressive)
+		{
+			m_unit.UnitController.Attack(m_unit, attacker.gameObject.GetComponent<Unit>());
+		}
+	}
 }
