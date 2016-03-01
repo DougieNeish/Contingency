@@ -63,6 +63,7 @@ public class Game : MonoBehaviour
 		//	m_players[1].GetComponent<UnitController>().CreateUnitOnMouse(UnitController.UnitType.Laser);
 		//}
 
+		// Unit spawning
 		if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
 			m_players[0].GetComponent<UnitController>().CreateUnitOnMouse(UnitController.UnitType.Laser);
@@ -86,6 +87,20 @@ public class Game : MonoBehaviour
 		else if (Input.GetKeyDown(KeyCode.Alpha6))
 		{
 			m_players[1].GetComponent<UnitController>().CreateUnitOnMouse(UnitController.UnitType.Scout);
+		}
+
+		// Unit stance
+		if (Input.GetKeyDown(KeyCode.J))
+		{
+			m_players[0].GetComponent<UnitController>().SetSelectedUnitsStance(Unit.CombatStance.Aggressive);
+		}
+		else if (Input.GetKeyDown(KeyCode.K))
+		{
+			m_players[0].GetComponent<UnitController>().SetSelectedUnitsStance(Unit.CombatStance.Defensive);
+		}
+		else if (Input.GetKeyDown(KeyCode.L))
+		{
+			m_players[0].GetComponent<UnitController>().SetSelectedUnitsStance(Unit.CombatStance.Static);
 		}
 	}
 }
