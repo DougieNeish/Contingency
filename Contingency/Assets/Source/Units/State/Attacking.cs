@@ -50,6 +50,10 @@ public class Attacking : State<Unit>
 				m_unit.UnitController.Attack(m_unit, m_unit.LineOfSightController.NearbyEnemyBuildings[0]);
 			}
 		}
+		else if (m_unit.Stance == Unit.CombatStance.Defensive)
+		{
+			m_unit.UnitController.MoveToPosition(m_unit, m_unit.LastStationaryPosition);
+		}
 		else
 		{
 			m_unit.StateMachine.ChangeState(new Idle());
