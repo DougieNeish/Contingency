@@ -13,11 +13,11 @@ public class Idle : State<Unit>
 		entity.OnDamageReceived += HandleDamageReceived;
 
 		entity.Stop();
+		entity.LastStationaryPosition = entity.transform.position;
 	}
 
 	public override void Execute(Unit entity)
 	{
-		// if take damage, return fire
 	}
 
 	public override void Exit(Unit entity)
@@ -28,12 +28,18 @@ public class Idle : State<Unit>
 
 	private void HandleEnemySpotted(Unit enemy)
 	{
-		m_unit.UnitController.Attack(m_unit, enemy);
+		if (m_unit.Stance != Unit.CombatStance.Static)
+		{
+			m_unit.UnitController.Attack(m_unit, enemy);
+		}
 	}
 
 	private void HandleEnemyBuildingSpotted(Building building)
 	{
-		m_unit.UnitController.Attack(m_unit, building);
+		if (m_unit.Stance != Unit.CombatStance.Static)
+		{
+			m_unit.UnitController.Attack(m_unit, building);
+		}
 	}
 
 	private void HandleDamageReceived(float remainingHealth, IAttacker attacker)
