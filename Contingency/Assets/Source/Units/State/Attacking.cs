@@ -24,6 +24,12 @@ public class Attacking : State<Unit>
 		//		entity.StateMachine.ChangeState(new Idle());
 		//	}
 		//}
+
+		// If the target can no longer be attacked - i.e moves out of range - restart the attack sequence
+		if (!entity.UnitController.CanAttack(entity, entity.CurrentTarget))
+		{
+			entity.UnitController.Attack(entity, entity.CurrentTarget);
+		}
 	}
 
 	public override void Exit(Unit entity)
