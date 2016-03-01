@@ -64,15 +64,15 @@ public class SelectionManager : MonoBehaviour
 		{
 			if (Input.GetKeyDown(KeyCode.J))
 			{
-				m_lastSelectedUnit.UnitController.SetSelectedUnitsStance(Unit.CombatStance.Aggressive);
+				m_lastSelectedUnit.Stance = Unit.CombatStance.Aggressive;
 			}
 			else if (Input.GetKeyDown(KeyCode.K))
 			{
-				m_lastSelectedUnit.UnitController.SetSelectedUnitsStance(Unit.CombatStance.Defensive);
+				m_lastSelectedUnit.Stance = Unit.CombatStance.Defensive;
 			}
 			else if (Input.GetKeyDown(KeyCode.L))
 			{
-				m_lastSelectedUnit.UnitController.SetSelectedUnitsStance(Unit.CombatStance.Static);
+				m_lastSelectedUnit.Stance = Unit.CombatStance.Static;
 			}
 		}
 	}

@@ -90,17 +90,17 @@ public class Game : MonoBehaviour
 		}
 
 		// Unit stance
-		if (Input.GetKeyDown(KeyCode.J))
-		{
-			m_players[0].GetComponent<UnitController>().SetSelectedUnitsStance(Unit.CombatStance.Aggressive);
-		}
-		else if (Input.GetKeyDown(KeyCode.K))
-		{
-			m_players[0].GetComponent<UnitController>().SetSelectedUnitsStance(Unit.CombatStance.Defensive);
-		}
-		else if (Input.GetKeyDown(KeyCode.L))
-		{
-			m_players[0].GetComponent<UnitController>().SetSelectedUnitsStance(Unit.CombatStance.Static);
-		}
+		//if (Input.GetKeyDown(KeyCode.J))
+		//{
+		//	m_players[0].GetComponent<UnitController>().SetSelectedUnitsStance(Unit.CombatStance.Aggressive);
+		//}
+		//else if (Input.GetKeyDown(KeyCode.K))
+		//{
+		//	m_players[0].GetComponent<UnitController>().SetSelectedUnitsStance(Unit.CombatStance.Defensive);
+		//}
+		//else if (Input.GetKeyDown(KeyCode.L))
+		//{
+		//	m_players[0].GetComponent<UnitController>().SetSelectedUnitsStance(Unit.CombatStance.Static);
+		//}
 	}
 }
