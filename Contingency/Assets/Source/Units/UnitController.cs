@@ -111,10 +111,11 @@ public class UnitController : MonoBehaviour
 		//}
 	}
 
-	public void MoveToPosition(Unit unit, Vector3 targetPosition)
+	public void MoveToPosition(Unit unit, Vector3 targetPosition, bool setMovingState = true)
 	{
 		// Don't override MovingToAttack state
-		if (!unit.StateMachine.IsInState(new MovingToAttack()))
+		//if (!unit.StateMachine.IsInState(new MovingToAttack()))
+		if (setMovingState)
 		{
 			unit.StateMachine.ChangeState(new Moving());
 		}
@@ -170,6 +171,15 @@ public class UnitController : MonoBehaviour
 
 		unit.StateMachine.ChangeState(new MovingToAttack());
 		StartCoroutine(MoveToAttack(unit, target));
+	}
+
+	public void SetSelectedUnitsStance(Unit.CombatStance stance)
+	{
+		foreach (GameObject unit in m_selectedUnits)
+		{
+			unit.GetComponent<Unit>().Stance = stance;
+			Debug.Log("Stance: " + stance);
+		}
 	}
 
 	private void MouseInput(InputManager.MouseEventType eventType, RaycastHit hitInfo)
@@ -260,19 +270,35 @@ public class UnitController : MonoBehaviour
 
 	private IEnumerator MoveToAttack(Unit unit, IDamageable target)
 	{
+		// TODO: FIX THIS, it's broken
+		if (unit.Stance == Unit.CombatStance.Static)
+		{
+			if (CanAttack(unit, target))
+			{
+				unit.Attack(target);
+			}
+			else
+			{
+				StopCoroutine("MoveToAttack");
+				unit.StateMachine.ChangeState(new Idle());
+				yield return 1;
+			}
+		}
+
 		Vector3 targetPosition = target.transform.position;
 
+		// If target is a building
 		if (target.transform.GetChild(0).tag == "Locator")
 		{
 			targetPosition = target.transform.GetChild(0).position;
 		}
 
-		MoveToPosition(unit, targetPosition);
+		MoveToPosition(unit, targetPosition, false);
 		yield return new WaitUntil(() => CanAttack(unit, target));
 		unit.Attack(target);
 	}
 
-	private bool CanAttack(Unit unit, IDamageable target)
+	public bool CanAttack(Unit unit, IDamageable target)
 	{
 		if (unit == null || target.transform == null)
 		{
