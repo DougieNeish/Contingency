@@ -9,6 +9,13 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 	public delegate void DamageReceivedEventHandler(float remainingHealth, IAttacker attacker);
 	public event DamageReceivedEventHandler OnDamageReceived;
 
+	public enum CombatStance
+	{
+		Aggressive,
+		Defensive,
+		Static,
+	}
+
 	private int m_id;
 	private Player m_owner;
 	private Renderer m_renderer;
@@ -18,10 +25,14 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 
 	private float m_health;
 	private IDamageable m_currentTarget;
+	private CombatStance m_stance;
 	[SerializeField] private float m_sightRadius;
 	[SerializeField] private Weapon m_weapon;
 
 	private StateMachine<Unit> m_stateMachine;
+	private Vector3 m_lastStationaryPosition;
+
+	public const float kDefensiveRange = 18f;
 
 	#region Unit Properties
 	public int ID
@@ -51,6 +62,12 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 		get { return m_lineOfSightController; }
 	}
 
+	public CombatStance Stance
+	{
+		get { return m_stance; }
+		set { m_stance = value; }
+	}
+
 	public float SightRadius
 	{
 		get { return m_sightRadius; }
@@ -64,6 +81,12 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 	public StateMachine<Unit> StateMachine
 	{
 		get { return m_stateMachine; }
+	}
+
+	public Vector3 LastStationaryPosition
+	{
+		get { return m_lastStationaryPosition; }
+		set { m_lastStationaryPosition = value; }
 	}
 	#endregion
 
@@ -101,11 +124,13 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 
 		m_health = 100f;
 		m_currentTarget = null;
+		m_stance = CombatStance.Aggressive;
 
 		m_weapon = Instantiate(m_weapon, transform.position, Quaternion.identity) as Weapon;
 		m_weapon.transform.SetParent(gameObject.transform);
 
 		m_stateMachine = new StateMachine<Unit>(this);
+		m_lastStationaryPosition = Vector3.zero;
 	}
 
 	void Start()
