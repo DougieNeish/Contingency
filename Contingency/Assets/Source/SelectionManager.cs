@@ -59,6 +59,22 @@ public class SelectionManager : MonoBehaviour
 	void Update()
 	{
 		ControlGroupSelection();
+
+		if (m_lastSelectedUnit != null)
+		{
+			if (Input.GetKeyDown(KeyCode.J))
+			{
+				m_lastSelectedUnit.UnitController.SetSelectedUnitsStance(Unit.CombatStance.Aggressive);
+			}
+			else if (Input.GetKeyDown(KeyCode.K))
+			{
+				m_lastSelectedUnit.UnitController.SetSelectedUnitsStance(Unit.CombatStance.Defensive);
+			}
+			else if (Input.GetKeyDown(KeyCode.L))
+			{
+				m_lastSelectedUnit.UnitController.SetSelectedUnitsStance(Unit.CombatStance.Static);
+			}
+		}
 	}
 
 	// TODO: Move to debug info class
@@ -68,6 +84,7 @@ public class SelectionManager : MonoBehaviour
 		if (m_lastSelectedUnit != null)
 		{
 			GUI.Label(new Rect(5, 30, 100, 25), m_lastSelectedUnit.StateMachine.CurrentState.GetType().ToString());
+			GUI.Label(new Rect(5, 55, 100, 25), m_lastSelectedUnit.Stance.ToString());
 		}
 	}
 
