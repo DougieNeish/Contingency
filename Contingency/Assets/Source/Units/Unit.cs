@@ -32,7 +32,7 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 	private StateMachine<Unit> m_stateMachine;
 	private Vector3 m_lastStationaryPosition;
 
-	public const float kDefensiveRange = 18f;
+	public const float kDefensiveRange = 12f;
 
 	#region Unit Properties
 	public int ID
