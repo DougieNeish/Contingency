@@ -86,7 +86,7 @@ public class MouseCursor : MonoBehaviour
 						GameObject target = hitInfo.transform.gameObject;
 
 						if (target.tag == "Unit" && target.GetComponent<Unit>().Owner.ID != m_player.ID ||
-							target.tag == "Static/Building" && target.GetComponent<Building>().Owner.ID != m_player.ID)
+							target.tag == "Static/AIBuilding")
 						{
 							Cursor.SetCursor(m_attack1, getCursorCentre(m_attack1), CursorMode.ForceSoftware);
 							m_mouseOverEnemy = true;

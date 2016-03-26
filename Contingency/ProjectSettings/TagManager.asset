@@ -10,8 +10,9 @@ TagManager:
   - GameManager
   - SightRadius
   - Static/Misc
-  - Static/Building
   - Locator
+  - Static/HumanBuilding
+  - Static/AIBuilding
   layers:
   - Default
   - TransparentFX

@@ -75,21 +75,19 @@ public class LineOfSightController : MonoBehaviour
 				}
 			}
 		}
-		else if (other.tag == "Static/Building")
+		else if (other.tag == "Static/AIBuilding")
 		{
 			Building building = other.GetComponent<Building>();
-			if (building.Owner.ID != m_owner.ID)
-			{
-				if (!m_nearbyEnemyBuildings.Contains(building))
-				{
-					m_nearbyEnemyBuildings.Add(building);
-					building.OnBuildingDestroyed += HandleBuildingDestroyed;
-				}
 
-				if (OnEnemyBuildingSpotted != null)
-				{
-					OnEnemyBuildingSpotted(building);
-				}
+			if (!m_nearbyEnemyBuildings.Contains(building))
+			{
+				m_nearbyEnemyBuildings.Add(building);
+				building.OnBuildingDestroyed += HandleBuildingDestroyed;
+			}
+
+			if (OnEnemyBuildingSpotted != null)
+			{
+				OnEnemyBuildingSpotted(building);
 			}
 		}
 	}
@@ -114,16 +112,14 @@ public class LineOfSightController : MonoBehaviour
 				}
 			}
 		}
-		else if (other.tag == "Static/Building")
+		else if (other.tag == "Static/AIBuilding")
 		{
 			Building building = other.GetComponent<Building>();
-			if (building.Owner.ID != m_owner.ID)
+
+			if (!m_nearbyEnemyBuildings.Contains(building))
 			{
-				if (!m_nearbyEnemyBuildings.Contains(building))
-				{
-					m_nearbyEnemyBuildings.Remove(building);
-					building.OnBuildingDestroyed -= HandleBuildingDestroyed;
-				}
+				m_nearbyEnemyBuildings.Remove(building);
+				building.OnBuildingDestroyed -= HandleBuildingDestroyed;
 			}
 		}
 	}

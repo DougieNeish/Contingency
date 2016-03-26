@@ -231,12 +231,10 @@ public static class GraphUtils
 
 		Bounds bounds = new Bounds(Vector3.zero, new Vector3(cellHeight, 1f, cellHeight));
 
-		GameObject[] misc = GameObject.FindGameObjectsWithTag("Static/Misc");
-		GameObject[] buildings = GameObject.FindGameObjectsWithTag("Static/Building");
-
 		List<GameObject> obstacles = new List<GameObject>();
-		obstacles.AddRange(misc);
-		obstacles.AddRange(buildings);
+		obstacles.AddRange(GameObject.FindGameObjectsWithTag("Static/Misc"));
+		obstacles.Add(GameObject.FindGameObjectWithTag("Static/HumanBuilding"));
+		obstacles.Add(GameObject.FindGameObjectWithTag("Static/AIBuilding"));
 
 		// Move a bounds object to each node, and check whether it intersects with an obstacle
 		foreach (GraphNode node in graph.Nodes)

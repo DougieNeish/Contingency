@@ -198,7 +198,7 @@ public class UnitController : MonoBehaviour
 					GameObject target = hitInfo.transform.gameObject;
 
 					if (target.tag == "Unit" && target.GetComponent<Unit>().Owner.ID != m_player.ID ||
-						target.tag == "Static/Building" && target.GetComponent<Building>().Owner.ID != m_player.ID)
+						target.tag == "Static/AIBuilding")
 					{
 						foreach (GameObject unit in m_selectedUnits)
 						{

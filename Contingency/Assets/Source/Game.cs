@@ -10,7 +10,8 @@ public class Game : MonoBehaviour
 	private Player[] m_players;
 	[SerializeField] GameObject m_humanPlayerPrefab;
 	[SerializeField] GameObject m_AIPlayerPrefab;
-	private GameObject[] m_buildings;
+	private GameObject m_humanBuilding;
+	private GameObject m_AIBuilding;
 
 	public static int NextPlayerID
 	{
@@ -26,7 +27,8 @@ public class Game : MonoBehaviour
 	{
 		m_nextPlayerID = 0;
 		m_players = new Player[PlayerCount];
-		m_buildings = GameObject.FindGameObjectsWithTag("Static/Building");
+		m_humanBuilding = GameObject.FindGameObjectWithTag("Static/HumanBuilding");
+		m_AIBuilding = GameObject.FindGameObjectWithTag("Static/AIBuilding");
 	}
 
 	void Start()
@@ -38,7 +40,7 @@ public class Game : MonoBehaviour
 			player.transform.SetParent(gameObject.transform);
 			m_players[i] = player.GetComponent<Player>();
 
-			m_buildings[0].GetComponent<Building>().Owner = player.GetComponent<Player>();
+			m_humanBuilding.GetComponent<Building>().Owner = player.GetComponent<Player>();
 		}
 
 		for (int i = 0; i < kAIPlayerCount; i++)
@@ -47,7 +49,7 @@ public class Game : MonoBehaviour
 			player.transform.SetParent(gameObject.transform);
 			m_players[kHumanPlayerCount + i] = player.GetComponent<Player>();
 
-			m_buildings[1].GetComponent<Building>().Owner = player.GetComponent<Player>();
+			m_AIBuilding.GetComponent<Building>().Owner = player.GetComponent<Player>();
 		}
 	}
 
