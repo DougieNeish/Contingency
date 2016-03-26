@@ -17,6 +17,7 @@ public class Moving : State<Unit>
 	public override void Exit(Unit entity)
 	{
 		entity.SteeringController.PathFollowing.OnPathCompleted -= HandlePathCompleted;
+		entity.OnDamageReceived -= HandleOnDamageReceived;
 	}
 
 	private void HandlePathCompleted()
