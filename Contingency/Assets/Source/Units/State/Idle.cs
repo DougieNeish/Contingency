@@ -1,6 +1,4 @@
 ﻿
-using System;
-
 public class Idle : State<Unit>
 {
 	private Unit m_unit;
@@ -23,6 +21,7 @@ public class Idle : State<Unit>
 	public override void Exit(Unit entity)
 	{
 		entity.LineOfSightController.OnEnemyUnitSpotted -= HandleEnemySpotted;
+		entity.LineOfSightController.OnEnemyBuildingSpotted -= HandleEnemyBuildingSpotted;
 		entity.OnDamageReceived -= HandleDamageReceived;
 	}
 

@@ -2,6 +2,9 @@
 
 public class Flee
 {
+	public delegate void TargetEvadedEventHandler();
+	public event TargetEvadedEventHandler OnTargetEvaded;
+
 	protected readonly SteeringController m_steeringController;
 	private Vector3 m_targetPosition;
 	private float m_panicDistance = float.MaxValue;
@@ -60,6 +63,11 @@ public class Flee
 			}
 			else
 			{
+				if (OnTargetEvaded != null)
+				{
+					OnTargetEvaded();
+				}
+
 				//m_steeringController.m_rb.velocity = Vector3.zero;
 				return Vector3.zero;
 			}

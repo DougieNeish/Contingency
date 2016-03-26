@@ -51,6 +51,11 @@ public class StateMachine<EntityType>
 		m_currentState.Enter(m_owner);
 	}
 
+	public void SetGlobalState(State<EntityType> newState)
+	{
+		newState.Enter(m_owner);
+	}
+
 	public void RevertToPreviousState()
 	{
 		ChangeState(m_previousState);

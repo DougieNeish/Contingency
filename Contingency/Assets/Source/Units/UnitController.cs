@@ -113,15 +113,14 @@ public class UnitController : MonoBehaviour
 
 	public void MoveToPosition(Unit unit, Vector3 targetPosition, bool setMovingState = true)
 	{
-		// Don't override MovingToAttack state
-		//if (!unit.StateMachine.IsInState(new MovingToAttack()))
 		if (setMovingState)
 		{
 			unit.StateMachine.ChangeState(new Moving());
 		}
 
 		SteeringController steeringController = unit.SteeringController;
-		steeringController.TurnOffBehaviour(SteeringController.BehaviourType.Flocking);
+		//steeringController.TurnOffBehaviour(SteeringController.BehaviourType.Flocking);
+		steeringController.MaxVelocity = Unit.kMaxVelocity;
 
 		Vector3[] waypoints;
 		if (Input.GetKey(KeyCode.LeftShift))
@@ -171,6 +170,16 @@ public class UnitController : MonoBehaviour
 
 		unit.StateMachine.ChangeState(new MovingToAttack());
 		StartCoroutine(MoveToAttack(unit, target));
+	}
+
+	public void Flee(Unit unit, Vector3 target)
+	{
+		unit.StateMachine.ChangeState(new Fleeing());
+		unit.SteeringController.Flee.TargetPosition = target;
+		unit.SteeringController.Flee.PanicDistance = 80f;
+		unit.SteeringController.Flee.DecelerateToStop = false;
+		unit.SteeringController.MaxVelocity = Unit.kFleeVelocity;
+		unit.SteeringController.TurnOnBehaviour(SteeringController.BehaviourType.Flee);
 	}
 
 	public void SetSelectedUnitsStance(Unit.CombatStance stance)

@@ -33,6 +33,8 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 	private Vector3 m_lastStationaryPosition;
 
 	public const float kDefensiveRange = 12f;
+	public const float kMaxVelocity = 6f;
+	public const float kFleeVelocity = 9f;
 
 	#region Unit Properties
 	public int ID
@@ -125,11 +127,13 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 		m_health = 100f;
 		m_currentTarget = null;
 		m_stance = CombatStance.Aggressive;
+		m_steeringController.MaxVelocity = kMaxVelocity;
 
 		m_weapon = Instantiate(m_weapon, transform.position, Quaternion.identity) as Weapon;
 		m_weapon.transform.SetParent(gameObject.transform);
 
 		m_stateMachine = new StateMachine<Unit>(this);
+		m_stateMachine.SetGlobalState(new Global());
 		m_lastStationaryPosition = Vector3.zero;
 	}
 
