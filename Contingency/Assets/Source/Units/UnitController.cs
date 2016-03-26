@@ -285,13 +285,9 @@ public class UnitController : MonoBehaviour
 			}
 		}
 
-		Vector3 targetPosition = target.transform.position;
-
-		// If target is a building
-		if (target.transform.GetChild(0).tag == "Locator")
-		{
-			targetPosition = target.transform.GetChild(0).position;
-		}
+		// If target is a building use its locator as the target position
+		Transform child = target.transform.GetChild(0);
+		Vector3 targetPosition = child.tag == "Locator" ? child.position : target.transform.position;
 
 		MoveToPosition(unit, targetPosition, false);
 		yield return new WaitUntil(() => CanAttack(unit, target));
