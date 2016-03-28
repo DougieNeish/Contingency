@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 public class SelectionManager : MonoBehaviour
 {
-	public delegate void ObectNotSelectedEventHandler();
-	public event ObectNotSelectedEventHandler OnNoObjectSelected;
+	public delegate void ObjectNotSelectedEventHandler();
+	public event ObjectNotSelectedEventHandler OnNoObjectSelected;
 
 	public delegate void ObjectSelectedEventHandler(List<GameObject> selectedObjects, bool modifyCurrentSelection);
 	public event ObjectSelectedEventHandler OnUnitSelected;
@@ -14,6 +14,9 @@ public class SelectionManager : MonoBehaviour
 
 	public delegate void MultiSelectionEndEventHandler();
 	public event MultiSelectionEndEventHandler OnMultiSelectionEnd;
+
+	public delegate void AnyUnitSelectedEventHandler(Unit unit);
+	public event AnyUnitSelectedEventHandler OnAnyUnitSelected;
 
 	private Player m_player;
 
@@ -79,14 +82,6 @@ public class SelectionManager : MonoBehaviour
 
 	// TODO: Move to debug info class
 	Unit m_lastSelectedUnit;
-	void OnGUI()
-	{
-		if (m_lastSelectedUnit != null)
-		{
-			GUI.Label(new Rect(5, 30, 100, 25), m_lastSelectedUnit.StateMachine.CurrentState.GetType().ToString());
-			GUI.Label(new Rect(5, 55, 100, 25), m_lastSelectedUnit.Stance.ToString());
-		}
-	}
 
 	private void SelectionFromMouseEvents(InputManager.MouseEventType eventType, RaycastHit hitInfo)
 	{
@@ -97,6 +92,10 @@ public class SelectionManager : MonoBehaviour
 					if (hitInfo.transform.tag == "Unit")
 					{
 						m_lastSelectedUnit = hitInfo.transform.GetComponent<Unit>();
+						if (OnAnyUnitSelected != null)
+						{
+							OnAnyUnitSelected(hitInfo.transform.GetComponent<Unit>());
+						}
 
 						if (hitInfo.transform.gameObject.GetComponent<Unit>().Owner.ID == m_player.ID)
 						{

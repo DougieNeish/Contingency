@@ -13,6 +13,10 @@ TagManager:
   - Locator
   - Static/HumanBuilding
   - Static/AIBuilding
+  - Static/Building
+  - GUI/UnitInfo/Health
+  - GUI/UnitInfo/State
+  - GUI/UnitInfo/Stance
   layers:
   - Default
   - TransparentFX

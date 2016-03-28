@@ -29,10 +29,7 @@ public class Game : MonoBehaviour
 		m_players = new Player[PlayerCount];
 		m_humanBuilding = GameObject.FindGameObjectWithTag("Static/HumanBuilding");
 		m_AIBuilding = GameObject.FindGameObjectWithTag("Static/AIBuilding");
-	}
 
-	void Start()
-	{
 		GameObject player;
 		for (int i = 0; i < kHumanPlayerCount; i++)
 		{
