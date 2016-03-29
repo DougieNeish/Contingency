@@ -61,7 +61,7 @@ public class ObstacleAvoidance
 			// Check if agent and obstacle are going to collide
 			Vector3 separation = relativePosition + relativeVelocity * timeToCollision;
 
-			float obstacleRadius = SteeringController.GetBoundingRadius(obstacle.transform);
+			float obstacleRadius = SteeringUtils.GetBoundingRadius(obstacle.transform);
 			float combinedRadius = agentRadius + obstacleRadius;
 			float sqrCombinedRadius = combinedRadius * combinedRadius;
 

@@ -520,15 +520,6 @@ public class SteeringController : MonoBehaviour
 		return (m_activeBehaviours & behaviour) == behaviour;
 	}
 
-	// TODO: Move to SteeringUtils?
-	public static float GetBoundingRadius(Transform t)
-	{
-		SphereCollider col = t.GetComponent<SphereCollider>();
-		//col = col == null ? t.GetComponentInChildren<SphereCollider>() : col;
-
-		return Mathf.Max(t.localScale.x, t.localScale.y, t.localScale.z) * col.radius;
-	}
-
 	private bool AccumulateForce(ref Vector3 currentForce, Vector3 forceToAdd)
 	{
 		float remainingMagnitude = m_maxVelocity - currentForce.magnitude;

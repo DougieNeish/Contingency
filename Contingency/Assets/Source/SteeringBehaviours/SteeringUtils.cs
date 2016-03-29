@@ -58,4 +58,12 @@ public static class SteeringUtils
 		steeringController.TurnOffBehaviour(SteeringController.BehaviourType.PathFollowing);
 		steeringController.Rigidbody.velocity = Vector3.zero;
 	}
+
+	public static float GetBoundingRadius(Transform t)
+	{
+		SphereCollider col = t.GetComponent<SphereCollider>();
+		//col = col == null ? t.GetComponentInChildren<SphereCollider>() : col;
+
+		return Mathf.Max(t.localScale.x, t.localScale.y, t.localScale.z) * col.radius;
+	}
 }
