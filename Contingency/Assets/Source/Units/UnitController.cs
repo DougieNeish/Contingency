@@ -119,8 +119,8 @@ public class UnitController : MonoBehaviour
 		}
 
 		SteeringController steeringController = unit.SteeringController;
-		//steeringController.TurnOffBehaviour(SteeringController.BehaviourType.Flocking);
 		steeringController.MaxVelocity = Unit.kMaxVelocity;
+		steeringController.TurnOffBehaviour(SteeringController.BehaviourType.Flee);
 
 		Vector3[] waypoints;
 		if (Input.GetKey(KeyCode.LeftShift))
