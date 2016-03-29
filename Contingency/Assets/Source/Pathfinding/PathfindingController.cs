@@ -7,9 +7,6 @@ public class PathfindingController : MonoBehaviour
 	[SerializeField] private int m_numCellsX;
 	[SerializeField] private int m_numCellsY;
 
-	[SerializeField] private bool m_drawNodes;
-	[SerializeField] private bool m_drawEdges;
-
 	private Graph m_navGraph;
 	private AStarSearch m_aStarSearch;
 
@@ -48,7 +45,7 @@ public class PathfindingController : MonoBehaviour
 			return;
 		}
 
-		if (!m_drawNodes && !m_drawEdges)
+		if (!DebugInfo.Instance.DrawNodes && !DebugInfo.Instance.DrawEdges)
 		{
 			return;
 		}
@@ -63,13 +60,13 @@ public class PathfindingController : MonoBehaviour
 
 			// Draw nodes
 			float markerSize = 2.5f;
-			if (m_drawNodes)
+			if (DebugInfo.Instance.DrawNodes)
 			{
 				Gizmos.color = Color.white;
 				Gizmos.DrawWireCube(m_navGraph.Nodes[i].Position, new Vector3(markerSize, 0f, markerSize));
 			}
 
-			if (!m_drawEdges)
+			if (!DebugInfo.Instance.DrawEdges)
 			{
 				continue;
 			}

@@ -43,8 +43,8 @@ public class PathUIController : MonoBehaviour
 			return;
 		}
 
-		// If there are no waypoints, or if the player is an AI don't draw path
-		if (waypoints.Count < 1 || m_unit.Owner.Type == Player.PlayerType.AI)
+		// Don't draw path if there are no waypoints, or if the player is an AI and AI path drawing is disable
+		if (waypoints.Count < 1 || (!DebugInfo.Instance.DrawAIPaths && m_unit.Owner.Type == Player.PlayerType.AI))
 		{
 			m_line.enabled = false;
 			return;
