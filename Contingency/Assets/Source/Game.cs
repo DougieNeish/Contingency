@@ -8,8 +8,8 @@ public class Game : MonoBehaviour
 	private const int kAIPlayerCount = 1;
 
 	private Player[] m_players;
-	[SerializeField] GameObject m_humanPlayerPrefab;
-	[SerializeField] GameObject m_AIPlayerPrefab;
+	[SerializeField] private GameObject m_humanPlayerPrefab;
+	[SerializeField] private GameObject m_AIPlayerPrefab;
 	private GameObject m_humanBuilding;
 	private GameObject m_AIBuilding;
 

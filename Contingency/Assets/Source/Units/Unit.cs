@@ -177,7 +177,7 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 
 		if (m_health <= 0f)
 		{
-			StartCoroutine(DeathActions());
+			Death();
 		}
 	}
 
@@ -195,7 +195,7 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 		}
 	}
 
-	private IEnumerator DeathActions()
+	private void Death()
 	{
 		Destroy(gameObject);
 
@@ -203,7 +203,5 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 		{
 			OnUnitKilled(gameObject);
 		}
-
-		yield return null;
 	}
 }

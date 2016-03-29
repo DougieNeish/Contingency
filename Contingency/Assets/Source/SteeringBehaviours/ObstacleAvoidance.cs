@@ -36,7 +36,7 @@ public class ObstacleAvoidance
 
 		foreach (GameObject obstacle in m_obstacles)
 		{
-			if (obstacle == m_steeringController.gameObject)
+			if (obstacle == null || obstacle == m_steeringController.gameObject)
 			{
 				continue;
 			}
