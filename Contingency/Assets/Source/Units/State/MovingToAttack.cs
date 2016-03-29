@@ -14,6 +14,12 @@ public class MovingToAttack : State<Unit>
 		{
 			entity.UnitController.MoveToPosition(entity, entity.LastStationaryPosition);
 		}
+
+		// If the target gets killed whilst moving towards it, go idle
+		if (entity.CurrentTarget != null && entity.CurrentTarget.Health <= 0f)
+		{
+			entity.StateMachine.ChangeState(new Idle());
+		}
 	}
 
 	public override void Exit(Unit entity)
