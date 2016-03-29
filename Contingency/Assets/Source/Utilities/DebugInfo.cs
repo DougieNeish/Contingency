@@ -11,6 +11,14 @@ public class DebugInfo : Singleton<DebugInfo>
 	public bool DrawNodes;
 	public bool DrawEdges;
 
+	private Unit m_lastSelectedUnit;
+
+	public Unit LastSelectedUnit
+	{
+		get { return m_lastSelectedUnit; }
+		set { m_lastSelectedUnit = value; }
+	}
+
 	void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.P))
@@ -21,6 +29,22 @@ public class DebugInfo : Singleton<DebugInfo>
 		if (Input.GetKeyDown(KeyCode.LeftBracket))
 		{
 			DrawAIPaths = !DrawAIPaths;
+		}
+
+		if (m_lastSelectedUnit != null)
+		{
+			if (Input.GetKeyDown(KeyCode.J))
+			{
+				m_lastSelectedUnit.Stance = Unit.CombatStance.Aggressive;
+			}
+			else if (Input.GetKeyDown(KeyCode.K))
+			{
+				m_lastSelectedUnit.Stance = Unit.CombatStance.Defensive;
+			}
+			else if (Input.GetKeyDown(KeyCode.L))
+			{
+				m_lastSelectedUnit.Stance = Unit.CombatStance.Static;
+			}
 		}
 	}
 }

@@ -62,26 +62,7 @@ public class SelectionManager : MonoBehaviour
 	void Update()
 	{
 		ControlGroupSelection();
-
-		if (m_lastSelectedUnit != null)
-		{
-			if (Input.GetKeyDown(KeyCode.J))
-			{
-				m_lastSelectedUnit.Stance = Unit.CombatStance.Aggressive;
-			}
-			else if (Input.GetKeyDown(KeyCode.K))
-			{
-				m_lastSelectedUnit.Stance = Unit.CombatStance.Defensive;
-			}
-			else if (Input.GetKeyDown(KeyCode.L))
-			{
-				m_lastSelectedUnit.Stance = Unit.CombatStance.Static;
-			}
-		}
 	}
-
-	// TODO: Move to debug info class
-	Unit m_lastSelectedUnit;
 
 	private void SelectionFromMouseEvents(InputManager.MouseEventType eventType, RaycastHit hitInfo)
 	{
@@ -91,7 +72,7 @@ public class SelectionManager : MonoBehaviour
 				{
 					if (hitInfo.transform.tag == "Unit")
 					{
-						m_lastSelectedUnit = hitInfo.transform.GetComponent<Unit>();
+						DebugInfo.Instance.LastSelectedUnit = hitInfo.transform.GetComponent<Unit>();
 						if (OnAnyUnitSelected != null)
 						{
 							OnAnyUnitSelected(hitInfo.transform.GetComponent<Unit>());
