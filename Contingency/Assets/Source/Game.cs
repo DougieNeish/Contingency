@@ -13,6 +13,11 @@ public class Game : MonoBehaviour
 	private GameObject m_humanBuilding;
 	private GameObject m_AIBuilding;
 
+	private InputManager m_inputManager;
+	private bool m_unitSpawnMode;
+	private int m_playerForSpawn;
+	private UnitController.UnitType m_unitTypeForSpawn;
+
 	public static int NextPlayerID
 	{
 		get { return m_nextPlayerID++; }
@@ -48,58 +53,65 @@ public class Game : MonoBehaviour
 
 			m_AIBuilding.GetComponent<Building>().Owner = player.GetComponent<Player>();
 		}
+
+		m_inputManager = m_players[0].GetComponent<InputManager>();
+		m_unitSpawnMode = false;
+		m_playerForSpawn = -1;
+	}
+
+	void OnEnable()
+	{
+		m_inputManager.OnMouseEvent += HandleMouseInput;
+	}
+
+	void OnDisable()
+	{
+		m_inputManager.OnMouseEvent -= HandleMouseInput;
 	}
 
 	void Update()
 	{
-		//if (Input.GetKeyDown(KeyCode.Space))
-		//{
-		//	m_players[0].GetComponent<UnitController>().CreateUnitOnMouse(UnitController.UnitType.Laser);
-		//}
+		if (Input.GetKeyUp(KeyCode.LeftShift))
+		{
+			m_unitSpawnMode = false;
+		}
+	}
 
-		//if (Input.GetKeyDown(KeyCode.E))
-		//{
-		//	m_players[1].GetComponent<UnitController>().CreateUnitOnMouse(UnitController.UnitType.Laser);
-		//}
+	public void BeginSpawn(int player, UnitController.UnitType unitType)
+	{
+		m_unitSpawnMode = true;
+		m_playerForSpawn = player;
+		m_unitTypeForSpawn = unitType;
+	}
 
-		// Unit spawning
-		if (Input.GetKeyDown(KeyCode.Alpha1))
-		{
-			m_players[0].GetComponent<UnitController>().CreateUnitOnMouse(UnitController.UnitType.Laser);
-		}
-		else if (Input.GetKeyDown(KeyCode.Alpha2))
-		{
-			m_players[0].GetComponent<UnitController>().CreateUnitOnMouse(UnitController.UnitType.Sniper);
-		}
-		else if (Input.GetKeyDown(KeyCode.Alpha3))
-		{
-			m_players[0].GetComponent<UnitController>().CreateUnitOnMouse(UnitController.UnitType.Scout);
-		}
-		else if (Input.GetKeyDown(KeyCode.Alpha4))
-		{
-			m_players[1].GetComponent<UnitController>().CreateUnitOnMouse(UnitController.UnitType.Laser);
-		}
-		else if (Input.GetKeyDown(KeyCode.Alpha5))
-		{
-			m_players[1].GetComponent<UnitController>().CreateUnitOnMouse(UnitController.UnitType.Sniper);
-		}
-		else if (Input.GetKeyDown(KeyCode.Alpha6))
-		{
-			m_players[1].GetComponent<UnitController>().CreateUnitOnMouse(UnitController.UnitType.Scout);
-		}
+	private void SpawnUnit(int player, UnitController.UnitType unitType)
+	{
+		m_players[player].GetComponent<UnitController>().CreateUnitOnMouse(unitType);
+	}
 
-		// Unit stance
-		//if (Input.GetKeyDown(KeyCode.J))
-		//{
-		//	m_players[0].GetComponent<UnitController>().SetSelectedUnitsStance(Unit.CombatStance.Aggressive);
-		//}
-		//else if (Input.GetKeyDown(KeyCode.K))
-		//{
-		//	m_players[0].GetComponent<UnitController>().SetSelectedUnitsStance(Unit.CombatStance.Defensive);
-		//}
-		//else if (Input.GetKeyDown(KeyCode.L))
-		//{
-		//	m_players[0].GetComponent<UnitController>().SetSelectedUnitsStance(Unit.CombatStance.Static);
-		//}
+	private void HandleMouseInput(InputManager.MouseEventType eventType, RaycastHit hitInfo)
+	{
+		switch (eventType)
+		{
+			case InputManager.MouseEventType.OnLeftMouseDown:
+				{
+					if (m_unitSpawnMode)
+					{
+						SpawnUnit(m_playerForSpawn, m_unitTypeForSpawn);
+
+						// If left shift is held down multiple units can be placed without re-selecting a unit type
+						if (!Input.GetKey(KeyCode.LeftShift))
+						{
+							m_unitSpawnMode = false;
+						}
+					}
+					break;
+				}
+			case InputManager.MouseEventType.OnRightMouseDown:
+				{
+					m_unitSpawnMode = false;
+					break;
+				}
+		}
 	}
 }

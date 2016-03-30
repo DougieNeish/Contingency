@@ -65,13 +65,18 @@ public class GUIManager : MonoBehaviour
 		}
 	}
 
+	private Game m_game;
 	private SelectionManager m_selectionManager;
 	private UnitInfo m_unitInfo;
+	private Text m_selectedPlayer;
 
 	void Awake()
 	{
+		m_game = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Game>();
 		m_selectionManager = GameObject.FindGameObjectWithTag("Player").GetComponent<SelectionManager>();
 		m_unitInfo = new UnitInfo();
+		m_selectedPlayer = GameObject.FindGameObjectWithTag("GUI/UnitSpawn/SelectedPlayer").GetComponent<Text>();
+		m_selectedPlayer.text = Player.PlayerType.Human.ToString();
 	}
 
 	void OnEnable()
@@ -92,6 +97,17 @@ public class GUIManager : MonoBehaviour
 	public void SetStance(int stance)
 	{
 		m_unitInfo.Unit.Stance = (Unit.CombatStance)stance;
+	}
+
+	public void SpawnUnit(int unitType)
+	{
+		int player = m_selectedPlayer.text == Player.PlayerType.Human.ToString() ? 0 : 1;
+		m_game.BeginSpawn(player, (UnitController.UnitType)unitType);
+	}
+
+	public void TogglePlayer()
+	{
+		m_selectedPlayer.text = m_selectedPlayer.text == Player.PlayerType.Human.ToString() ? Player.PlayerType.AI.ToString() : Player.PlayerType.Human.ToString();
 	}
 
 	private void HandleUnitSelected(Unit unit)

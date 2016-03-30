@@ -17,6 +17,7 @@ TagManager:
   - GUI/UnitInfo/Health
   - GUI/UnitInfo/State
   - GUI/UnitInfo/Stance
+  - GUI/UnitSpawn/SelectedPlayer
   layers:
   - Default
   - TransparentFX

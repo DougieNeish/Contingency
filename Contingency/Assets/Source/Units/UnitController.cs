@@ -111,7 +111,7 @@ public class UnitController : MonoBehaviour
 		//}
 	}
 
-	public void MoveToPosition(Unit unit, Vector3 targetPosition, bool setMovingState = true)
+	public void MoveToPosition(Unit unit, Vector3 targetPosition, bool setMovingState = true, bool isManualCommand = false)
 	{
 		if (setMovingState)
 		{
@@ -123,7 +123,7 @@ public class UnitController : MonoBehaviour
 		steeringController.TurnOffBehaviour(SteeringController.BehaviourType.Flee);
 
 		Vector3[] waypoints;
-		if (Input.GetKey(KeyCode.LeftShift))
+		if (isManualCommand && Input.GetKey(KeyCode.LeftShift))
 		{
 			waypoints = m_pathfindingController.Search(steeringController.PathFollowing.Path.EndPosition, targetPosition);
 			steeringController.AddWaypoints(waypoints, false, false);
@@ -160,7 +160,7 @@ public class UnitController : MonoBehaviour
 		//}
 	}
 
-	public void Attack(Unit unit, IDamageable target)
+	public void Attack(Unit unit, IDamageable target, bool isManualCommand = false)
 	{
 		// If the unit has the 'Unarmed' weapon, do nothing when told to attack
 		if (unit.Weapon.GetType() == typeof(Unarmed))
@@ -169,7 +169,7 @@ public class UnitController : MonoBehaviour
 		}
 
 		unit.StateMachine.ChangeState(new MovingToAttack());
-		StartCoroutine(MoveToAttack(unit, target));
+		StartCoroutine(MoveToAttack(unit, target, isManualCommand));
 	}
 
 	public void Flee(Unit unit, Vector3 target)
@@ -211,14 +211,14 @@ public class UnitController : MonoBehaviour
 					{
 						foreach (GameObject unit in m_selectedUnits)
 						{
-							Attack(unit.GetComponent<Unit>(), target.GetComponent<IDamageable>());
+							Attack(unit.GetComponent<Unit>(), target.GetComponent<IDamageable>(), true);
 						}
 					}
 					else // move to the right-clicked location
 					{
 						foreach (GameObject unit in m_selectedUnits)
 						{
-							MoveToPosition(unit.GetComponent<Unit>(), hitInfo.point);
+							MoveToPosition(unit.GetComponent<Unit>(), hitInfo.point, true, true);
 						}
 					}
 					break;
@@ -277,7 +277,7 @@ public class UnitController : MonoBehaviour
 		}
 	}
 
-	private IEnumerator MoveToAttack(Unit unit, IDamageable target)
+	private IEnumerator MoveToAttack(Unit unit, IDamageable target, bool isManualCommand)
 	{
 		// TODO: FIX THIS, it's broken
 		if (unit.Stance == Unit.CombatStance.Static)
@@ -298,7 +298,7 @@ public class UnitController : MonoBehaviour
 		Transform child = target.transform.GetChild(0);
 		Vector3 targetPosition = child.tag == "Locator" ? child.position : target.transform.position;
 
-		MoveToPosition(unit, targetPosition, false);
+		MoveToPosition(unit, targetPosition, false, isManualCommand);
 		yield return new WaitUntil(() => CanAttack(unit, target));
 		unit.Attack(target);
 	}
