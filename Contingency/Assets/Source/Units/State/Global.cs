@@ -7,6 +7,7 @@ public class Global : State<Unit>
 	{
 		m_unit = entity;
 		entity.OnDamageReceived += HandleDamageReceived;
+		entity.SteeringController.TurnOnBehaviour(SteeringController.BehaviourType.ObstacleAvoidance);
 	}
 
 	public override void Execute(Unit entity)
