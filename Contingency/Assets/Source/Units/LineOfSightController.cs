@@ -12,7 +12,7 @@ public class LineOfSightController : MonoBehaviour
 	private Player m_owner;
 	private Renderer m_renderer;
 
-	private int m_seenByUnits;
+	private int m_visibleToUnitsCount;
 	private List<Unit> m_nearbyEnemies;
 	private List<Building> m_nearbyEnemyBuildings;
 
@@ -30,7 +30,7 @@ public class LineOfSightController : MonoBehaviour
 	{
 		m_renderer = gameObject.transform.parent.GetComponent<Renderer>();
 
-		m_seenByUnits = 0;
+		m_visibleToUnitsCount = 0;
 		m_nearbyEnemies = new List<Unit>();
 		m_nearbyEnemyBuildings = new List<Building>();
 	}
@@ -45,7 +45,7 @@ public class LineOfSightController : MonoBehaviour
 	{
 		if (m_owner.Type == Player.PlayerType.AI)
 		{
-			m_renderer.enabled = m_seenByUnits == 0 ? false : true;
+			m_renderer.enabled = m_visibleToUnitsCount == 0 ? false : true;
 		}
 	}
 
@@ -57,7 +57,7 @@ public class LineOfSightController : MonoBehaviour
 			Unit unit = other.GetComponent<Unit>();
 			if (unit.Owner.Type == Player.PlayerType.Human)
 			{
-				m_seenByUnits++;
+				m_visibleToUnitsCount++;
 			}
 
 			// If the unit doesn't belong to me, an enemy has been spotted
@@ -75,19 +75,23 @@ public class LineOfSightController : MonoBehaviour
 				}
 			}
 		}
-		else if (other.tag == "Static/AIBuilding")
+		else if (other.tag == "Static/AIBuilding" || other.tag == "Static/HumanBuilding")
 		{
 			Building building = other.GetComponent<Building>();
 
-			if (!m_nearbyEnemyBuildings.Contains(building))
+			// If the building doesn't belong to me, an enemy building has been spotted
+			if (building.Owner.ID != m_owner.ID)
 			{
-				m_nearbyEnemyBuildings.Add(building);
-				building.OnBuildingDestroyed += HandleBuildingDestroyed;
-			}
+				if (!m_nearbyEnemyBuildings.Contains(building))
+				{
+					m_nearbyEnemyBuildings.Add(building);
+					building.OnBuildingDestroyed += HandleBuildingDestroyed;
+				}
 
-			if (OnEnemyBuildingSpotted != null)
-			{
-				OnEnemyBuildingSpotted(building);
+				if (OnEnemyBuildingSpotted != null)
+				{
+					OnEnemyBuildingSpotted(building);
+				}
 			}
 		}
 	}
@@ -99,7 +103,7 @@ public class LineOfSightController : MonoBehaviour
 			Unit unit = other.GetComponent<Unit>();
 			if (unit.Owner.Type == Player.PlayerType.Human)
 			{
-				m_seenByUnits--;
+				m_visibleToUnitsCount--;
 			}
 
 			// Handle enemies
