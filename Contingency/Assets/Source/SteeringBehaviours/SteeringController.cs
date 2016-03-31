@@ -239,7 +239,7 @@ public class SteeringController : MonoBehaviour
 
 		if (IsBehaviourOn(BehaviourType.ObstacleAvoidance))
 		{
-			ObstacleAvoidance.Obstacles = m_nearSensor.NearbyObstacles;
+			ObstacleAvoidance.Obstacles = m_nearSensor.NearbyUnits;// NearbyObstacles;
 		}
 
 		if (IsBehaviourOn(BehaviourType.Alignment))
