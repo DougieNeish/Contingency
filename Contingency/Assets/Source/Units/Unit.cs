@@ -142,7 +142,9 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 		Physics.IgnoreCollision(GetComponent<SphereCollider>(), GameObject.FindGameObjectWithTag("Terrain").GetComponent<Collider>());
 
 		m_stateMachine.SetGlobalState(new Global());
-		m_stateMachine.ChangeState(new Idle());
+		
+		// Moved to UnitController.SpawnUnitOnMouse to stop unit being set to idle after enemy is auto-spawned
+		//m_stateMachine.ChangeState(new Idle());
 	}
 
 	void Update()
@@ -169,7 +171,6 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 	public void ReceiveDamage(float damage, IAttacker attacker)
 	{
 		m_health -= damage;
-		//Debug.Log(m_health);
 
 		if (OnDamageReceived != null)
 		{

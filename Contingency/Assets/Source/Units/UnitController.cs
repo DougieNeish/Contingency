@@ -9,6 +9,7 @@ public class UnitController : MonoBehaviour
 		Laser,
 		Sniper,
 		Scout,
+		Count,
 	}
 
 	[System.Serializable]
@@ -37,6 +38,10 @@ public class UnitController : MonoBehaviour
 	private PathfindingController m_pathfindingController;
 
 	private Ray m_ray;
+	private GameObject[] m_offensiveMarkers;
+	private GameObject[] m_defensiveMarkers;
+	private GameObject[] m_scoutMarkers;
+	private GameObject m_AISpawn;
 
 	#region Properties
 	public static int NextUnitID
@@ -67,6 +72,11 @@ public class UnitController : MonoBehaviour
 		m_player = GetComponent<Player>();
 		m_pathfindingController = m_gameManager.GetComponent<PathfindingController>();
 		m_ray = GetComponent<InputManager>().Ray;
+
+		m_offensiveMarkers = GameObject.FindGameObjectsWithTag("MoveMarker/Offensive");
+		m_defensiveMarkers = GameObject.FindGameObjectsWithTag("MoveMarker/Defensive");
+		m_scoutMarkers = GameObject.FindGameObjectsWithTag("MoveMarker/Scout");
+		m_AISpawn = GameObject.FindGameObjectWithTag("AISpawn");
 
 		if (m_player.Type == Player.PlayerType.Human)
 		{
@@ -353,18 +363,17 @@ public class UnitController : MonoBehaviour
 		return null;
 	}
 
-	public void CreateUnitOnMouse(UnitType unitType)
+	public void SpawnUnitOnMouse(UnitType unitType)
 	{
 		RaycastHit hitObject;
 		if (Physics.Raycast(m_ray, out hitObject, InputManager.kRaycastLength))
 		{
 			Vector3 position = new Vector3(hitObject.point.x, hitObject.point.y + 0.7f, hitObject.point.z);
 			GameObject newUnit = Instantiate(GetUnitPrefab(unitType), position, Quaternion.identity) as GameObject;
-
 			Unit unit = newUnit.GetComponent<Unit>();
-			// TODO: Move to init params?
 			unit.Owner = m_player;
 			unit.UnitController = this;
+			unit.StateMachine.ChangeState(new Idle());
 			unit.OnUnitKilled += HandleUnitDeath;
 
 			m_units.Add(newUnit);
@@ -374,5 +383,43 @@ public class UnitController : MonoBehaviour
 				OnUnitSpawned(newUnit);
 			}
 		}
+	}
+
+	public void SpawnAutoUnit(UnitType unitType)
+	{
+		Unit.CombatStance stance = Unit.CombatStance.Aggressive;
+		GameObject moveMarker = null;
+
+		switch (unitType)
+		{
+			case UnitType.Laser:
+				stance = Unit.CombatStance.Aggressive;
+				moveMarker = m_offensiveMarkers[Random.Range(0, m_offensiveMarkers.Length)];
+				break;
+			case UnitType.Sniper:
+				stance = Unit.CombatStance.Defensive;
+				moveMarker = m_defensiveMarkers[Random.Range(0, m_defensiveMarkers.Length)];
+				break;
+			case UnitType.Scout:
+				stance = Unit.CombatStance.Static;
+				moveMarker = m_scoutMarkers[Random.Range(0, m_scoutMarkers.Length)];
+				break;
+		}
+
+		GameObject newUnit = Instantiate(GetUnitPrefab(unitType), m_AISpawn.transform.position, Quaternion.identity) as GameObject;
+		Unit unit = newUnit.GetComponent<Unit>();
+		unit.Owner = m_player;
+		unit.UnitController = this;
+		unit.Stance = stance;
+		unit.OnUnitKilled += HandleUnitDeath;
+
+		m_units.Add(newUnit);
+
+		if (OnUnitSpawned != null)
+		{
+			OnUnitSpawned(newUnit);
+		}
+
+		MoveToPosition(unit, moveMarker.transform.position);
 	}
 }

@@ -11,6 +11,12 @@ public class DebugInfo : Singleton<DebugInfo>
 	public bool DrawNodes;
 	public bool DrawEdges;
 
+	[Header("Line of sight")]
+	public bool SightRendering;
+
+	[Header("AI")]
+	public bool AutoSpawnAI;
+
 	private Unit m_lastSelectedUnit;
 
 	public Unit LastSelectedUnit
@@ -45,6 +51,11 @@ public class DebugInfo : Singleton<DebugInfo>
 			{
 				m_lastSelectedUnit.Stance = Unit.CombatStance.Static;
 			}
+		}
+
+		if (Input.GetKeyDown(KeyCode.V))
+		{
+			SightRendering = !SightRendering;
 		}
 	}
 }

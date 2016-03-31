@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class Game : MonoBehaviour
 {
@@ -6,6 +7,8 @@ public class Game : MonoBehaviour
 
 	private const int kHumanPlayerCount = 1;
 	private const int kAIPlayerCount = 1;
+	private const int kMinActiveEnemies = 5;
+	private const float kEnemySpawnRate = 3f;
 
 	private Player[] m_players;
 	[SerializeField] private GameObject m_humanPlayerPrefab;
@@ -59,6 +62,11 @@ public class Game : MonoBehaviour
 		m_playerForSpawn = -1;
 	}
 
+	void Start()
+	{
+		StartCoroutine(SpawnEnemies());
+	}
+
 	void OnEnable()
 	{
 		m_inputManager.OnMouseEvent += HandleMouseInput;
@@ -86,7 +94,7 @@ public class Game : MonoBehaviour
 
 	private void SpawnUnit(int player, UnitController.UnitType unitType)
 	{
-		m_players[player].GetComponent<UnitController>().CreateUnitOnMouse(unitType);
+		m_players[player].GetComponent<UnitController>().SpawnUnitOnMouse(unitType);
 	}
 
 	private void HandleMouseInput(InputManager.MouseEventType eventType, RaycastHit hitInfo)
@@ -112,6 +120,25 @@ public class Game : MonoBehaviour
 					m_unitSpawnMode = false;
 					break;
 				}
+		}
+	}
+
+	private IEnumerator SpawnEnemies()
+	{
+		// Delay to ensure everything is initialized first
+		yield return new WaitForSeconds(3f);
+
+		UnitController enemy = m_players[1].GetComponent<UnitController>();
+
+		while (true)
+		{
+			if (enemy.Units.Count < kMinActiveEnemies && DebugInfo.Instance.AutoSpawnAI)
+			{
+				UnitController.UnitType randomUnit = (UnitController.UnitType)Random.Range(0, (int)UnitController.UnitType.Count);
+				enemy.SpawnAutoUnit(randomUnit);
+			}
+
+			yield return new WaitForSeconds(kEnemySpawnRate);
 		}
 	}
 }

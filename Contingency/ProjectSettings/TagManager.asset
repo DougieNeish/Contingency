@@ -18,6 +18,10 @@ TagManager:
   - GUI/UnitInfo/State
   - GUI/UnitInfo/Stance
   - GUI/UnitSpawn/SelectedPlayer
+  - MoveMarker/Offensive
+  - MoveMarker/Defensive
+  - MoveMarker/Scout
+  - AISpawn
   layers:
   - Default
   - TransparentFX

@@ -43,9 +43,13 @@ public class LineOfSightController : MonoBehaviour
 
 	void Update()
 	{
-		if (m_owner.Type == Player.PlayerType.AI)
+		if (m_owner.Type == Player.PlayerType.AI && DebugInfo.Instance.SightRendering)
 		{
 			m_renderer.enabled = m_visibleToUnitsCount == 0 ? false : true;
+		}
+		else
+		{
+			m_renderer.enabled = true;
 		}
 	}
 
