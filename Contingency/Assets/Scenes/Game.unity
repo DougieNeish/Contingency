@@ -766,7 +766,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11478252, guid: 7cc08d527134b2441b774bb786cf5dda, type: 2}
       propertyPath: AutoSpawnAI
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7cc08d527134b2441b774bb786cf5dda, type: 2}

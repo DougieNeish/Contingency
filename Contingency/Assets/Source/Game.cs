@@ -38,23 +38,18 @@ public class Game : MonoBehaviour
 		m_humanBuilding = GameObject.FindGameObjectWithTag("Static/HumanBuilding");
 		m_AIBuilding = GameObject.FindGameObjectWithTag("Static/AIBuilding");
 
-		GameObject player;
 		for (int i = 0; i < kHumanPlayerCount; i++)
 		{
-			player = Instantiate(m_humanPlayerPrefab, Vector3.zero, Quaternion.identity) as GameObject;
-			player.transform.SetParent(gameObject.transform);
-			m_players[i] = player.GetComponent<Player>();
-
-			m_humanBuilding.GetComponent<Building>().Owner = player.GetComponent<Player>();
+			Player player = SpawnPlayer(m_humanPlayerPrefab);
+			m_players[i] = player;
+			m_humanBuilding.GetComponent<Building>().Owner = player;
 		}
 
 		for (int i = 0; i < kAIPlayerCount; i++)
 		{
-			player = Instantiate(m_AIPlayerPrefab, Vector3.zero, Quaternion.identity) as GameObject;
-			player.transform.SetParent(gameObject.transform);
-			m_players[kHumanPlayerCount + i] = player.GetComponent<Player>();
-
-			m_AIBuilding.GetComponent<Building>().Owner = player.GetComponent<Player>();
+			Player player = SpawnPlayer(m_AIPlayerPrefab);
+			m_players[kHumanPlayerCount + i] = player;
+			m_AIBuilding.GetComponent<Building>().Owner = player;
 		}
 
 		m_inputManager = m_players[0].GetComponent<InputManager>();
@@ -85,11 +80,19 @@ public class Game : MonoBehaviour
 		}
 	}
 
-	public void BeginSpawn(int player, UnitController.UnitType unitType)
+	public void BeginUnitSpawn(int player, UnitController.UnitType unitType)
 	{
 		m_unitSpawnMode = true;
 		m_playerForSpawn = player;
 		m_unitTypeForSpawn = unitType;
+	}
+
+	private Player SpawnPlayer(GameObject prefab)
+	{
+		GameObject player = Instantiate(prefab, Vector3.zero, Quaternion.identity) as GameObject;
+		player.transform.SetParent(gameObject.transform);
+
+		return player.GetComponent<Player>();
 	}
 
 	private void SpawnUnit(int player, UnitController.UnitType unitType)

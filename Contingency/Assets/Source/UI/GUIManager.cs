@@ -102,7 +102,7 @@ public class GUIManager : MonoBehaviour
 	public void SpawnUnit(int unitType)
 	{
 		int player = m_selectedPlayer.text == Player.PlayerType.Human.ToString() ? 0 : 1;
-		m_game.BeginSpawn(player, (UnitController.UnitType)unitType);
+		m_game.BeginUnitSpawn(player, (UnitController.UnitType)unitType);
 	}
 
 	public void TogglePlayer()
