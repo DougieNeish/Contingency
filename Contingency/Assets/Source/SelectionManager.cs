@@ -127,13 +127,13 @@ public class SelectionManager : MonoBehaviour
 			bool alreadySelected = m_selectedUnits.Contains(unit);
 
 			if (!alreadySelected &&
-				IsObjectWithinSelectionBounds(unit, mouseDownPosition, currentMousePosition) &&
+				IsObjectWithinViewportBounds(unit, mouseDownPosition, currentMousePosition) &&
 				unit.GetComponent<Unit>().Owner.ID == m_player.ID)
 			{
 				m_selectedUnits.Add(unit);
             }
 			// Remove units that are no longer within the bounds
-			else if (alreadySelected && !IsObjectWithinSelectionBounds(unit, mouseDownPosition, currentMousePosition))
+			else if (alreadySelected && !IsObjectWithinViewportBounds(unit, mouseDownPosition, currentMousePosition))
 			{
 				m_selectedUnits.Remove(unit);
 			}
@@ -145,7 +145,7 @@ public class SelectionManager : MonoBehaviour
 		}
 	}
 
-	private bool IsObjectWithinSelectionBounds(GameObject gameObject, Vector3 mouseDownPosition, Vector3 currentMousePosition)
+	private bool IsObjectWithinViewportBounds(GameObject gameObject, Vector3 mouseDownPosition, Vector3 currentMousePosition)
 	{
 		Bounds viewportBounds = GetViewportBounds(Camera.main, mouseDownPosition, currentMousePosition);
 		return viewportBounds.Contains(Camera.main.WorldToViewportPoint(gameObject.transform.position));
