@@ -7,7 +7,7 @@ public class Game : MonoBehaviour
 
 	private const int kHumanPlayerCount = 1;
 	private const int kAIPlayerCount = 1;
-	private const int kMinActiveEnemies = 5;
+	private const int kMinimumEnemyCount = 5;
 	private const float kEnemySpawnRate = 3f;
 
 	private Player[] m_players;
@@ -135,7 +135,7 @@ public class Game : MonoBehaviour
 
 		while (true)
 		{
-			if (enemy.Units.Count < kMinActiveEnemies && DebugInfo.Instance.AutoSpawnAI)
+			if (enemy.Units.Count < kMinimumEnemyCount && DebugInfo.Instance.AutoSpawnAI)
 			{
 				UnitController.UnitType randomUnit = (UnitController.UnitType)Random.Range(0, (int)UnitController.UnitType.Count);
 				enemy.SpawnAutoUnit(randomUnit);
