@@ -95,14 +95,7 @@ public class SelectionManager : MonoBehaviour
 					{
 						if (OnUnitSelected != null)
 						{
-							if (Input.GetKey(KeyCode.LeftShift))
-							{
-								OnUnitSelected(m_selectedUnits, true);
-							}
-							else
-							{
-								OnUnitSelected(m_selectedUnits, false);
-							}
+							OnUnitSelected(m_selectedUnits, Input.GetKey(KeyCode.LeftShift));
 						}
 						m_selectedUnits.Clear();
 					}
