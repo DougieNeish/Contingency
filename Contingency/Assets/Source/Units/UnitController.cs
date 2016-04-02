@@ -103,22 +103,12 @@ public class UnitController : MonoBehaviour
 			m_selectionManager.OnUnitSelected -= UpdateSelectedUnitList;
 			m_inputManager.OnMouseEvent -= MouseInput;
 		}
-
-		//foreach (GameObject unit in m_units)
-		//{
-		//	unit.GetComponent<Unit>().OnUnitKilled -= HandleUnitDeath;
-		//}
 	}
 
 	void Update()
 	{
 		m_ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		//Debug.DrawRay(m_ray.origin, m_ray.direction * InputManager.kRaycastLength, Color.cyan);
-
-		//if (Input.GetKeyDown(KeyCode.Space))
-		//{
-		//	CreateUnitOnMouse();
-		//}
 	}
 
 	public void MoveToPosition(Unit unit, Vector3 targetPosition, bool setMovingState = true, bool isManualCommand = false)
@@ -145,29 +135,6 @@ public class UnitController : MonoBehaviour
 			waypoints = m_pathfindingController.Search(unit.transform.position, targetPosition);
 			steeringController.AddWaypoints(waypoints, false, true);
 		}
-
-		//if (m_selectedUnits.Count > 1)
-		//{
-		//	//Vector3[] formationPositions = Formations.CalculateSquareFormation(m_selectedUnits.Count, 2f, 2f);
-
-		//	// Start from 1 as unit 0 is the leader
-		//	for (int i = 1; i < m_selectedUnits.Count; i++)
-		//	{
-		//		// TODO: Change this. Temporary A* search for all selected units
-		//		Vector3[] waypoints = m_pathfindingController.Search(m_selectedUnits[i].transform.position, targetPosition);
-		//		m_selectedUnits[i].GetComponent<SteeringController>().AddWaypoints(waypoints, false);
-
-
-		//		//steeringController = m_selectedUnits[i].GetComponent<SteeringController>();
-		//		//steeringController.TurnOnBehaviour(SteeringController.BehaviourType.Flocking);
-
-		//		// TODO: Do I need to add all selected units as neighbours?
-
-		//		//steeringController.OffsetPursuit.Leader = m_selectedUnits[0].GetComponent<Rigidbody>();
-		//		//steeringController.OffsetPursuit.Offset = formationPositions[i];
-		//		//steeringController.TurnOnBehaviour(SteeringController.BehaviourType.OffsetPursuit);
-		//	}
-		//}
 	}
 
 	public void Attack(Unit unit, IDamageable target, bool isManualCommand = false)
