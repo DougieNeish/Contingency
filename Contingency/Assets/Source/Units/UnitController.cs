@@ -317,7 +317,6 @@ public class UnitController : MonoBehaviour
 
 	private IEnumerator MoveToAttack(Unit unit, IDamageable target, bool isManualCommand)
 	{
-		// TODO: FIX THIS, it's broken
 		if (unit.Stance == Unit.CombatStance.Static)
 		{
 			if (CanAttack(unit, target))
