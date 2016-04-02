@@ -326,8 +326,8 @@ public class UnitController : MonoBehaviour
 			}
 			else
 			{
-				StopCoroutine("MoveToAttack");
 				unit.StateMachine.ChangeState(new Idle());
+				StopAllCoroutines();
 				yield return 1;
 			}
 		}
