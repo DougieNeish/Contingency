@@ -2,7 +2,7 @@
 
 public interface IAttacker
 {
-	IDamageable CurrentTarget {	get; }
+	IDamageable Target { get; }
 
 	GameObject gameObject { get; }
 

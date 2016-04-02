@@ -23,7 +23,7 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 	private LineOfSightController m_lineOfSightController;
 
 	private float m_health;
-	private IDamageable m_currentTarget;
+	private IDamageable m_target;
 	private CombatStance m_stance;
 	[SerializeField] private float m_sightRadius;
 	[SerializeField] private Weapon m_weapon;
@@ -105,10 +105,10 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 	#endregion
 
 	#region IAttacker Properties
-	public IDamageable CurrentTarget
+	public IDamageable Target
 	{
-		get { return m_currentTarget; }
-		set { m_currentTarget = value; }
+		get { return m_target; }
+		set { m_target = value; }
 	}
 
 	GameObject IAttacker.gameObject
@@ -125,7 +125,7 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 		m_lineOfSightController = gameObject.GetComponentInChildWithTag<LineOfSightController>("SightRadius");
 
 		m_health = 100f;
-		m_currentTarget = null;
+		m_target = null;
 		m_stance = CombatStance.Aggressive;
 		m_steeringController.MaxVelocity = kMaxVelocity;
 
@@ -184,15 +184,15 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 
 	public void Attack(IDamageable target)
 	{
-		if (target != m_currentTarget)
+		if (target != m_target)
 		{
 			m_stateMachine.ChangeState(new Attacking());
 
 			Stop();
-			m_currentTarget = target;
+			m_target = target;
 			transform.LookAt(target.transform);
 
-			StartCoroutine(m_weapon.Fire(m_currentTarget));
+			StartCoroutine(m_weapon.Fire(m_target));
 		}
 	}
 

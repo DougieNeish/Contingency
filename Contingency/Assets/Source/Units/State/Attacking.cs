@@ -11,7 +11,7 @@ public class Attacking : State<Unit>
 
 	public override void Execute(Unit entity)
 	{
-		if (entity.CurrentTarget.Health <= 0f)
+		if (entity.Target.Health <= 0f)
 		{
 			if (m_unit.LineOfSightController.NearbyEnemies.Count > 0)
 			{
@@ -34,9 +34,9 @@ public class Attacking : State<Unit>
 			}
 		}
 		// If the target can no longer be attacked - i.e moves out of range - restart the attack sequence
-		else if (!entity.UnitController.CanAttack(entity, entity.CurrentTarget))
+		else if (!entity.UnitController.CanAttack(entity, entity.Target))
 		{
-			entity.UnitController.Attack(entity, entity.CurrentTarget);
+			entity.UnitController.Attack(entity, entity.Target);
 		}
 	}
 
