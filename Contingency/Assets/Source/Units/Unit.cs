@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Unit : MonoBehaviour, IDamageable, IAttacker
 {
@@ -109,6 +108,7 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 	public IDamageable CurrentTarget
 	{
 		get { return m_currentTarget; }
+		set { m_currentTarget = value; }
 	}
 
 	GameObject IAttacker.gameObject
@@ -165,7 +165,6 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 		m_steeringController.Stop();
 		StopAllCoroutines();
 		m_weapon.StopAllCoroutines();
-		m_currentTarget = null;
 	}
 
 	public void ReceiveDamage(float damage, IAttacker attacker)

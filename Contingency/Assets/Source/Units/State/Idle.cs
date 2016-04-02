@@ -11,6 +11,7 @@ public class Idle : State<Unit>
 		entity.OnDamageReceived += HandleDamageReceived;
 
 		entity.Stop();
+		entity.CurrentTarget = null;
 		entity.LastStationaryPosition = entity.transform.position;
 	}
 
