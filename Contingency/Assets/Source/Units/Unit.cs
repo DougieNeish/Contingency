@@ -15,6 +15,10 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 		Static,
 	}
 
+	public const float kDefensiveRange = 12f;
+	public const float kMaxVelocity = 6f;
+	public const float kFleeVelocity = 9f;
+
 	private int m_id;
 	private Player m_owner;
 	private Renderer m_renderer;
@@ -30,10 +34,6 @@ public class Unit : MonoBehaviour, IDamageable, IAttacker
 
 	private StateMachine<Unit> m_stateMachine;
 	private Vector3 m_lastStationaryPosition;
-
-	public const float kDefensiveRange = 12f;
-	public const float kMaxVelocity = 6f;
-	public const float kFleeVelocity = 9f;
 
 	#region Unit Properties
 	public int ID
