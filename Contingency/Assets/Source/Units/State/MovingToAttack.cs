@@ -2,8 +2,12 @@
 
 public class MovingToAttack : State<Unit>
 {
+	private Unit m_unit;
+
 	public override void Enter(Unit entity)
 	{
+		m_unit = entity;
+		entity.SteeringController.PathFollowing.OnPathCompleted += HandlePathCompleted;
 	}
 
 	public override void Execute(Unit entity)
@@ -24,5 +28,15 @@ public class MovingToAttack : State<Unit>
 
 	public override void Exit(Unit entity)
 	{
+		entity.SteeringController.PathFollowing.OnPathCompleted -= HandlePathCompleted;
+	}
+
+	private void HandlePathCompleted()
+	{
+		// If unit reaches end of path and can't attack, go idle (unit has lost target)
+		if (!m_unit.UnitController.CanAttack(m_unit, m_unit.CurrentTarget))
+		{
+			m_unit.StateMachine.ChangeState(new Idle());
+		}
 	}
 }
