@@ -41,7 +41,9 @@ public class InputManager : MonoBehaviour
 	{
 		m_ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-		if (Physics.Raycast(m_ray, out m_hitInfo, kRaycastLength) && OnMouseEvent != null)
+		if (Physics.Raycast(m_ray, out m_hitInfo, kRaycastLength) && OnMouseEvent != null &&
+			// Do not register mouse input through the UI
+			!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
 		{
 			if (Input.GetMouseButtonDown(0))
 			{

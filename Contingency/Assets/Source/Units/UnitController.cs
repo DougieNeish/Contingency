@@ -172,7 +172,9 @@ public class UnitController : MonoBehaviour
 	public void SpawnUnitOnMouse(UnitType unitType)
 	{
 		RaycastHit hitObject;
-		if (Physics.Raycast(m_ray, out hitObject, InputManager.kRaycastLength))
+		if (Physics.Raycast(m_ray, out hitObject, InputManager.kRaycastLength) &&
+			// Do not spawn if mouse is over a UI element
+			!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
 		{
 			Vector3 position = new Vector3(hitObject.point.x, hitObject.point.y + 0.7f, hitObject.point.z);
 			GameObject newUnit = Instantiate(GetUnitPrefab(unitType), position, Quaternion.identity) as GameObject;
