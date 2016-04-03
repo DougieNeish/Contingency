@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System;
 
 [RequireComponent(typeof(LineRenderer))]
 public class Laser : Weapon
