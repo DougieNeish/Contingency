@@ -2,8 +2,8 @@
 
 public class Graph
 {
-	private int m_numCellsX;
-	private int m_numCellsY;
+	private int m_columnCount;
+	private int m_rowCount;
 	private GraphNode[] m_nodes;
 	private int m_nextNodeIndex;
 
@@ -12,22 +12,22 @@ public class Graph
 		get { return m_nextNodeIndex; }
 	}
 
-	public Graph(int numCellsX, int numCellsY)
+	public Graph(int columnCount, int rowCount)
 	{
-		m_numCellsX = numCellsX;
-		m_numCellsY = numCellsY;
-		m_nodes = new GraphNode[m_numCellsX * m_numCellsY];
+		m_columnCount = columnCount;
+		m_rowCount = rowCount;
+		m_nodes = new GraphNode[m_columnCount * m_rowCount];
 		m_nextNodeIndex = 0;
 	}
 
-	public int NumCellsX
+	public int ColumnCount
 	{
-		get { return m_numCellsX; }
+		get { return m_columnCount; }
 	}
 
-	public int NumCellsY
+	public int RowCount
 	{
-		get { return m_numCellsY; }
+		get { return m_rowCount; }
 	}
 
 	public GraphNode[] Nodes
@@ -62,11 +62,9 @@ public class Graph
 		if (edge.To.Index != GraphNode.kInvalidIndex &&
 			edge.From.Index != GraphNode.kInvalidIndex)
 		{
-			GraphNode node;
-
 			if (!EdgeExists(edge.From, edge.To))
 			{
-				node = edge.From;
+				GraphNode node = edge.From;
 				// Find first available (i.e. null) edge slot
 				for (int i = 0; i < node.Edges.Length; i++)
 				{

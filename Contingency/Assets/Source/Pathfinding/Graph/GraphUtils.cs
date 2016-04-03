@@ -4,26 +4,23 @@ using System.Collections.Generic;
 public static class GraphUtils
 {
 	public static float baseMovementCost = 1f;
-	public static float sqrt2 = Mathf.Sqrt(2);
+	public static float sqrt2 = Mathf.Sqrt(2f);
 
 	public static void CreateGrid(this Graph graph, Terrain terrain)
 	{
 		TerrainData terrainData = terrain.terrainData;
-		float cellWidth = terrainData.size.x / graph.NumCellsX;
-		float cellHeight = terrainData.size.z / graph.NumCellsY;
+		float cellWidth = terrainData.size.x / graph.ColumnCount;
+		float cellHeight = terrainData.size.z / graph.RowCount;
 		float cellXPosition = cellWidth / 2;
 		float cellYPosition = cellHeight / 2;
-
-		Vector3 nodePosition = Vector3.zero;
-		float terrainHeightAtNode = 0f;
 		
 		// Add nodes
-		for (int row = 0; row < graph.NumCellsY; row++)
+		for (int row = 0; row < graph.RowCount; row++)
 		{
-			for (int col = 0; col < graph.NumCellsX; col++)
+			for (int col = 0; col < graph.ColumnCount; col++)
 			{
-				nodePosition = new Vector3(cellXPosition + (col * cellWidth), 0f, cellYPosition + (row * cellHeight));
-				terrainHeightAtNode = terrain.SampleHeight(nodePosition);
+				Vector3 nodePosition = new Vector3(cellXPosition + (col * cellWidth), 0f, cellYPosition + (row * cellHeight));
+				float terrainHeightAtNode = terrain.SampleHeight(nodePosition);
 				nodePosition.y = terrainHeightAtNode;
 
 				graph.AddNode(new GraphNode(graph.NextNodeIndex, nodePosition));
@@ -31,9 +28,9 @@ public static class GraphUtils
 		}
 
 		// Add edges between nodes
-		for (int row = 0; row < graph.NumCellsY; row++)
+		for (int row = 0; row < graph.RowCount; row++)
 		{
-			for (int col = 0; col < graph.NumCellsX; col++)
+			for (int col = 0; col < graph.ColumnCount; col++)
 			{
 				graph.AddEdgesFromNodeToNeighbours(row, col);
 			}
@@ -42,9 +39,6 @@ public static class GraphUtils
 
 	public static void AddEdgesFromNodeToNeighbours(this Graph graph, int row, int col)
 	{
-		int neighbourCol;
-		int neighbourRow;
-
 		for (int rowOffset = -1; rowOffset <= 1; rowOffset++)
 		{
 			for (int colOffset = -1; colOffset <= 1; colOffset++)
@@ -55,13 +49,13 @@ public static class GraphUtils
 					continue;
 				}
 
-				neighbourRow = row + rowOffset;
-				neighbourCol = col + colOffset;
+				int neighbourRow = row + rowOffset;
+				int neighbourCol = col + colOffset;
 
-				if (IsValidNodePosition(neighbourCol, neighbourRow, graph.NumCellsX, graph.NumCellsY))
+				if (IsValidNodePosition(neighbourCol, neighbourRow, graph.ColumnCount, graph.RowCount))
 				{
-					int nodeIndex = GetNodeIndexFromGraphCells(row, col, graph.NumCellsX);
-					int neighbourIndex = GetNodeIndexFromGraphCells(neighbourRow, neighbourCol, graph.NumCellsX);
+					int nodeIndex = GetNodeIndexFromGraphCells(row, col, graph.ColumnCount);
+					int neighbourIndex = GetNodeIndexFromGraphCells(neighbourRow, neighbourCol, graph.ColumnCount);
 
 					Vector3 nodePosition = graph.Nodes[nodeIndex].Position;
 					Vector3 neighbourPosition = graph.Nodes[neighbourIndex].Position;
@@ -79,23 +73,24 @@ public static class GraphUtils
 		}
 	}
 
-	public static int GetNodeIndexFromGraphCells(int row, int col, int numCellsX)
+	public static int GetNodeIndexFromGraphCells(int row, int column, int columnCount)
 	{
 		// A position in a 2D array [x][y] is the same as [y * NumCellsX + x] in a 1D array
-		return row * numCellsX + col;
+		return row * columnCount + column;
 	}
 
-	public static bool IsValidNodePosition(int xPos, int yPos, int numCellsX, int numCellsY)
+	public static bool IsValidNodePosition(int column, int row, int columnCount, int rowCount)
 	{
-		return ((xPos > 0) && (xPos < numCellsX) && (yPos > 0) && (yPos < numCellsY));
+		return ((column > 0) && (column < columnCount) && (row > 0) && (row < rowCount));
 	}
 
 	public static void DrawGrid(this Graph graph)
 	{
-		GraphNode node;
-		for  (int i = 0; i < graph.Nodes.Length; i++)
+		const float kOffsetY = 25f;
+
+		for (int i = 0; i < graph.Nodes.Length; i++)
 		{
-			node = graph.Nodes[i];
+			GraphNode node = graph.Nodes[i];
 
 			for (int j = 0; j < node.Edges.Length; j++)
 			{
@@ -105,9 +100,9 @@ public static class GraphUtils
 				}
 
 				Vector3 fromPos = node.Position;
-				fromPos.y = 25f;
+				fromPos.y = kOffsetY;
 				Vector3 toPos = node.Edges[j].To.Position;
-				toPos.y = 25f;
+				toPos.y = kOffsetY;
 
 				Debug.DrawLine(fromPos, toPos, Color.blue, 10000f);
 			}
@@ -116,11 +111,9 @@ public static class GraphUtils
 
 	public static void PrintGraph(this Graph graph)
 	{
-		GraphNode node;
 		for (int i = 0; i < graph.Nodes.Length; i++)
 		{
-			node = graph.Nodes[i];
-
+			GraphNode node = graph.Nodes[i];
 			if (node == null)
 			{
 				continue;
@@ -182,8 +175,8 @@ public static class GraphUtils
 	public static void RemoveNodesBasedOnTerrainIncline(this Graph graph, Terrain terrain, float maxIncline)
 	{
 		TerrainData terrainData = terrain.terrainData;
-		float cellWidth = terrainData.size.x / graph.NumCellsX;
-		float cellHeight = terrainData.size.z / graph.NumCellsY;
+		float cellWidth = terrainData.size.x / graph.ColumnCount;
+		float cellHeight = terrainData.size.z / graph.RowCount;
 
 		for (int i = 0; i < graph.Nodes.Length; i++)
 		{
@@ -226,8 +219,8 @@ public static class GraphUtils
 	public static void RemoveNodesFromObstacles(this Graph graph, Terrain terrain)
 	{
 		TerrainData terrainData = terrain.terrainData;
-		float cellWidth = terrainData.size.x / graph.NumCellsX;
-		float cellHeight = terrainData.size.z / graph.NumCellsY;
+		float cellWidth = terrainData.size.x / graph.ColumnCount;
+		float cellHeight = terrainData.size.z / graph.RowCount;
 
 		Bounds bounds = new Bounds(Vector3.zero, new Vector3(cellHeight, 1f, cellHeight));
 
@@ -240,7 +233,6 @@ public static class GraphUtils
 		foreach (GraphNode node in graph.Nodes)
 		{
 			bounds.center = node.Position;
-
 			foreach (GameObject obstacle in obstacles)
 			{
 				if (bounds.Intersects(obstacle.GetComponent<Collider>().bounds))
