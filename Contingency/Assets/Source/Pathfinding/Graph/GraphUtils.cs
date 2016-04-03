@@ -26,7 +26,7 @@ public static class GraphUtils
 				terrainHeightAtNode = terrain.SampleHeight(nodePosition);
 				nodePosition.y = terrainHeightAtNode;
 
-				graph.AddNode(new GraphNode(graph.GetNextFreeNodeIndex(), nodePosition));
+				graph.AddNode(new GraphNode(graph.NextNodeIndex, nodePosition));
 			}
 		}
 

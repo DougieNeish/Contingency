@@ -7,6 +7,11 @@ public class Graph
 	private GraphNode[] m_nodes;
 	private int m_nextNodeIndex;
 
+	public int NextNodeIndex
+	{
+		get { return m_nextNodeIndex; }
+	}
+
 	public Graph(int numCellsX, int numCellsY)
 	{
 		m_numCellsX = numCellsX;
@@ -33,13 +38,16 @@ public class Graph
 
 	public void AddNode(GraphNode node)
 	{
+		// If node already exists
 		if (node.Index < m_nextNodeIndex)
 		{
-			Assert.IsTrue(node.Index != GraphNode.kInvalidIndex, "Graph.AddNode : Trying to add node to index with existing node");
+			// Ensure existing node is not overwritten, unless it has been deactivated
+			Assert.IsTrue(node.Index == GraphNode.kInvalidIndex, "Graph.AddNode : Trying to add node with duplicate ID");
 			m_nodes[node.Index] = node;
 		}
 		else
 		{
+			// Ensure a valid ID is being used
 			Assert.IsTrue(node.Index == m_nextNodeIndex, "Graph.AddNode : Invalid node index");
 			m_nodes[m_nextNodeIndex++] = node;
 		}
@@ -50,13 +58,16 @@ public class Graph
 		Assert.IsTrue(edge.From.Index >= 0 && edge.From.Index < m_nodes.Length, "Graph.AddEdge : 'from' node index out of range");
 		Assert.IsTrue(edge.To.Index >= 0 && edge.To.Index < m_nodes.Length, "Graph.AddEdge : 'to' node index out of range");
 
-		if (edge.To.Index != GraphNode.kInvalidIndex && edge.From.Index != GraphNode.kInvalidIndex)
+		// Ensure nodes are valid before creating edge between them
+		if (edge.To.Index != GraphNode.kInvalidIndex &&
+			edge.From.Index != GraphNode.kInvalidIndex)
 		{
 			GraphNode node;
 
 			if (!EdgeExists(edge.From, edge.To))
 			{
 				node = edge.From;
+				// Find first available (i.e. null) edge slot
 				for (int i = 0; i < node.Edges.Length; i++)
 				{
 					if (node.Edges[i] == null)
@@ -67,11 +78,6 @@ public class Graph
 				}
 			}
 		}
-	}
-
-	public int GetNextFreeNodeIndex()
-	{
-		return m_nextNodeIndex;
 	}
 
 	private bool EdgeExists(GraphNode from, GraphNode to)
