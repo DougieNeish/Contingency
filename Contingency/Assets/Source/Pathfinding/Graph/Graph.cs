@@ -35,20 +35,20 @@ public class Graph
 	{
 		if (node.Index < m_nextNodeIndex)
 		{
-			Assert.IsTrue(node.Index != GraphNode.kInvalidIndex, "Graph::AddNode : Trying to add node to index with existing node");
+			Assert.IsTrue(node.Index != GraphNode.kInvalidIndex, "Graph.AddNode : Trying to add node to index with existing node");
 			m_nodes[node.Index] = node;
 		}
 		else
 		{
-			Assert.IsTrue(node.Index == m_nextNodeIndex, "Graph::AddNode : Invalid node index");
+			Assert.IsTrue(node.Index == m_nextNodeIndex, "Graph.AddNode : Invalid node index");
 			m_nodes[m_nextNodeIndex++] = node;
 		}
 	}
 
 	public void AddEdge(GraphEdge edge)
 	{
-		Assert.IsTrue(edge.From.Index >= 0 && edge.From.Index < m_nodes.Length, "Graph::AddEdge : 'from' node index out of range");
-		Assert.IsTrue(edge.To.Index >= 0 && edge.To.Index < m_nodes.Length, "Graph::AddEdge : 'to' node index out of range");
+		Assert.IsTrue(edge.From.Index >= 0 && edge.From.Index < m_nodes.Length, "Graph.AddEdge : 'from' node index out of range");
+		Assert.IsTrue(edge.To.Index >= 0 && edge.To.Index < m_nodes.Length, "Graph.AddEdge : 'to' node index out of range");
 
 		if (edge.To.Index != GraphNode.kInvalidIndex && edge.From.Index != GraphNode.kInvalidIndex)
 		{
@@ -66,19 +66,6 @@ public class Graph
 					}
 				}
 			}
-
-			//if (!EdgeExists(edge.To, edge.From))
-			//{
-			//	node = edge.To;
-			//	for (int i = 0; i < node.Edges.Length; i++)
-			//	{
-			//		if (node.Edges[i] == null)
-			//		{
-			//			node.Edges[i] = ReverseEdge(edge);
-			//			break;
-			//		}
-			//	}
-			//}
 		}
 	}
 
@@ -99,9 +86,4 @@ public class Graph
 		}
 		return false;
 	}
-
-	//private GraphEdge ReverseEdge(GraphEdge edge)
-	//{
-	//	return new GraphEdge(edge.To, edge.From, edge.Cost);
-	//}
 }
