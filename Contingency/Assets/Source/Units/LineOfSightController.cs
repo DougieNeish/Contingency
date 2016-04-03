@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(Collider))]
 public class LineOfSightController : MonoBehaviour
 {
 	public delegate void EnemyUnitSpottedEventHandler(Unit enemy);
@@ -38,7 +39,7 @@ public class LineOfSightController : MonoBehaviour
 	void Start()
 	{
 		m_owner = gameObject.GetComponentInParent<Unit>().Owner;
-		Physics.IgnoreCollision(GetComponent<SphereCollider>(), GameObject.FindGameObjectWithTag("Terrain").GetComponent<Collider>());
+		Physics.IgnoreCollision(GetComponent<Collider>(), GameObject.FindGameObjectWithTag("Terrain").GetComponent<Collider>());
 	}
 
 	void Update()
