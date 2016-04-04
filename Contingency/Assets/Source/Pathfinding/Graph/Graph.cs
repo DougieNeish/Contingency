@@ -55,8 +55,8 @@ public class Graph
 
 	public void AddEdge(GraphEdge edge)
 	{
-		Assert.IsTrue(edge.From.Index >= 0 && edge.From.Index < m_nodes.Length, "Graph.AddEdge : 'from' node index out of range");
-		Assert.IsTrue(edge.To.Index >= 0 && edge.To.Index < m_nodes.Length, "Graph.AddEdge : 'to' node index out of range");
+		Assert.IsTrue(edge.From.Index < m_nextNodeIndex, "Graph.AddEdge : 'from' node index out of range");
+		Assert.IsTrue(edge.To.Index < m_nextNodeIndex, "Graph.AddEdge : 'to' node index out of range");
 
 		// Ensure nodes are valid before creating edge between them
 		if (edge.To.Index != GraphNode.kInvalidIndex &&
