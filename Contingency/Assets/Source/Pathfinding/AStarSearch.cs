@@ -176,7 +176,7 @@ public class AStarSearch
 	{
 		float dx = Mathf.Abs(nodePosition.x - targetPosition.x);
 		float dz = Mathf.Abs(nodePosition.z - targetPosition.z);
-		return GraphUtils.baseMovementCost * (dx + dz) + (GraphUtils.sqrt2 - 2 * GraphUtils.baseMovementCost) * Mathf.Min(dx, dz);
+		return GraphUtils.kBaseMovementCost * (dx + dz) + (GraphUtils.kSqrt2 - 2 * GraphUtils.kBaseMovementCost) * Mathf.Min(dx, dz);
 	}
 
 	private GraphNode[] GetPathFromParents(GraphNode startNode, GraphNode targetNode)

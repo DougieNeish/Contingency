@@ -70,10 +70,10 @@ public class GraphNode
 			{
 				GraphNode neighbour = m_edges[i].To;
 
-				// Loop through the neighbour's edges to find the edge that points to this node
+				// Loop through the neighbour's edges to find edges that point to this node
 				for (int j = 0; j < neighbour.Edges.Length; j++)
 				{
-					// If node is not null and is the current node
+					// If node is not null and points to this node
 					if (neighbour.Edges[j] != null &&
 						neighbour.Edges[j].To.Index == m_index)
 					{
@@ -82,7 +82,7 @@ public class GraphNode
 					}
 				}
 
-				// Set current edge to null
+				// Set this node's current edge to null
 				m_edges[i] = null;
 			}
 		}

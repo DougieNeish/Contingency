@@ -3,23 +3,22 @@ using System.Collections.Generic;
 
 public static class GraphUtils
 {
-	public static float baseMovementCost = 1f;
-	public static float sqrt2 = Mathf.Sqrt(2f);
+	public static float kBaseMovementCost = 1f;
+	public static float kSqrt2 = Mathf.Sqrt(2f);
 
 	public static void CreateGrid(this Graph graph, Terrain terrain)
 	{
 		TerrainData terrainData = terrain.terrainData;
 		float cellWidth = terrainData.size.x / graph.ColumnCount;
 		float cellHeight = terrainData.size.z / graph.RowCount;
-		float cellXPosition = cellWidth / 2;
-		float cellYPosition = cellHeight / 2;
+		Vector2 cellPosition = new Vector2(cellWidth / 2, cellHeight / 2);
 		
 		// Add nodes
 		for (int row = 0; row < graph.RowCount; row++)
 		{
 			for (int col = 0; col < graph.ColumnCount; col++)
 			{
-				Vector3 nodePosition = new Vector3(cellXPosition + (col * cellWidth), 0f, cellYPosition + (row * cellHeight));
+				Vector3 nodePosition = new Vector3(cellPosition.x + (col * cellWidth), 0f, cellPosition.y + (row * cellHeight));
 				float terrainHeightAtNode = terrain.SampleHeight(nodePosition);
 				nodePosition.y = terrainHeightAtNode;
 
@@ -54,13 +53,10 @@ public static class GraphUtils
 
 				if (IsValidNodePosition(neighbourCol, neighbourRow, graph.ColumnCount, graph.RowCount))
 				{
-					int nodeIndex = GetNodeIndexFromGraphCells(row, col, graph.ColumnCount);
-					int neighbourIndex = GetNodeIndexFromGraphCells(neighbourRow, neighbourCol, graph.ColumnCount);
-
-					Vector3 nodePosition = graph.Nodes[nodeIndex].Position;
-					Vector3 neighbourPosition = graph.Nodes[neighbourIndex].Position;
+					int nodeIndex = GetNodeIndexFromGraphCell(row, col, graph.ColumnCount);
+					int neighbourIndex = GetNodeIndexFromGraphCell(neighbourRow, neighbourCol, graph.ColumnCount);
 					
-					float cost = (rowOffset == 0f || colOffset == 0f) ? baseMovementCost : sqrt2;
+					float cost = (rowOffset == 0f || colOffset == 0f) ? kBaseMovementCost : kSqrt2;
 
 					GraphEdge.EdgeDirection direction = GetEdgeDirectionFromCellOffset(colOffset, rowOffset);
 					GraphEdge.EdgeDirection reverseDirection = ReverseDirection(direction);
@@ -73,7 +69,7 @@ public static class GraphUtils
 		}
 	}
 
-	public static int GetNodeIndexFromGraphCells(int row, int column, int columnCount)
+	public static int GetNodeIndexFromGraphCell(int row, int column, int columnCount)
 	{
 		// A position in a 2D array [x][y] is the same as [y * NumCellsX + x] in a 1D array
 		return row * columnCount + column;
