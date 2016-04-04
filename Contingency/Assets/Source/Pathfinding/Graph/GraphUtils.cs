@@ -132,10 +132,11 @@ public static class GraphUtils
 		float smallestDistance = float.MaxValue;
 		foreach (GraphNode node in graph.Nodes)
 		{
-			if (Vector3.Distance(node.Position, position) < smallestDistance)
+			float distance = Vector3.Distance(node.Position, position);
+			if (distance < smallestDistance)
 			{
 				closestNode = node;
-				smallestDistance = Vector3.Distance(node.Position, position);
+				smallestDistance = distance;
 			}
 		}
 
