@@ -48,6 +48,7 @@ public class Graph
 		else
 		{
 			// Ensure a valid ID is being used
+			Assert.IsTrue(m_nextNodeIndex < m_nodes.Length, "Graph.AddNode : Next node index will exceed node array length");
 			Assert.IsTrue(node.Index == m_nextNodeIndex, "Graph.AddNode : Invalid node index");
 			m_nodes[m_nextNodeIndex++] = node;
 		}

@@ -2,6 +2,9 @@
 
 public class GraphNode
 {
+	public const int kInvalidIndex = -1;
+	public const int kMaxEdges = 8;
+
 	private int m_index;
 	private Vector3 m_position;
 	private bool m_enabled;
@@ -9,19 +12,15 @@ public class GraphNode
 	// m_edges always has length kMaxEdges and should never be set to null
 	// If an edge does not exist its position in the array is null
 	private GraphEdge[] m_edges;
-
 	private GraphNode m_parent;
-
-	public const int kInvalidIndex = -1;
-	public const int kMaxEdges = 8;
 
 	public GraphNode(int index, Vector3 position)
 	{
 		m_index = index;
 		m_position = position;
 		m_enabled = true;
-
 		m_edges = new GraphEdge[kMaxEdges];
+		m_parent = null;
 	}
 
 	public int Index
@@ -62,8 +61,6 @@ public class GraphNode
 
 	public void Disable()
 	{
-		m_enabled = false;
-
 		// Loop through all the node's edges
 		for (int i = 0; i < m_edges.Length; i++)
 		{
@@ -89,5 +86,7 @@ public class GraphNode
 				m_edges[i] = null;
 			}
 		}
+
+		m_enabled = false;
 	}
 }
