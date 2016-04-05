@@ -32,8 +32,6 @@ public class AStarSearch
 
 	public GraphNode[] Search(Graph graph, GraphNode startNode, GraphNode targetNode)
 	{
-		Profiler.BeginSample("A* Search");
-
 		for (int i = 0; i < m_nodeCount; i++)
 		{
 			m_runningCost[i] = 0f;
@@ -55,11 +53,8 @@ public class AStarSearch
 		// Add start node to the open list
 		m_openList.Add(startNode);
 
-		GraphNode currentNode;
-
 		while (m_openList.Count > 0)
 		{
-			Profiler.BeginSample("Find lowest cost in open list");
 			GraphNode bestNode = null;
 			float lowestCost = float.MaxValue;
 
@@ -71,9 +66,8 @@ public class AStarSearch
 					bestNode = tempNode;
 				}
 			}
-			Profiler.EndSample();
 
-			currentNode = bestNode;
+			GraphNode currentNode = bestNode;
 			m_openList.Remove(bestNode);
 			
 			// If current node equals target node end search
@@ -85,11 +79,7 @@ public class AStarSearch
 
 			m_closedList.Add(currentNode);
 
-			GraphNode nextNode;
-			float cost;
-
 			// Loop through all neighbours of current node
-			Profiler.BeginSample("Loop through neighbours");
 			foreach (GraphEdge edge in currentNode.Edges)
 			{
 				if (edge == null || edge.To.Index == GraphNode.kInvalidIndex)
@@ -97,54 +87,29 @@ public class AStarSearch
 					continue;
 				}
 
-				nextNode = edge.To;
-
+				GraphNode nextNode = edge.To;
 				if (nextNode == null || !nextNode.Enabled)
 				{
 					continue;
 				}
 
-				cost = m_runningCost[currentNode.Index] + edge.Cost;
-
-				// If in open list and cost is less than running cost to neighbour, remove from open list because new path is better
-				//Profiler.BeginSample("Check open list contains node");
-				//if (m_openList.Contains(currentNode) && cost < m_runningCost[nextNode.Index])
-				//{
-				//	Profiler.BeginSample("Remove node from open list");
-				//	m_openList.Remove(currentNode);
-				//	Profiler.EndSample();
-				//}
-				//Profiler.EndSample();
-
-				// If in closed list and cost is less than running cost to neighbour, remove from closed list because new path is better
-				//if (m_closedList.Contains(currentNode) && cost < m_runningCost[nextNode.Index])
-				//{
-				//	m_closedList.Remove(currentNode);
-				//}
+				float cost = m_runningCost[currentNode.Index] + edge.Cost;
 
 				if (m_closedList.Contains(nextNode) && m_runningCost[currentNode.Index] >= m_runningCost[nextNode.Index])
 				{
 					continue;
 				}
 
-				// If not in open or closed list
-				Profiler.BeginSample("Not in open or closed list");
-				//if (!m_closedList.Contains(nextNode) && !m_openList.Contains(nextNode) && (m_runningCost[nextNode.Index] == 0f || cost < m_runningCost[nextNode.Index]))
 				if (!m_openList.Contains(nextNode) || m_runningCost[currentNode.Index] < m_runningCost[nextNode.Index])
 				{
 					// f = g + h
 					m_runningCost[nextNode.Index] = cost + DiagonalDistance(nextNode.Position, targetNode.Position);
-					Profiler.BeginSample("Add node to open list");
 					m_openList.Add(nextNode);
-					Profiler.EndSample();
 					nextNode.Parent = currentNode;
 				}
-				Profiler.EndSample();
 			}
-			Profiler.EndSample();
 		}
 
-		Profiler.EndSample();
 		Debug.Log("<color=red>Target node not found</color>");
 
 		// Clear return lists as search did not find valid path
@@ -160,16 +125,6 @@ public class AStarSearch
 
 		Search(graph, startNode, targetNode);
 		return m_waypoints.ToArray();
-	}
-
-	public GraphNode[] NodePath
-	{
-		get { return m_nodePath.ToArray(); }
-	}
-
-	public Vector3[] Waypoints
-	{
-		get { return m_waypoints.ToArray(); }
 	}
 
 	private float DiagonalDistance(Vector3 nodePosition, Vector3 targetPosition)

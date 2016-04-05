@@ -50,7 +50,6 @@ public class PathfindingController : MonoBehaviour
 			return;
 		}
 
-		GraphNode node;
 		for (int i = 0; i < m_navGraph.Nodes.Length; i++)
 		{
 			if (!m_navGraph.Nodes[i].Enabled)
@@ -70,9 +69,9 @@ public class PathfindingController : MonoBehaviour
 			{
 				continue;
 			}
-			
+
 			// Draw edges
-			node = m_navGraph.Nodes[i];
+			GraphNode node = m_navGraph.Nodes[i];
 			for (int j = 0; j < node.Edges.Length; j++)
 			{
 				if (node.Edges[j] == null || node.Edges[j].To.Index == GraphNode.kInvalidIndex)
