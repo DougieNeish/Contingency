@@ -18,6 +18,7 @@ public class Alignment
 		m_steeringController = steeringController;
 	}
 
+	// Create a force that pushes the agent towards the average heading of its neighbours
 	public Vector3 GetSteeringVector()
 	{
 		Vector3 averageHeading = Vector3.zero;

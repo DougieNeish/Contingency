@@ -18,15 +18,14 @@ public class Separation
 		m_steeringController = steeringController;
 	}
 
+	// Create a force that pushes the agent away from all neighbours
 	public Vector3 GetSteeringVector()
 	{
 		Vector3 steeringForce = Vector3.zero;
 
-
 		foreach (GameObject neighbour in m_neighbours)
 		{
 			Vector3 toAgent = m_steeringController.transform.position - neighbour.transform.position;
-
 			steeringForce += toAgent.normalized / toAgent.magnitude;
 		}
 

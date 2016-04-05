@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections.Generic;
 
 [RequireComponent(typeof(Rigidbody))]
 public class SteeringController : MonoBehaviour
@@ -261,21 +260,6 @@ public class SteeringController : MonoBehaviour
 	void FixedUpdate()
 	{
 		Steer(CalculateSteeringForce());
-	}
-
-	void OnDrawGizmos()
-	{
-		//foreach (Vector3 point in PathFollowing.Path.Waypoints)
-		//for (int i = 0; i < PathFollowing.Path.Waypoints.Count; i++)
-		//{
-		//	Gizmos.DrawIcon(PathFollowing.Path.Waypoints[i], "Waypoint " + i);
-		//	Gizmos.DrawLine(PathFollowing.Path.Waypoints[i], PathFollowing.Path.Waypoints[i++]);
-		//}
-
-		//if (PathFollowing.Path.Waypoints.Count > 0)
-		//{
-		//	Gizmos.DrawWireSphere(PathFollowing.Path.Waypoints[0], SteeringUtils.kWaypointLoopActivationDistance);
-        //}
 	}
 
 	public void Steer(Vector3 steeringForce)

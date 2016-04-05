@@ -27,11 +27,12 @@ public class AStarSearch
 		m_nodePath = new List<GraphNode>();
 		m_waypoints = new List<Vector3>();
 
-		m_simplifyPath = false;
+		m_simplifyPath = true;
 	}
 
 	public GraphNode[] Search(Graph graph, GraphNode startNode, GraphNode targetNode)
 	{
+		// Reset running cost array
 		for (int i = 0; i < m_nodeCount; i++)
 		{
 			m_runningCost[i] = 0f;
@@ -95,6 +96,7 @@ public class AStarSearch
 
 				float cost = m_runningCost[currentNode.Index] + edge.Cost;
 
+				// If in closed list (has been looked at previously)
 				if (m_closedList.Contains(nextNode) && m_runningCost[currentNode.Index] >= m_runningCost[nextNode.Index])
 				{
 					continue;

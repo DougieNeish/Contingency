@@ -16,6 +16,7 @@ public class Cohesion : Seek
 		m_neighbours = new HashSet<GameObject>();
 	}
 
+	// Create a force that pushes the agent towards the average position of its neighbours
 	public override Vector3 GetSteeringVector()
 	{
 		Vector3 averagePosition = Vector3.zero;

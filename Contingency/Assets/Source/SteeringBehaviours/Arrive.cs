@@ -11,7 +11,7 @@ public class Arrive
 	// The radius from the target where we start to slow down 
 	private float m_slowRadius = 1f;
 
-	/* The time in which we want to achieve the targetSpeed */
+	// The time in which we want to achieve the targetSpeed
 	private float m_timeToTarget = 0.1f;
 
 	public Vector3 TargetPosition
@@ -74,7 +74,9 @@ public class Arrive
 		velocityToTarget *= targetSpeed;
 
 		// Calculate the linear acceleration
-		Vector3 acceleration = velocityToTarget - new Vector3(m_steeringController.Rigidbody.velocity.x, m_steeringController.Rigidbody.velocity.y, m_steeringController.Rigidbody.velocity.z);
+		Vector3 acceleration = velocityToTarget - new Vector3(m_steeringController.Rigidbody.velocity.x,
+															  m_steeringController.Rigidbody.velocity.y,
+															  m_steeringController.Rigidbody.velocity.z);
 
 		// Rather than accelerate the character to the correct speed in 1 second, 
 		// accelerate so we reach the desired speed in timeToTarget seconds 

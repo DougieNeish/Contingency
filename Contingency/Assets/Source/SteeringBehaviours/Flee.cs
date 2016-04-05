@@ -56,7 +56,7 @@ public class Flee
 
 				if (velocityToTarget.magnitude > m_steeringController.MaxAcceleration)
 				{
-					velocityToTarget = giveMaxAccel(velocityToTarget);
+					velocityToTarget = GetMaxAcceleration(velocityToTarget);
 				}
 
 				return velocityToTarget;
@@ -68,12 +68,11 @@ public class Flee
 					OnTargetEvaded();
 				}
 
-				//m_steeringController.m_rb.velocity = Vector3.zero;
 				return Vector3.zero;
 			}
 		}
 
-		return giveMaxAccel(velocityToTarget);
+		return GetMaxAcceleration(velocityToTarget);
 	}
 
 	public virtual Vector3 GetSteeringVector()
@@ -81,7 +80,7 @@ public class Flee
 		return GetSteeringVector(m_targetPosition);
 	}
 
-	private Vector3 giveMaxAccel(Vector3 v)
+	private Vector3 GetMaxAcceleration(Vector3 v)
 	{
 		//Remove the y coordinate
 		v.y = 0;

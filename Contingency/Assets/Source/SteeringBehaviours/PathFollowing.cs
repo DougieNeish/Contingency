@@ -59,14 +59,5 @@ public class PathFollowing
 		}
 
 		return m_steeringController.Arrive.GetSteeringVector(m_path.CurrentWaypointPosition);
-
-		//if (!m_path.Finished())
-		//{
-		//	return m_steeringController.Seek.GetSteeringVector(m_path.CurrentWaypoint);
-		//}
-		//else
-		//{
-		//	return m_steeringController.Arrive.GetSteeringVector(m_path.CurrentWaypoint);
-		//}
 	}
 }
