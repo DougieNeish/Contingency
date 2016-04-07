@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 
-public class CameraScript : MonoBehaviour
+public class CameraController : MonoBehaviour
 {
 	private GameObject m_cameraChild;
 	private RaycastHit m_hit;
 
-	[SerializeField] private float m_moveSpeed;
-	[SerializeField] private float m_rotationSpeed;
-	[SerializeField] private float m_zoomAmount;
-	[SerializeField] private float m_zoomSpeed;
+	[SerializeField] private float m_moveSpeed = 300f;
+	[SerializeField] private float m_rotationSpeed = 150f;
+	[SerializeField] private float m_zoomAmount = 20f;
+	[SerializeField] private float m_zoomSpeed = 100f;
 
 	private bool m_isRotating;
 	private Vector3 m_rotatePosition;
