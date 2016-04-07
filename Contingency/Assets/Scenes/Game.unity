@@ -445,6 +445,7 @@ GameObject:
   - 92: {fileID: 171551574}
   - 124: {fileID: 171551573}
   - 81: {fileID: 171551572}
+  - 114: {fileID: 171551578}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -514,11 +515,37 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 171551571}
   m_LocalRotation: {x: 0.41865978, y: 0, z: 0, w: 0.90814316}
-  m_LocalPosition: {x: 121.2, y: 115.4, z: -8.02}
+  m_LocalPosition: {x: 124.01, y: 117.04, z: -17.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 696528904}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &171551578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 171551571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e10dc8a70dcba2b4cb92908679d0a4f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_cameraChild: {fileID: 0}
+  m_moveSpeed: 100
+  m_rotationSpeed: 150
+  m_zoomAmount: 250
+  m_zoomSpeed: 7
+  m_isRotating: 0
+  m_rotatePosition: {x: 0, y: 0, z: 0}
+  m_targetRotation: {x: 0, y: 0, z: 0, w: 0}
+  m_targetRotationY: 0
+  m_targetRotationX: 0
+  m_mouseRotationSpeed: 5
+  m_smoothness: 0.85
+  m_zoomTolerance: 0.5
+  m_targetZoom: {x: 0, y: 0, z: 0}
 --- !u!1 &174962339
 GameObject:
   m_ObjectHideFlags: 0
@@ -1596,6 +1623,33 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 20c751c89beb3ea4da7d4d32502f3fce, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &696528903
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 696528904}
+  m_Layer: 0
+  m_Name: CameraChild
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &696528904
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 696528903}
+  m_LocalRotation: {x: -0.41865978, y: 0, z: 0, w: 0.90814316}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 171551576}
+  m_RootOrder: 0
 --- !u!1001 &750468192
 Prefab:
   m_ObjectHideFlags: 0
