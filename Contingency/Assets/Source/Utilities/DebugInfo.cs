@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class DebugInfo : Singleton<DebugInfo>
 {
@@ -27,6 +26,7 @@ public class DebugInfo : Singleton<DebugInfo>
 
 	void Update()
 	{
+		// Pathfinding
 		if (Input.GetKeyDown(KeyCode.P))
 		{
 			DrawUnitPaths = !DrawUnitPaths;
@@ -37,6 +37,30 @@ public class DebugInfo : Singleton<DebugInfo>
 			DrawAIPaths = !DrawAIPaths;
 		}
 
+		// Navigation
+		if (Input.GetKeyDown(KeyCode.N))
+		{
+			DrawNodes = !DrawNodes;
+		}
+
+		if (Input.GetKeyDown(KeyCode.M))
+		{
+			DrawEdges = !DrawEdges;
+		}
+
+		// Line of sight
+		if (Input.GetKeyDown(KeyCode.V))
+		{
+			SightRendering = !SightRendering;
+		}
+
+		// AI
+		if (Input.GetKeyDown(KeyCode.Y))
+		{
+			AutoSpawnAI = !AutoSpawnAI;
+		}
+
+		// Units
 		if (m_lastSelectedUnit != null)
 		{
 			if (Input.GetKeyDown(KeyCode.J))
@@ -51,11 +75,6 @@ public class DebugInfo : Singleton<DebugInfo>
 			{
 				m_lastSelectedUnit.Stance = Unit.CombatStance.Static;
 			}
-		}
-
-		if (Input.GetKeyDown(KeyCode.V))
-		{
-			SightRendering = !SightRendering;
 		}
 	}
 }

@@ -770,10 +770,14 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11478252, guid: 7cc08d527134b2441b774bb786cf5dda, type: 2}
       propertyPath: DrawAIPaths
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11478252, guid: 7cc08d527134b2441b774bb786cf5dda, type: 2}
       propertyPath: DrawUnitPaths
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11478252, guid: 7cc08d527134b2441b774bb786cf5dda, type: 2}
+      propertyPath: SightRendering
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1842,7 +1846,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
 --- !u!1 &903409275
 GameObject:
   m_ObjectHideFlags: 0
@@ -3205,7 +3209,7 @@ Transform:
   - {fileID: 1323517495}
   - {fileID: 569105819}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
 --- !u!1 &2058978023
 GameObject:
   m_ObjectHideFlags: 0
