@@ -51,7 +51,7 @@ GameObject:
   - 120: {fileID: 12021444}
   - 135: {fileID: 13552440}
   m_Layer: 0
-  m_Name: LaserUnit
+  m_Name: EnemySniper
   m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -165,7 +165,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 7349e50c968734041a59f5bb18c26970, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -191,7 +191,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: 0daa71c4b5ff67a4c888faa3fdfee70d, type: 2}
+  - {fileID: 2100000, guid: b94f2b434e608cc42bd7d974946d4a4b, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -260,7 +260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_sightRadius: 60
-  m_weapon: {fileID: 11425330, guid: 01e8585088c16744d81fbec9df8beec0, type: 2}
+  m_weapon: {fileID: 11425330, guid: 15191afd6f81f354aac7174db4a0911a, type: 2}
 --- !u!114 &11448678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -476,7 +476,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 8bd6dff464b6d9a47ba2ef822ff2474f, type: 2}
+      objectReference: {fileID: 2100000, guid: 7349e50c968734041a59f5bb18c26970, type: 2}
     - target: {fileID: 0}
       propertyPath: m_TagString
       value: Untagged
@@ -504,7 +504,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_weapon
       value: 
-      objectReference: {fileID: 11425330, guid: 01e8585088c16744d81fbec9df8beec0,
+      objectReference: {fileID: 11425330, guid: 15191afd6f81f354aac7174db4a0911a,
         type: 2}
     - target: {fileID: 0}
       propertyPath: m_UseWorldSpace
