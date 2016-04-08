@@ -34,7 +34,7 @@ public class MovingToAttack : State<Unit>
 	private void HandlePathCompleted()
 	{
 		// If unit reaches end of path and can't attack, go idle (unit has lost target)
-		if (!m_unit.UnitController.CanAttack(m_unit, m_unit.Target))
+		if (m_unit.Target == null || m_unit.Target.Health <= 0f || !m_unit.UnitController.CanAttack(m_unit, m_unit.Target))
 		{
 			m_unit.StateMachine.ChangeState(new Idle());
 		}

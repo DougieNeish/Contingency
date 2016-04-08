@@ -75,6 +75,11 @@ public class DebugInfo : Singleton<DebugInfo>
 			{
 				m_lastSelectedUnit.Stance = Unit.CombatStance.Static;
 			}
+
+			if (Input.GetKeyDown(KeyCode.Delete))
+			{
+				m_lastSelectedUnit.ReceiveDamage(100f, m_lastSelectedUnit);
+			}
 		}
 	}
 }
