@@ -55,7 +55,7 @@ public class DebugInfo : Singleton<DebugInfo>
 		}
 
 		// AI
-		if (Input.GetKeyDown(KeyCode.Y))
+		if (Input.GetKeyDown(KeyCode.Return))
 		{
 			AutoSpawnAI = !AutoSpawnAI;
 		}
@@ -80,6 +80,11 @@ public class DebugInfo : Singleton<DebugInfo>
 			{
 				m_lastSelectedUnit.ReceiveDamage(100f, m_lastSelectedUnit);
 			}
+		}
+
+		if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.R))
+		{
+			UnityEngine.SceneManagement.SceneManager.LoadScene("Game", UnityEngine.SceneManagement.LoadSceneMode.Single);
 		}
 	}
 }
