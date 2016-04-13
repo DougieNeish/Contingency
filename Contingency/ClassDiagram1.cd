@@ -1,0 +1,973 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Pathfinding">
+    <Position X="4.717" Y="21.592" Height="0.297" Width="0.884" />
+  </Comment>
+  <Comment CommentText="Steering Behaviours">
+    <Position X="21.52" Y="24.971" Height="0.291" Width="1.357" />
+  </Comment>
+  <Comment CommentText="Finite State Machine">
+    <Position X="20.504" Y="16.05" Height="0.291" Width="1.348" />
+  </Comment>
+  <Comment CommentText="GUI">
+    <Position X="1.638" Y="12.652" Height="0.291" Width="0.7" />
+  </Comment>
+  <Class Name="Alignment">
+    <Position X="26.25" Y="31.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AQEAAAAAAAAAAACAAAAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Source\SteeringBehaviours\Alignment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Arrive">
+    <Position X="16.5" Y="28.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AQEAAAAAAAAAAAEAAAAAAgAAAAASAAAQACAABAAAgAA=</HashCode>
+      <FileName>Assets\Source\SteeringBehaviours\Arrive.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AStarSearch">
+    <Position X="7" Y="22.75" Width="2" />
+    <AssociationLine Name="m_closedList" Type="GraphNode">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.499" Y="0.353" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="m_nodePath" Type="GraphNode" FixedFromPoint="true">
+      <Path>
+        <Point X="8.562" Y="25.459" />
+        <Point X="8.562" Y="27" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.553" Y="0.822" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="m_openList" Type="GraphNode" FixedFromPoint="true">
+      <Path>
+        <Point X="7.375" Y="25.459" />
+        <Point X="7.375" Y="27" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.418" Y="0.804" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>RAAEAAAAAgAAAAAAABAAABgARAAAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Assets\Source\Pathfinding\AStarSearch.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="m_closedList" />
+      <Field Name="m_nodePath" />
+      <Field Name="m_openList" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Attacking">
+    <Position X="25.75" Y="21" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAIAAAAAAAAAAEAAAAIAAAACAAAAA=</HashCode>
+      <FileName>Assets\Source\Units\State\Attacking.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Building" BaseTypeListCollapsed="true">
+    <Position X="16" Y="8.25" Width="2" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="Building.BuildingDestroyedEventHandler">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\Building.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <AssociationLine Name="m_owner" Type="Player" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="17.375" Y="8.25" />
+        <Point X="17.375" Y="6.875" />
+        <Point X="16.5" Y="6.875" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAICACAAAgAQAAAAAAAAQAAAAAAAAAAAAAAAACAAEA=</HashCode>
+      <FileName>Assets\Source\Building.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_owner" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CameraController">
+    <Position X="22.25" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>QAQAAAAESCAAAAAAgAACAAQAAAAEAAAAAACWACACAIA=</HashCode>
+      <FileName>Assets\Source\CameraController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cohesion">
+    <Position X="16.5" Y="39.75" Width="1.75" />
+    <InheritanceLine Type="Seek" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="18.75" Y="40.125" />
+        <Point X="18.25" Y="40.125" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAACAAAAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Source\SteeringBehaviours\Cohesion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DebugInfo">
+    <Position X="24.5" Y="6.25" Width="1.75" />
+    <InheritanceLine Type="Singleton&lt;T&gt;" FixedToPoint="true">
+      <Path>
+        <Point X="25.875" Y="5.434" />
+        <Point X="25.875" Y="6.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAQAgAAAAIAAAAAAAAAAAAAAAAAUAAAQBAAAAAACAEA=</HashCode>
+      <FileName>Assets\Source\Utilities\DebugInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Evade">
+    <Position X="14.5" Y="34.5" Width="1.75" />
+    <InheritanceLine Type="Flee" FixedFromPoint="true">
+      <Path>
+        <Point X="15.375" Y="33.92" />
+        <Point X="15.375" Y="34.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>ARAAAAAAAAAAAAAAAAAAACBAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Source\SteeringBehaviours\Evade.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Flee">
+    <Position X="13.75" Y="28.75" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="Flee.TargetEvadedEventHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\SteeringBehaviours\Flee.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AYEAAAAAAAAAAAAAQAAAAAAAEAgAAQAQACABAAAAiAA=</HashCode>
+      <FileName>Assets\Source\SteeringBehaviours\Flee.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Fleeing">
+    <Position X="27.5" Y="21" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAIAQAAAAAAAAEAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Source\Units\State\Fleeing.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game">
+    <Position X="11.75" Y="1.5" Width="2" />
+    <AssociationLine Name="m_inputManager" Type="InputManager" ManuallyRouted="true">
+      <Path>
+        <Point X="12.75" Y="1.5" />
+        <Point X="12.75" Y="0.904" />
+        <Point X="6.833" Y="0.904" Type="JumpStart" />
+        <Point X="6.667" Y="0.904" Type="JumpEnd" />
+        <Point X="1.75" Y="0.904" />
+        <Point X="1.75" Y="1.5" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAQAAAhAACQIACAAABAEAACQAAQCAgAIAKAAAYgACUA=</HashCode>
+      <FileName>Assets\Source\Game.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_inputManager" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="m_players" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Global">
+    <Position X="16.25" Y="21" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAQAIAAAAAAAAAAEAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Source\Units\State\Global.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Graph">
+    <Position X="4.25" Y="27" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQgAAAAAAAAAAAACBAAAAABQACAAAQAAAAAAABIAgA=</HashCode>
+      <FileName>Assets\Source\Pathfinding\Graph\Graph.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="m_nodes" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="GraphEdge">
+    <Position X="9.75" Y="27" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="GraphEdge.EdgeDirection">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\Pathfinding\Graph\GraphEdge.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <AssociationLine Name="m_from" Type="GraphNode" FixedFromPoint="true">
+      <Path>
+        <Point X="9.75" Y="28.313" />
+        <Point X="8.75" Y="28.313" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAACAAABAQAAIIAIAgAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Source\Pathfinding\Graph\GraphEdge.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_to" />
+      <Field Name="m_from" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="GraphNode">
+    <Position X="7.25" Y="27" Width="1.5" />
+    <AssociationLine Name="m_parent" Type="GraphNode" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.5" Y="30.93" />
+        <Point X="7.5" Y="31.18" />
+        <Point X="8.562" Y="31.18" />
+        <Point X="8.562" Y="30.93" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAECAAAIAggAAASAAAAAEBIAAAAAEgAAAAAQA=</HashCode>
+      <FileName>Assets\Source\Pathfinding\Graph\GraphNode.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_parent" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="m_edges" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="GraphUtils">
+    <Position X="0.5" Y="22.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>GLAAgAAAgCAAAAAAAAAAAkAAAAAABAAAAAAgACAEAAA=</HashCode>
+      <FileName>Assets\Source\Pathfinding\Graph\GraphUtils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GUIManager">
+    <Position X="2.75" Y="13.25" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="GUIManager.UnitInfo">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\UI\GUIManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <AssociationLine Name="m_game" Type="Game" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.625" Y="13.25" />
+        <Point X="3.625" Y="1.073" />
+        <Point X="6.667" Y="1.073" Type="JumpStart" />
+        <Point X="6.833" Y="1.073" Type="JumpEnd" />
+        <Point X="12.312" Y="1.073" />
+        <Point X="12.312" Y="1.5" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="m_selectionManager" Type="SelectionManager" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.312" Y="13.25" />
+        <Point X="4.312" Y="12.581" />
+        <Point X="4.812" Y="12.581" />
+        <Point X="4.812" Y="11.957" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.654" Y="0.276" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>EAQAAAAAAEAAAEAAAAAAAAAAQgAAAgAIAAAAAgAACUA=</HashCode>
+      <FileName>Assets\Source\UI\GUIManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_game" />
+      <Field Name="m_selectionManager" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Helpers">
+    <Position X="22.25" Y="3.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Source\Utilities\Helpers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Idle">
+    <Position X="18.5" Y="21" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAABBAAAAAAgQAIAAAAAAAAAAEAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Source\Units\State\Idle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InputManager">
+    <Position X="0.5" Y="1.5" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="InputManager.MouseEventType">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\InputManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Delegate Name="InputManager.MouseDragEventHandler">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\InputManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="InputManager.MouseInputEventHandler">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\InputManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAQEAQAAAAEgCAAAAAAEAAAAAAAAAIQAAAAAAAABCAA=</HashCode>
+      <FileName>Assets\Source\InputManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Laser">
+    <Position X="11.75" Y="22.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAQAAAAAEAAIAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Source\Weapons\Laser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LineOfSightController">
+    <Position X="18.25" Y="9" Width="3" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="LineOfSightController.EnemyBuildingSpottedEventHandler">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\Units\LineOfSightController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="LineOfSightController.EnemyUnitSpottedEventHandler">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\Units\LineOfSightController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <AssociationLine Name="m_owner" Type="Player" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="20.125" Y="9" />
+        <Point X="20.125" Y="6.438" />
+        <Point X="16.5" Y="6.438" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="m_nearbyEnemies" Type="Unit" FixedFromPoint="true">
+      <Path>
+        <Point X="18.25" Y="13.812" />
+        <Point X="15.75" Y="13.812" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="m_nearbyEnemyBuildings" Type="Building" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="18.562" Y="9" />
+        <Point X="18.562" Y="8.438" />
+        <Point X="18" Y="8.438" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.152" Y="-0.342" Height="0.182" Width="1.804" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>IAQAAAAAACAAAAAAAAAACAAAAQAAQIAAYAAACQDAAEI=</HashCode>
+      <FileName>Assets\Source\Units\LineOfSightController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_owner" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="m_nearbyEnemies" />
+      <Field Name="m_nearbyEnemyBuildings" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="MouseCursor">
+    <Position X="0.5" Y="13.25" Width="2" />
+    <AssociationLine Name="m_inputManager" Type="InputManager" FixedToPoint="true">
+      <Path>
+        <Point X="1.062" Y="13.25" />
+        <Point X="1.062" Y="9.922" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-0.544" Y="0.378" Height="0.182" Width="1.344" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAACAAwAAAAAAEAIAAAAAAAAEIACEABEgACEA=</HashCode>
+      <FileName>Assets\Source\UI\MouseCursor.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_inputManager" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Moving">
+    <Position X="21" Y="21" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAIAAAAAAAAAAEAAAAIIAAAAgAAAA=</HashCode>
+      <FileName>Assets\Source\Units\State\Moving.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MovingToAttack">
+    <Position X="23.5" Y="21" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAIAAAAAAAAAAEAAAAIAAAAAgAAAA=</HashCode>
+      <FileName>Assets\Source\Units\State\MovingToAttack.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NearSensor">
+    <Position X="24.75" Y="27.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>BAAAAABAAAAAAAAAAAAAAAAAAAAAAIAAQACAAAAgAEA=</HashCode>
+      <FileName>Assets\Source\SteeringBehaviours\NearSensor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObstacleAvoidance">
+    <Position X="24" Y="31.25" Width="2" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="ObstacleAvoidance.ClosestObstacle">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\SteeringBehaviours\ObstacleAvoidance.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AwkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Source\SteeringBehaviours\ObstacleAvoidance.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OffsetPursuit">
+    <Position X="16.75" Y="32.75" Width="1.75" />
+    <InheritanceLine Type="Arrive" FixedToPoint="true">
+      <Path>
+        <Point X="17.5" Y="32.295" />
+        <Point X="17.5" Y="32.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAAAAAEAIAAAAIAAAAAAAAAAAgAA=</HashCode>
+      <FileName>Assets\Source\SteeringBehaviours\OffsetPursuit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Path">
+    <Position X="27.5" Y="33.75" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="Path.WaypointEventHandler">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\SteeringBehaviours\Path.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAACaAgECIAAgACQAAgAAAAAAAAAAAAAhABCAEAA=</HashCode>
+      <FileName>Assets\Source\SteeringBehaviours\Path.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PathfindingController">
+    <Position X="3.5" Y="22.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAEAQCAAAAQAAAAAAAAIAAAAABAAAIAABAAgIEA=</HashCode>
+      <FileName>Assets\Source\Pathfinding\PathfindingController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_aStarSearch" />
+      <Field Name="m_navGraph" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="PathFollowing">
+    <Position X="24" Y="36.5" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="PathFollowing.PathCompletedEventHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\SteeringBehaviours\PathFollowing.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AQEAAAAAAAIAAAIAAIAAAAACAAACAAAAAIAABAAAAAA=</HashCode>
+      <FileName>Assets\Source\SteeringBehaviours\PathFollowing.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_path" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="PathUIController">
+    <Position X="19" Y="25.75" Width="1.75" />
+    <AssociationLine Name="m_steeringController" Type="SteeringController" FixedFromPoint="true">
+      <Path>
+        <Point X="20.438" Y="28.781" />
+        <Point X="20.438" Y="29.75" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.156" Y="0.187" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAUAAAAAAAgAAAAAIIAAAAAAAAAAAAAIAAAABAAAKEA=</HashCode>
+      <FileName>Assets\Source\UI\PathUIController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_steeringController" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Player">
+    <Position X="15" Y="3.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="Player.PlayerType">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\Player.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAgAAAAAAAAAAAAAAAAAQAAQAAAAAAAEA=</HashCode>
+      <FileName>Assets\Source\Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pursuit">
+    <Position X="16.75" Y="36" Width="1.75" />
+    <InheritanceLine Type="Seek" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="18.75" Y="38.875" />
+        <Point X="17.625" Y="38.875" />
+        <Point X="17.625" Y="38.713" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>ARAAAAAAAAAAAAAAAAAAACBAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Source\SteeringBehaviours\Pursuit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Seek">
+    <Position X="18.75" Y="38.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAgAA=</HashCode>
+      <FileName>Assets\Source\SteeringBehaviours\Seek.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SelectionManager">
+    <Position X="4.5" Y="1.5" Width="2.75" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="SelectionManager.AnyUnitSelectedEventHandler">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\SelectionManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="SelectionManager.MultiSelectionEndEventHandler">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\SelectionManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="SelectionManager.MultiSelectionStartEventHandler">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\SelectionManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="SelectionManager.ObjectNotSelectedEventHandler">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\SelectionManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="SelectionManager.ObjectSelectedEventHandler">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\SelectionManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <AssociationLine Name="m_inputManager" Type="InputManager" FixedToPoint="true">
+      <Path>
+        <Point X="4.5" Y="5.375" />
+        <Point X="3.708" Y="5.375" Type="JumpStart" />
+        <Point X="3.542" Y="5.375" Type="JumpEnd" />
+        <Point X="3" Y="5.375" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="m_player" Type="Player" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.75" Y="1.5" />
+        <Point X="6.75" Y="0.739" />
+        <Point X="15.25" Y="0.739" />
+        <Point X="15.25" Y="3.25" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAQAAAgAQAAAAAAwAAKkgIAEAgAAAAEIAAAAQAkADEA=</HashCode>
+      <FileName>Assets\Source\SelectionManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_inputManager" />
+      <Field Name="m_player" />
+      <Field Name="m_unitController" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="m_selectedUnits" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="SelectionUIController">
+    <Position X="4.75" Y="13.25" Width="2.5" />
+    <AssociationLine Name="m_selectionManager" Type="SelectionManager" FixedToPoint="true">
+      <Path>
+        <Point X="6.938" Y="13.25" />
+        <Point X="6.938" Y="11.957" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.621" Y="0.309" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AgQEAAAgAAgwEAAAAhAQAJAAQAAAAAAIAAKAAAAECEQ=</HashCode>
+      <FileName>Assets\Source\UI\SelectionUIController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_unitController" />
+      <Field Name="m_selectionManager" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Separation">
+    <Position X="28.25" Y="31.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AQEAAAAAAAAAAACAAAAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Source\SteeringBehaviours\Separation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Singleton&lt;T&gt;">
+    <Position X="25.25" Y="3.75" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Source\Utilities\Singleton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="State&lt;EntityType&gt;">
+    <Position X="22.5" Y="18.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAEAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Source\FSM\State.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StateMachine&lt;EntityType&gt;">
+    <Position X="20" Y="16.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AFQAAAAAAIABBAAAAAAAACAAAAAAAAAAAAAAAQCAAAA=</HashCode>
+      <FileName>Assets\Source\FSM\StateMachine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SteeringController">
+    <Position X="20.25" Y="29.75" Width="2" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="SteeringController.BehaviourType" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\SteeringBehaviours\SteeringController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <AssociationLine Name="m_nearSensor" Type="NearSensor" FixedToPoint="true">
+      <Path>
+        <Point X="22.25" Y="30.125" />
+        <Point X="24.75" Y="30.125" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="m_alignment" Type="Alignment" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="22.25" Y="30.859" />
+        <Point X="27.125" Y="30.859" />
+        <Point X="27.125" Y="31.25" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="m_separation" Type="Separation" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="22.25" Y="30.75" />
+        <Point X="29.125" Y="30.75" />
+        <Point X="29.125" Y="31.25" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="m_flee" Type="Flee" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="20.25" Y="29.872" />
+        <Point X="18.75" Y="29.872" />
+        <Point X="18.75" Y="28.5" />
+        <Point X="15" Y="28.5" />
+        <Point X="15" Y="28.75" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="m_cohesion" Type="Cohesion" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="21.438" Y="37.867" />
+        <Point X="21.438" Y="41.062" />
+        <Point X="18.25" Y="41.062" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="m_evade" Type="Evade" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="20.25" Y="35.812" />
+        <Point X="16.5" Y="35.812" />
+        <Point X="16.5" Y="35.812" />
+        <Point X="16.25" Y="35.812" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="m_wander" Type="Wander" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="21.562" Y="37.867" />
+        <Point X="21.562" Y="42.201" />
+        <Point X="15.312" Y="42.201" />
+        <Point X="15.312" Y="40.79" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>BAQIAIIAQxAAIACADCgAQBJwAAAgBACABERIAQIYyUA=</HashCode>
+      <FileName>Assets\Source\SteeringBehaviours\SteeringController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_nearSensor" />
+      <Field Name="m_obstacleAvoidance" />
+      <Field Name="m_pathFollowing" />
+      <Field Name="m_alignment" />
+      <Field Name="m_separation" />
+      <Field Name="m_flee" />
+      <Field Name="m_seek" />
+      <Field Name="m_arrive" />
+      <Field Name="m_cohesion" />
+      <Field Name="m_evade" />
+      <Field Name="m_wander" />
+      <Field Name="m_pursuit" />
+      <Field Name="m_offsetPursuit" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="SteeringUtils">
+    <Position X="21.75" Y="25.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAAgAAAAIIAAAAAAEAA=</HashCode>
+      <FileName>Assets\Source\SteeringBehaviours\SteeringUtils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Unarmed">
+    <Position X="10" Y="22.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Source\Weapons\Unarmed.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Unit" BaseTypeListCollapsed="true">
+    <Position X="13" Y="8.25" Width="2.75" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="Unit.CombatStance">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\Units\Unit.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Delegate Name="Unit.DamageReceivedEventHandler">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\Units\Unit.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="Unit.UnitKilledEventHandler">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\Units\Unit.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <AssociationLine Name="m_stateMachine" Type="StateMachine&lt;EntityType&gt;" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="15.75" Y="17.187" />
+        <Point X="16.125" Y="17.187" />
+        <Point X="16.125" Y="17.188" />
+        <Point X="20" Y="17.188" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="m_steeringController" Type="SteeringController" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="14.75" Y="20.147" />
+        <Point X="14.75" Y="25.427" />
+        <Point X="21.25" Y="25.427" />
+        <Point X="21.25" Y="29.75" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.853" Y="0.446" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="m_weapon" Type="Weapon" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="13" Y="16.562" />
+        <Point X="12.375" Y="16.562" />
+        <Point X="12.375" Y="17" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="m_target" Type="IDamageable" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="14.312" Y="8.25" />
+        <Point X="14.312" Y="1.125" />
+        <Point X="15.167" Y="1.125" Type="JumpStart" />
+        <Point X="15.333" Y="1.125" Type="JumpEnd" />
+        <Point X="18.938" Y="1.125" />
+        <Point X="18.938" Y="1.5" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAUECIGIACwAzRAgAEAEAaAAAIAAAQwgIBGAAQiAIUA=</HashCode>
+      <FileName>Assets\Source\Units\Unit.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_lineOfSightController" />
+      <Field Name="m_owner" />
+      <Field Name="m_stateMachine" />
+      <Field Name="m_steeringController" />
+      <Field Name="m_unitController" />
+      <Field Name="m_weapon" />
+      <Field Name="m_target" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="UnitController">
+    <Position X="9" Y="2.75" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="UnitController.UnitLookup">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\Units\UnitController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Enum Name="UnitController.UnitType">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\Units\UnitController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Delegate Name="UnitController.SelectedUnitsEventHandler">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\Units\UnitController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="UnitController.UnitSpawnedEventHandler">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\Units\UnitController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <AssociationLine Name="m_inputManager" Type="InputManager">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.376" Y="0.211" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="m_pathfindingController" Type="PathfindingController" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="9.75" Y="16.037" />
+        <Point X="9.75" Y="21.092" />
+        <Point X="4.5" Y="21.092" />
+        <Point X="4.5" Y="22.75" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.499" Y="0.457" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>IhSAEUAAAgAACAAAIAAEIAAgwIAIwAEYEACUQBgADEY=</HashCode>
+      <FileName>Assets\Source\Units\UnitController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_inputManager" />
+      <Field Name="m_pathfindingController" />
+      <Field Name="m_selectionManager" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="m_selectedUnits" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Wander">
+    <Position X="14.5" Y="37.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AQAAAQAAAAAAAAAAAAAAgAAAAAAAAAAAAAUAAAEggAA=</HashCode>
+      <FileName>Assets\Source\SteeringBehaviours\Wander.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Weapon">
+    <Position X="10.25" Y="17" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="Weapon.TargetKilledEventHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Source\Weapons\Weapon.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <AssociationLine Name="m_owner" Type="Unit" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="11.125" Y="17" />
+        <Point X="11.125" Y="16.375" />
+        <Point X="13" Y="16.375" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAEAAACAAQAACAACAAAAAAAAAAAEAAAAiAAAACCAAAA=</HashCode>
+      <FileName>Assets\Source\Weapons\Weapon.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_owner" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="UnityEngine.GameObject" Collapsed="true">
+    <Position X="8.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Interface Name="IAttacker">
+    <Position X="15.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAACAAAIAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Assets\Source\Interfaces\IAttacker.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Target" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="IDamageable">
+    <Position X="18.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAgAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Source\Interfaces\IDamageable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
