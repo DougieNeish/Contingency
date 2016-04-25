@@ -55,11 +55,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_unitLookup:
   - type: 0
-    prefab: {fileID: 147130, guid: 68399ad75de88a5459f16a2e846c8972, type: 2}
+    prefab: {fileID: 147130, guid: 1d2e88deab28c2b4ebb100e1e45cbf24, type: 2}
   - type: 1
-    prefab: {fileID: 147130, guid: 4273d0ae74f6ffc49ac9c1d497d714e1, type: 2}
+    prefab: {fileID: 147130, guid: ac2b569fad81d2a4b99f7996f0db017b, type: 2}
   - type: 2
-    prefab: {fileID: 176486, guid: 576230904e4a17a48bea07b2d2b58ded, type: 2}
+    prefab: {fileID: 176486, guid: 34f759e50202f8d429a39cb6eef0e883, type: 2}
 --- !u!114 &11453564
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -110,15 +110,15 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_unitLookup.Array.data[2].prefab
       value: 
-      objectReference: {fileID: 176486, guid: 576230904e4a17a48bea07b2d2b58ded, type: 2}
+      objectReference: {fileID: 176486, guid: 34f759e50202f8d429a39cb6eef0e883, type: 2}
     - target: {fileID: 0}
       propertyPath: m_unitLookup.Array.data[1].prefab
       value: 
-      objectReference: {fileID: 147130, guid: 4273d0ae74f6ffc49ac9c1d497d714e1, type: 2}
+      objectReference: {fileID: 147130, guid: ac2b569fad81d2a4b99f7996f0db017b, type: 2}
     - target: {fileID: 0}
       propertyPath: m_unitLookup.Array.data[0].prefab
       value: 
-      objectReference: {fileID: 147130, guid: 68399ad75de88a5459f16a2e846c8972, type: 2}
+      objectReference: {fileID: 147130, guid: 1d2e88deab28c2b4ebb100e1e45cbf24, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 144416}
