@@ -100,7 +100,7 @@ public class Path
 	{
 		if (m_waypoints.Count > 0)
 		{
-			if (++m_currentWaypoint >= m_waypoints.Count - 1)
+			if (++m_currentWaypoint > m_waypoints.Count - 1)
 			{
 				if (m_loop)
 				{
