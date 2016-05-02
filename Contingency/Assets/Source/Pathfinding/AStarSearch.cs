@@ -102,7 +102,7 @@ public class AStarSearch
 					continue;
 				}
 
-				if (!m_openList.Contains(nextNode) || m_runningCost[currentNode.Index] < m_runningCost[nextNode.Index])
+				if (cost < (m_runningCost[nextNode.Index] - DiagonalDistance(nextNode.Position, targetNode.Position)) || !m_openList.Contains(nextNode))
 				{
 					// f = g + h
 					m_runningCost[nextNode.Index] = cost + DiagonalDistance(nextNode.Position, targetNode.Position);
