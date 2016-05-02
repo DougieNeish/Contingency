@@ -36,13 +36,16 @@ public class Attacking : State<Unit>
 		// If the target can no longer be attacked - i.e moves out of range - restart the attack sequence
 		else if (!entity.UnitController.CanAttack(entity, entity.Target))
 		{
+			entity.Stop();
+			entity.Weapon.Stop();
 			entity.UnitController.Attack(entity, entity.Target);
 		}
 	}
 
 	public override void Exit(Unit entity)
 	{
-		entity.Weapon.OnTargetKilled -= OnTargetKilled;	
+		entity.Weapon.OnTargetKilled -= OnTargetKilled;
+		entity.Weapon.Stop();
 	}
 
 	private void OnTargetKilled()

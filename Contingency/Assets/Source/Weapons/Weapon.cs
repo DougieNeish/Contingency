@@ -27,6 +27,7 @@ public abstract class Weapon : MonoBehaviour
 	}
 
 	public abstract IEnumerator Fire(IDamageable target);
+	public abstract void Stop();
 
 	protected void DispatchOnTargetKilled()
 	{

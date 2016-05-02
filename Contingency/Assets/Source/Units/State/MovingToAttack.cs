@@ -8,6 +8,8 @@ public class MovingToAttack : State<Unit>
 	{
 		m_unit = entity;
 		entity.SteeringController.PathFollowing.OnPathCompleted += HandlePathCompleted;
+		//entity.Weapon.StopAllCoroutines();
+		entity.Weapon.Stop();
 	}
 
 	public override void Execute(Unit entity)

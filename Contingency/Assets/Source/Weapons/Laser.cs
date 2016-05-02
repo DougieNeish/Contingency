@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 [RequireComponent(typeof(LineRenderer))]
 public class Laser : Weapon
@@ -35,7 +36,14 @@ public class Laser : Weapon
 			yield return new WaitForSeconds(FireRate);
 		}
 
+		//m_laser.enabled = false;
 		DispatchOnTargetKilled();
+	}
+
+	public override void Stop()
+	{
+		StopAllCoroutines();
+		m_laser.enabled = false;
 	}
 
 	private IEnumerator Pulse()
